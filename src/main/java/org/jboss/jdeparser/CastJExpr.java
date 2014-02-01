@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -38,5 +42,12 @@ class CastJExpr extends AbstractJExpr {
 
     JType getType() {
         return type;
+    }
+
+    void write(final SourceFileWriter writer) throws IOException {
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.write(type);
+        writer.write($PUNCT.PAREN.CLOSE);
+        writer.write(expr);
     }
 }

@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -31,6 +35,12 @@ class ArrayJType extends AbstractJType {
 
     public JType elementType() {
         return elementType;
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        elementType.write(sourceFileWriter);
+        sourceFileWriter.write($PUNCT.BRACKET.OPEN);
+        sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
 
     public String binaryName() {

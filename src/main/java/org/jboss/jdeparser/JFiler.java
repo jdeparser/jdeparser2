@@ -19,6 +19,7 @@
 package org.jboss.jdeparser;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -39,10 +40,20 @@ public abstract class JFiler {
         };
     }
 
+    public static JFiler newInstance(final File target) {
+        return new JFiler() {
+            public OutputStream openStream(final String packageName, final String fileName) throws IOException {
+                final File dir = new File(target, packageName.replace('.', File.separatorChar));
+                dir.mkdirs();
+                return new FileOutputStream(new File(dir, fileName));
+            }
+        };
+    }
+
     protected JFiler() {
     }
 
-    private String encoding;
+    private String encoding = "utf-8";
 
     public String getEncoding() {
         return encoding;

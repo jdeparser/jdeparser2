@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -41,6 +43,14 @@ class ReferenceJType extends AbstractJType {
         this.unboxed = unboxed;
     }
 
+    static ReferenceJType of(JType type) {
+        final AbstractJType type1 = AbstractJType.of(type);
+        if (type1 instanceof ReferenceJType) {
+            return (ReferenceJType) type1;
+        }
+        throw new IllegalArgumentException("Expected a reference type");
+    }
+
     public String simpleName() {
         return simpleName;
     }
@@ -50,7 +60,7 @@ class ReferenceJType extends AbstractJType {
     }
 
     public String qualifiedName() {
-        return enclosingType == null ? packageName + binaryName() : enclosingType.qualifiedName() + "$" + simpleName;
+        return enclosingType == null ? packageName + "." + binaryName() : enclosingType.qualifiedName() + "$" + simpleName;
     }
 
     public JExpr _class() {
@@ -73,9 +83,18 @@ class ReferenceJType extends AbstractJType {
         return unboxed == null ? this : unboxed;
     }
 
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        // todo: check imports versus current package
+        sourceFileWriter.writeClass(qualifiedName());
+    }
+
     public JType typeArg(final JType... args) {
         if (unboxed != null) return super.typeArg(args);
         return new NarrowedJType(this, args);
+    }
+
+    JType nestedClass(final String name) {
+        return new ReferenceJType(this, packageName, name);
     }
 
     public String toString() {

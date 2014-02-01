@@ -18,26 +18,30 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class UnaryJExpr extends AbstractJExpr {
 
-    private final String string;
+    private final $PUNCT.UNOP op;
     private final AbstractJExpr expr;
     private final boolean postfix;
 
-    UnaryJExpr(final String string, final AbstractJExpr expr) {
-        this(string, expr, Prec.UNARY, false);
+    UnaryJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr) {
+        this(op, expr, Prec.UNARY, false);
     }
 
-    UnaryJExpr(final String string, final AbstractJExpr expr, final int prec) {
-        this(string, expr, prec, false);
+    UnaryJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr, final int prec) {
+        this(op, expr, prec, false);
     }
 
-    UnaryJExpr(final String string, final AbstractJExpr expr, final int prec, boolean postfix) {
+    UnaryJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr, final int prec, boolean postfix) {
         super(prec);
-        this.string = string;
+        this.op = op;
         this.expr = expr.prec() < prec ? new ParenJExpr(expr) : expr;
         this.postfix = postfix;
     }
@@ -46,11 +50,17 @@ class UnaryJExpr extends AbstractJExpr {
         return expr;
     }
 
-    String getString() {
-        return string;
-    }
-
     boolean isPostfix() {
         return postfix;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        if (isPostfix()) {
+            expr.write(writer);
+            writer.write(op);
+        } else {
+            writer.write(op);
+            expr.write(writer);
+        }
     }
 }

@@ -18,7 +18,11 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -65,5 +69,29 @@ class ImplJTypeParamDef implements JTypeParamDef {
 
     Iterable<JType> getSuper() {
         return _super;
+    }
+
+    private void writeList(final SourceFileWriter sourceFileWriter, ArrayList<JType> list, $KW keyword) throws IOException {
+        if (list == null) {
+            return;
+        }
+        final Iterator<JType> iterator = list.iterator();
+        if (! iterator.hasNext()) {
+            return;
+        }
+        JType type = iterator.next();
+        sourceFileWriter.write(keyword);
+        sourceFileWriter.write(type);
+        while (iterator.hasNext()) {
+            type = iterator.next();
+            sourceFileWriter.write($PUNCT.BINOP.BAND);
+            sourceFileWriter.write(type);
+        }
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.writeIdentifier(name);
+        writeList(sourceFileWriter, _extends, $KW.EXTENDS);
+        writeList(sourceFileWriter, _super, $KW.SUPER);
     }
 }

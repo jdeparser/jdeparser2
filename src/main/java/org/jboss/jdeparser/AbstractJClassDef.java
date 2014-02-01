@@ -19,10 +19,13 @@
 package org.jboss.jdeparser;
 
 import static java.lang.Integer.bitCount;
+import static org.jboss.jdeparser.FormatStates.*;
 import static org.jboss.jdeparser.JMod.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -36,6 +39,8 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private final ArrayList<ClassContent> content = new ArrayList<>();
     private JType _extends;
     private ArrayList<JType> _implements;
+    private JType erased;
+    private JType generic;
 
     public AbstractJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
         this.mods = mods;
@@ -110,7 +115,22 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public JType erasedType() {
-        return new ClassJType(name);
+        if (erased == null) {
+            erased = JTypes.typeNamed(name);
+        }
+        return erased;
+    }
+
+    public JType genericType() {
+        if (generic == null) {
+            generic = erasedType().typeArg(typeParamsToArgs());
+        }
+        return generic;
+    }
+
+    public JTypeParamDef typeParam(final String name) {
+        generic = null;
+        return super.typeParam(name);
     }
 
     public JBlock init() {
@@ -121,7 +141,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         if (allAreSet(mods, JMod.INNER)) {
             throw new UnsupportedOperationException("Inner classes cannot have static init blocks");
         }
-        return add(new StaticInitJBlock(this));
+        return add(new StaticInitJBlock());
     }
 
     public JCall _enum(final String name) {
@@ -226,5 +246,45 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
 
     Iterable<JType> getImplements() {
         return _implements;
+    }
+
+    abstract $KW designation();
+
+    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        writeAnnotations(sourceFileWriter);
+        sourceFileWriter.pushThisType(AbstractJType.of(genericType()));
+        try {
+            JMod.write(sourceFileWriter, mods);
+            sourceFileWriter.write(designation());
+            sourceFileWriter.writeClass(name);
+            writeTypeParams(sourceFileWriter);
+            if (_extends != null) {
+                sourceFileWriter.write($KW.EXTENDS);
+                sourceFileWriter.write(_extends);
+            }
+            if (_implements != null) {
+                final Iterator<JType> iterator = _implements.iterator();
+                if (iterator.hasNext()) {
+                    sourceFileWriter.write($KW.IMPLEMENTS);
+                    sourceFileWriter.write(iterator.next());
+                    while (iterator.hasNext()) {
+                        sourceFileWriter.write($PUNCT.COMMA);
+                        sourceFileWriter.write(iterator.next());
+                    }
+                }
+            }
+            sourceFileWriter.write($PUNCT.BRACE.OPEN);
+            sourceFileWriter.pushStateContext(FormatStateContext.CLASS);
+            try {
+                for (ClassContent classContent : content) {
+                    classContent.write(sourceFileWriter);
+                }
+            } finally {
+                sourceFileWriter.popStateContext(FormatStateContext.CLASS);
+            }
+        } finally {
+            sourceFileWriter.popThisType(AbstractJType.of(genericType()));
+        }
+        sourceFileWriter.write($PUNCT.BRACE.CLOSE);
     }
 }

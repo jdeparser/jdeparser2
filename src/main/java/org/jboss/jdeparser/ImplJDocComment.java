@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -57,5 +59,9 @@ class ImplJDocComment extends AbstractJComment implements JDocComment {
 
     public JComment tag(final String tag, final String firstWord) {
         return null;
+    }
+
+    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+
     }
 }

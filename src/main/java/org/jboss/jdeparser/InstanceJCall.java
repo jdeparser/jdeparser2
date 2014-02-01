@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,5 +36,11 @@ class InstanceJCall extends AbstractMethodJCall {
 
     JExpr getTarget() {
         return target;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        AbstractJExpr.of(target).write(writer);
+        writer.write($PUNCT.DOT);
+        super.write(writer);
     }
 }

@@ -18,7 +18,11 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -66,7 +70,7 @@ class NarrowedJType extends AbstractJType {
     }
 
     public JType typeArg(final JType... args) {
-        return new NarrowedJType(this, args);
+        return new NarrowedJType(erased, concat(this.args, args));
     }
 
     private static JType[] concat(JType[] a, JType[] b) {
@@ -79,11 +83,33 @@ class NarrowedJType extends AbstractJType {
     }
 
     public JType[] typeArgs() {
-        return concat(erased.typeArgs(), args);
+        return args;
     }
 
     public JType erasure() {
-        return erased.erasure();
+        return erased;
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write(erasure());
+        final JType[] args = this.args;
+        final int len = args.length;
+        if (len > 0) {
+            sourceFileWriter.write($PUNCT.ANGLE.OPEN);
+            sourceFileWriter.pushStateContext(FormatStateContext.TYPE_VARS);
+            try {
+                JType type = args[0];
+                sourceFileWriter.write(type);
+                for (int i = 1; i < len; i ++) {
+                    sourceFileWriter.write($PUNCT.COMMA);
+                    type = args[i];
+                    sourceFileWriter.write(type);
+                }
+            } finally {
+                sourceFileWriter.popStateContext(FormatStateContext.TYPE_VARS);
+            }
+            sourceFileWriter.write($PUNCT.ANGLE.CLOSE);
+        }
     }
 
     public String toString() {

@@ -18,22 +18,29 @@
 
 package org.jboss.jdeparser;
 
+import sun.reflect.Reflection;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class TypeVarJType extends AbstractJType {
-
-    private final String name;
-
-    TypeVarJType(final String name) {
-        this.name = name;
+class Assertions {
+    static boolean callerIs(Class<?> clazz) {
+        try {
+            return Reflection.getCallerClass(3) == clazz;
+        } catch (Throwable ignored) {}
+        // dunno
+        return true;
     }
 
-    public String simpleName() {
-        return name;
+    @SuppressWarnings("ConstantConditions")
+    static boolean alwaysTrue(boolean expr) {
+        assert expr : "Expected expression to be true";
+        return expr;
     }
 
-    public String toString() {
-        return name;
+    @SuppressWarnings("ConstantConditions")
+    static boolean alwaysFalse(boolean expr) {
+        assert ! expr : "Expected expression to be false";
+        return expr;
     }
 }

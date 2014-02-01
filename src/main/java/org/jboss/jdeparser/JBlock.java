@@ -25,8 +25,7 @@ import javax.lang.model.element.ExecutableElement;
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JBlock extends JStatement, JInlineCommentable, Iterable<JStatement> {
-    JStatement[] content();
+public interface JBlock extends JStatement, JInlineCommentable {
 
     JBlock block(boolean forceBrackets);
 
@@ -78,6 +77,10 @@ public interface JBlock extends JStatement, JInlineCommentable, Iterable<JStatem
 
     JCall callSuper();
 
+    // expression
+
+    JStatement expr(JExpr expr);
+
     // invocations
 
     JCall call(ExecutableElement element);
@@ -116,39 +119,39 @@ public interface JBlock extends JStatement, JInlineCommentable, Iterable<JStatem
 
     // assignment
 
-    JStatement assign(JAssignExpr target, JExpr e1);
+    JStatement assign(JAssignableExpr target, JExpr e1);
 
-    JStatement addAssign(JAssignExpr target, JExpr e1);
+    JStatement addAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement subAssign(JAssignExpr target, JExpr e1);
+    JStatement subAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement mulAssign(JAssignExpr target, JExpr e1);
+    JStatement mulAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement divAssign(JAssignExpr target, JExpr e1);
+    JStatement divAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement modAssign(JAssignExpr target, JExpr e1);
+    JStatement modAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement andAssign(JAssignExpr target, JExpr e1);
+    JStatement andAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement orAssign(JAssignExpr target, JExpr e1);
+    JStatement orAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement xorAssign(JAssignExpr target, JExpr e1);
+    JStatement xorAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement shrAssign(JAssignExpr target, JExpr e1);
+    JStatement shrAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement lshrAssign(JAssignExpr target, JExpr e1);
+    JStatement lshrAssign(JAssignableExpr target, JExpr e1);
 
-    JStatement shlAssign(JAssignExpr target, JExpr e1);
+    JStatement shlAssign(JAssignableExpr target, JExpr e1);
 
     // inc/dec
 
-    JStatement postInc(JAssignExpr target);
+    JStatement postInc(JAssignableExpr target);
 
-    JStatement postDec(JAssignExpr target);
+    JStatement postDec(JAssignableExpr target);
 
-    JStatement preInc(JAssignExpr target);
+    JStatement preInc(JAssignableExpr target);
 
-    JStatement preDec(JAssignExpr target);
+    JStatement preDec(JAssignableExpr target);
 
     // empty
 

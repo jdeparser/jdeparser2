@@ -18,18 +18,20 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-final class Emitter {
+interface FormatState {
 
-    public void emitPrimitive(final String simpleName) throws IOException {
+    boolean needsIndentBefore(SourceFileWriter writer);
 
-    }
+    boolean needsSpaceBefore(SourceFileWriter writer, $KW next);
 
-    public void emitType(final ReferenceJType type) throws IOException {
+    boolean needsSpaceBefore(SourceFileWriter writer, $PUNCT next);
 
-    }
+    void write(SourceFileWriter writer) throws IOException;
 }

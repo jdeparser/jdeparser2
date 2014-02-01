@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import java.lang.annotation.Annotation;
+import static org.jboss.jdeparser.FormatStates.*;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -27,5 +27,9 @@ class PlainJClassDef extends AbstractJClassDef {
 
     PlainJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
         super(mods, classFile, name);
+    }
+
+    $KW designation() {
+        return $KW.CLASS;
     }
 }

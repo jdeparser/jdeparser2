@@ -18,7 +18,12 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.Assertions.*;
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -31,7 +36,7 @@ class ImplJCatch extends BasicJBlock implements JCatch {
     private final ArrayList<JType> types = new ArrayList<>(1);
 
     ImplJCatch(final ImplJTry _try, final int mods, final JType type, final String var) {
-        super(_try.getParent());
+        super(_try.getParent(), true);
         this.mods = mods;
         this.var = var;
         types.add(type);
@@ -85,5 +90,21 @@ class ImplJCatch extends BasicJBlock implements JCatch {
 
     String getVar() {
         return var;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.CATCH);
+        writer.write($PUNCT.PAREN.OPEN);
+        JMod.write(writer, mods);
+        final Iterator<JType> iterator = types.iterator();
+        if (alwaysTrue(iterator.hasNext())) {
+            writer.write(iterator.next());
+            while (iterator.hasNext()) {
+                writer.write($PUNCT.BINOP.BOR);
+                writer.write(iterator.next());
+            }
+        }
+        writer.writeIdentifier(var);
+        super.write(writer);
     }
 }

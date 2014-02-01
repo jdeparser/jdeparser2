@@ -18,24 +18,18 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class IncDecJExpr extends UnaryJExpr implements JStatement {
+class IncDecJExpr extends UnaryJExpr implements AllowedStatementExpression {
 
-    IncDecJExpr(final String string, final AbstractJExpr expr, final int prec) {
-        super(string, expr, prec);
+    IncDecJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr, final int prec) {
+        super(op, expr, prec);
     }
 
-    IncDecJExpr(final String string, final AbstractJExpr expr, final int prec, final boolean postfix) {
-        super(string, expr, prec, postfix);
-    }
-
-    public JComment lineComment() {
-        return null;
-    }
-
-    public JComment blockComment() {
-        return null;
+    IncDecJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr, final int prec, final boolean postfix) {
+        super(op, expr, prec, postfix);
     }
 }

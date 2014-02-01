@@ -72,4 +72,8 @@ class ImplJAnnotation implements JAnnotation {
     public JAnnotationArray annotationArrayValue(final String name, final Class<? extends Annotation> type) {
         return null;
     }
+
+    void write(final SourceFileWriter writer) {
+
+    }
 }

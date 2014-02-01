@@ -18,10 +18,15 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class ImplJIf extends ConditionJBlock implements JIf {
+    private ElseJBlock _else;
 
     ImplJIf(final BasicJBlock parent, final JExpr cond) {
         super(parent, false, cond);
@@ -32,10 +37,24 @@ class ImplJIf extends ConditionJBlock implements JIf {
         // e.g. if (cond) if (cond2) abc else xyz
         // ---> if (cond) { if (cond2) abc } else xyz
         // ---> if (cond) { if (cond2) abc else xyz }
-        return new ElseJBlock(this);
+        if (_else == null) {
+            return _else = new ElseJBlock(this);
+        }
+        throw new IllegalStateException("else block already added");
     }
 
     public JBlock elseIf(final JExpr cond) {
         return _else()._if(cond);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.IF);
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.write(getCondition());
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
+        if (_else != null) {
+            _else.write(writer);
+        }
     }
 }

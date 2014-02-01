@@ -51,7 +51,9 @@ public interface JType {
 
     JType LONG = new PrimitiveJType("long", "Long");
 
-    JType WILDCARD = new WildcardJType(new ClassJType("java.lang.Object"), true);
+    JType OBJECT = new ReferenceJType(null, "java.lang", "Object");
+
+    JType WILDCARD = OBJECT.wildcardExtends();
 
     String qualifiedName();
 

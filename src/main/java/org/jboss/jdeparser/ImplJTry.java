@@ -18,6 +18,9 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +32,7 @@ class ImplJTry extends BasicJBlock implements JTry {
     private FinallyJBlock finallyBlock;
 
     ImplJTry(final BasicJBlock parent) {
-        super(parent);
+        super(parent, true);
     }
 
     public JTry with(final int mods, final JType type, final String var, final JExpr init) {
@@ -59,5 +62,19 @@ class ImplJTry extends BasicJBlock implements JTry {
             finallyBlock = new FinallyJBlock(this);
         }
         return finallyBlock;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.TRY);
+        if (false) {
+            // todo: resources
+        }
+        super.write(writer);
+        for (ImplJCatch _catch : catches) {
+            _catch.write(writer);
+        }
+        if (finallyBlock != null) {
+            finallyBlock.write(writer);
+        }
     }
 }

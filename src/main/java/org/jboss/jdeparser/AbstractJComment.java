@@ -18,10 +18,12 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJComment extends BasicJCommentable implements JComment, ClassFileContent, ClassContent {
+abstract class AbstractJComment extends BasicJCommentable implements JComment, ClassFileContent, ClassContent, BlockContent {
 
     public JComment text(final String text) {
         return null;

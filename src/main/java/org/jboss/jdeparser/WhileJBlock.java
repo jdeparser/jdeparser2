@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,5 +29,13 @@ class WhileJBlock extends ConditionJBlock {
 
     WhileJBlock(final BasicJBlock parent, final JExpr cond) {
         super(parent, false, cond);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.WHILE);
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.write(getCondition());
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
     }
 }

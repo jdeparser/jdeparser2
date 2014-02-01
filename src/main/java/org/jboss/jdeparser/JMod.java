@@ -19,6 +19,9 @@
 package org.jboss.jdeparser;
 
 import static java.lang.Integer.bitCount;
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -36,9 +39,10 @@ public final class JMod {
     public static final int TRANSIENT   = 1 << 9;
     public static final int VOLATILE    = 1 << 10;
 
-    static final int PRIVATE_BITS       = (1 << 11) - 1;
+    static final int PRIVATE_BITS       = ~((1 << 11) - 1);
 
     static final int INNER              = 1 << 30;
+    static final int VARARGS            = 1 << 31;
 
     public static boolean oneIsSet(int set, int test) {
         return bitCount(set & test) == 1;
@@ -58,5 +62,41 @@ public final class JMod {
 
     public static boolean anyAreClear(int set, int test) {
         return (set & test) != test;
+    }
+
+    static void write(final SourceFileWriter writer, final int mods) throws IOException {
+        if (allAreSet(mods, PUBLIC)) {
+            writer.write($KW.PUBLIC);
+        }
+        if (allAreSet(mods, PROTECTED)) {
+            writer.write($KW.PROTECTED);
+        }
+        if (allAreSet(mods, PRIVATE)) {
+            writer.write($KW.PRIVATE);
+        }
+        if (allAreSet(mods, ABSTRACT)) {
+            writer.write($KW.ABSTRACT);
+        }
+        if (allAreSet(mods, STATIC)) {
+            writer.write($KW.STATIC);
+        }
+        if (allAreSet(mods, FINAL)) {
+            writer.write($KW.FINAL);
+        }
+        if (allAreSet(mods, TRANSIENT)) {
+            writer.write($KW.TRANSIENT);
+        }
+        if (allAreSet(mods, VOLATILE)) {
+            writer.write($KW.VOLATILE);
+        }
+        if (allAreSet(mods, SYNCHRONIZED)) {
+            writer.write($KW.SYNCHRONIZED);
+        }
+        if (allAreSet(mods, NATIVE)) {
+            writer.write($KW.NATIVE);
+        }
+        if (allAreSet(mods, STRICTFP)) {
+            writer.write($KW.STRICTFP);
+        }
     }
 }

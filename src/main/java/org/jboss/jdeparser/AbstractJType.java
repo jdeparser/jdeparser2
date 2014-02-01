@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -26,6 +28,13 @@ abstract class AbstractJType implements JType {
     private ArrayJType array;
     private WildcardJType wildcardExtends;
     private WildcardJType wildcardSuper;
+
+    static AbstractJType of(JType type) {
+        if (type instanceof AbstractJType) {
+            return (AbstractJType) type;
+        }
+        throw new IllegalArgumentException("Using a JType from a different implementation");
+    }
 
     public String qualifiedName() {
         return simpleName();
@@ -103,4 +112,6 @@ abstract class AbstractJType implements JType {
         }
         return wildcardSuper;
     }
+
+    abstract void write(SourceFileWriter sourceFileWriter) throws IOException;
 }

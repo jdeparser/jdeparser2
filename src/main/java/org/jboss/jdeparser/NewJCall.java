@@ -18,19 +18,24 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class NewJCall extends AbstractJCall {
 
-    private final ReferenceJType type;
+    private final AbstractJType type;
 
-    NewJCall(final ReferenceJType type) {
+    NewJCall(final AbstractJType type) {
         super(Prec.NEW);
         this.type = type;
     }
 
-    ReferenceJType getType() {
-        return type;
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(FormatStates.$KW.NEW);
+        writer.write(type);
+        super.writeTypeArgs(writer);
+        super.write(writer);
     }
 }

@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,5 +36,11 @@ class CaseJBlock extends BasicJBlock {
 
     JExpr getExpression() {
         return expr;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.CASE);
+        writer.write($PUNCT.COLON);
+        super.write(writer);
     }
 }

@@ -18,19 +18,27 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class SynchJBlock extends BasicJBlock {
 
-    private final JExpr synchExpr;
+    private final AbstractJExpr synchExpr;
 
-    SynchJBlock(final BasicJBlock parent, final JExpr synchExpr) {
-        super(parent);
+    SynchJBlock(final BasicJBlock parent, final AbstractJExpr synchExpr) {
+        super(parent, true);
         this.synchExpr = synchExpr;
     }
 
-    JExpr getSynchExpression() {
-        return synchExpr;
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.SYNCHRONIZED);
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.write(synchExpr);
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
     }
 }

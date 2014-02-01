@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,5 +34,9 @@ class NameJExpr extends AbstractJExpr {
 
     String getName() {
         return name;
+    }
+
+    void write(final SourceFileWriter writer) throws IOException {
+        writer.writeIdentifier(name);
     }
 }

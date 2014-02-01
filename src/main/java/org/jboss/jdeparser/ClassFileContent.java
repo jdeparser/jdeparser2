@@ -18,9 +18,12 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 interface ClassFileContent {
 
+    void write(SourceFileWriter sourceFileWriter) throws IOException;
 }

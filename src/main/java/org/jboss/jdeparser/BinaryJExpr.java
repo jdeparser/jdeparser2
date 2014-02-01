@@ -18,29 +18,29 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class BinaryJExpr extends AbstractJExpr {
-    private final String op;
+    private final $PUNCT.BINOP op;
     private final AbstractJExpr e1;
     private final AbstractJExpr e2;
     private final Assoc assoc;
 
-    BinaryJExpr(final String op, final AbstractJExpr e1, final AbstractJExpr e2, final int prec) {
+    BinaryJExpr(final $PUNCT.BINOP op, final AbstractJExpr e1, final AbstractJExpr e2, final int prec) {
         this(op, e1, e2, prec, Assoc.LEFT);
     }
 
-    BinaryJExpr(final String op, final AbstractJExpr e1, final AbstractJExpr e2, final int prec, final Assoc assoc) {
+    BinaryJExpr(final $PUNCT.BINOP op, final AbstractJExpr e1, final AbstractJExpr e2, final int prec, final Assoc assoc) {
         super(prec);
         this.op = op;
         this.e1 = e1.prec() < prec ? new ParenJExpr(e1) : e1;
         this.e2 = e2.prec() < prec ? new ParenJExpr(e2) : e2;
         this.assoc = assoc;
-    }
-
-    String getOp() {
-        return op;
     }
 
     AbstractJExpr getExpr1() {
@@ -53,5 +53,11 @@ class BinaryJExpr extends AbstractJExpr {
 
     Assoc getAssoc() {
         return assoc;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(e1);
+        writer.write(op);
+        writer.write(e2);
     }
 }

@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -50,7 +54,15 @@ class ForJBlock extends BasicJBlock implements JFor {
         return this;
     }
 
-    JExpr getTest() {
-        return test;
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.FOR);
+        writer.write($PUNCT.PAREN.OPEN);
+        // todo initializers
+        writer.write($PUNCT.SEMI);
+        writer.write(test);
+        writer.write($PUNCT.SEMI);
+        // todo update
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
     }
 }

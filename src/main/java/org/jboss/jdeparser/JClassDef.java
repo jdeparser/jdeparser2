@@ -43,6 +43,8 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JInlineComment
 
     JType erasedType();
 
+    JType genericType();
+
     JBlock init();
 
     JBlock staticInit();

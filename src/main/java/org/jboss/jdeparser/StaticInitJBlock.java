@@ -18,12 +18,21 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class StaticInitJBlock extends BasicJBlock implements ClassContent {
 
-    StaticInitJBlock(final AbstractJClassDef parent) {
+    StaticInitJBlock() {
         super(null);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.STATIC);
+        super.write(writer);
     }
 }

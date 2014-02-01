@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JAssignExpr extends JExpr, JStatement {
+public interface JAssignableExpr extends JExpr, JStatement {
     // assign
 
     JExpr assign(JExpr e1);

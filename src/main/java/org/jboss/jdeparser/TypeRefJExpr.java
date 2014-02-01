@@ -18,10 +18,14 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class TypeRefJExpr extends AbstractJAssignExpr {
+class TypeRefJExpr extends AbstractJAssignableExpr {
 
     private final AbstractJType type;
     private final String refName;
@@ -32,11 +36,9 @@ class TypeRefJExpr extends AbstractJAssignExpr {
         this.refName = refName;
     }
 
-    AbstractJType getType() {
-        return type;
-    }
-
-    String getRefName() {
-        return refName;
+    void write(final SourceFileWriter writer) throws IOException {
+        writer.write(type);
+        writer.write($PUNCT.DOT);
+        writer.writeIdentifier(refName);
     }
 }

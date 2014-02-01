@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.$KW;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -26,11 +30,16 @@ class FinallyJBlock extends BasicJBlock {
     private final ImplJTry _try;
 
     FinallyJBlock(final ImplJTry _try) {
-        super(_try.getParent());
+        super(_try.getParent(), true);
         this._try = _try;
     }
 
     ImplJTry getTry() {
         return _try;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.FINALLY);
+        super.write(writer);
     }
 }

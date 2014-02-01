@@ -18,36 +18,25 @@
 
 package org.jboss.jdeparser;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJAnnotatable extends AbstractJDocCommentable implements JAnnotatable {
-    private ArrayList<ImplJAnnotation> annotations;
+class InnerNewJCall extends NewJCall {
 
-    private ImplJAnnotation add(ImplJAnnotation item) {
-        if (annotations == null) {
-            annotations = new ArrayList<>(3);
-        }
-        annotations.add(item);
-        return item;
+    private final AbstractJExpr target;
+
+    InnerNewJCall(final AbstractJExpr target, final JType type) {
+        super(AbstractJType.of(type));
+        this.target = target;
     }
 
-    public JAnnotation annotate(final String type) {
-        return annotate(JTypes.typeNamed(type));
-    }
-
-    public JAnnotation annotate(final JType type) {
-        return add(new ImplJAnnotation());
-    }
-
-    public JAnnotation annotate(final Class<? extends Annotation> type) {
-        return annotate(JTypes.typeOf(type));
-    }
-
-    Iterable<ImplJAnnotation> getAnnotations() {
-        return annotations;
+    public void write(final SourceFileWriter writer) throws IOException {
+        target.write(writer);
+        writer.write($PUNCT.DOT);
+        super.write(writer);
     }
 }

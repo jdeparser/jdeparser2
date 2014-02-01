@@ -18,12 +18,16 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJGeneric extends AbstractJAnnotatable implements JGeneric {
+abstract class AbstractJGeneric extends BasicJAnnotatable implements JGeneric {
     private ArrayList<ImplJTypeParamDef> typeParamDefs;
 
     private ImplJTypeParamDef add(ImplJTypeParamDef item) {
@@ -40,5 +44,40 @@ abstract class AbstractJGeneric extends AbstractJAnnotatable implements JGeneric
 
     public JTypeParamDef[] typeParams() {
         return typeParamDefs.toArray(new JTypeParamDef[typeParamDefs.size()]);
+    }
+
+    JType[] typeParamsToArgs() {
+        final ArrayList<ImplJTypeParamDef> typeParamDefs = this.typeParamDefs;
+        if (typeParamDefs == null) {
+            return JType.NONE;
+        }
+        final JType[] jTypes = new JType[typeParamDefs.size()];
+        int i = 0;
+        for (ImplJTypeParamDef paramDef : typeParamDefs) {
+            jTypes[i++] = JTypes.typeNamed(paramDef.getName());
+        }
+        return jTypes;
+    }
+
+    void writeTypeParams(final SourceFileWriter sourceFileWriter) throws IOException {
+        if (typeParamDefs != null) {
+            final Iterator<ImplJTypeParamDef> iterator = typeParamDefs.iterator();
+            if (iterator.hasNext()) {
+                sourceFileWriter.write($PUNCT.ANGLE.OPEN);
+                sourceFileWriter.pushStateContext(FormatStateContext.TYPE_VARS);
+                try {
+                    ImplJTypeParamDef def = iterator.next();
+                    def.write(sourceFileWriter);
+                    while (iterator.hasNext()) {
+                        sourceFileWriter.write($PUNCT.COMMA);
+                        def = iterator.next();
+                        def.write(sourceFileWriter);
+                    }
+                } finally {
+                    sourceFileWriter.popStateContext(FormatStateContext.TYPE_VARS);
+                }
+                sourceFileWriter.write($PUNCT.ANGLE.CLOSE);
+            }
+        }
     }
 }

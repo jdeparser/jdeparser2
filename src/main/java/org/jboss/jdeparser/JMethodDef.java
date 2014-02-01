@@ -40,19 +40,17 @@ public interface JMethodDef extends JGeneric, JAnnotatable, JDocCommentable {
      */
     JMethodDef _default(JExpr expr);
 
-    JType returns();
-
     JBlock body();
 
     JComment returnsDoc();
 
-    JParamDef param(int mods, String name);
+    JParamDef param(int mods, JType type, String name);
 
-    JParamDef param(String name);
+    JParamDef param(JType type, String name);
 
-    JParamDef varargParam(int mods, String name);
+    JParamDef varargParam(int mods, JType type, String name);
 
-    JParamDef varargParam(String name);
+    JParamDef varargParam(JType type, String name);
 
     JParamDef[] params();
 

@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -36,19 +40,15 @@ class ForEachJBlock extends BasicJBlock {
         this.iterable = iterable;
     }
 
-    int getMods() {
-        return mods;
-    }
-
-    JType getType() {
-        return type;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    JExpr getIterable() {
-        return iterable;
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.FOR);
+        writer.write($PUNCT.PAREN.OPEN);
+        JMod.write(writer, mods);
+        writer.write(type);
+        writer.writeIdentifier(name);
+        writer.write($PUNCT.COLON);
+        writer.write(iterable);
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
     }
 }

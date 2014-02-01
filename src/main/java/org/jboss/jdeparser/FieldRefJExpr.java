@@ -18,22 +18,27 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class NameJType extends AbstractJType {
+class FieldRefJExpr extends AbstractJAssignableExpr {
 
-    private final String name;
+    private final AbstractJExpr expr;
+    private final String refName;
 
-    NameJType(String name) {
-        this.name = name;
+    FieldRefJExpr(final AbstractJExpr expr, final String refName) {
+        super(Prec.MEMBER_ACCESS);
+        this.expr = expr;
+        this.refName = refName;
     }
 
-    public String simpleName() {
-        return name;
-    }
-
-    public String toString() {
-        return name;
+    void write(final SourceFileWriter writer) throws IOException {
+        expr.write(writer);
+        writer.write($PUNCT.DOT);
+        writer.writeIdentifier(refName);
     }
 }

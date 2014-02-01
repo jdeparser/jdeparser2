@@ -18,32 +18,14 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class AssignmentJExpr extends BinaryJExpr implements JStatement {
-    private BasicJCommentable commentable;
+class AssignmentJExpr extends BinaryJExpr implements AllowedStatementExpression {
 
-    AssignmentJExpr(final String op, final AbstractJExpr e1, final AbstractJExpr e2) {
+    AssignmentJExpr(final $PUNCT.BINOP op, final AbstractJExpr e1, final AbstractJExpr e2) {
         super(op, e1, e2, Prec.ASSIGN, Assoc.RIGHT);
-    }
-
-    private BasicJCommentable commentable() {
-        if (commentable == null) {
-            commentable = new BasicJCommentable();
-        }
-        return commentable;
-    }
-
-    public JComment lineComment() {
-        return commentable().lineComment();
-    }
-
-    public JComment blockComment() {
-        return commentable().blockComment();
-    }
-
-    public Iterable<JComment> comments() {
-        return commentable().comments();
     }
 }

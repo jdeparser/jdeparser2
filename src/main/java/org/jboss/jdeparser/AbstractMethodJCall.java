@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,5 +34,11 @@ abstract class AbstractMethodJCall extends AbstractJCall {
 
     String getName() {
         return name;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        super.writeTypeArgs(writer);
+        writer.writeIdentifier(name);
+        super.write(writer);
     }
 }

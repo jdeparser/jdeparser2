@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,5 +29,11 @@ class DefaultJBlock extends BasicJBlock {
 
     DefaultJBlock(final ImplJSwitch parent) {
         super(parent.getParent(), false);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.DEFAULT);
+        writer.write($PUNCT.COLON);
+        super.write(writer);
     }
 }

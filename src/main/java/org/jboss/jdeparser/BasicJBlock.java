@@ -18,9 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -29,9 +30,9 @@ import javax.lang.model.element.Modifier;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class BasicJBlock extends BasicJCommentable implements JBlock {
+class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     private final BasicJBlock parent;
-    private final ArrayList<JStatement> content = new ArrayList<>();
+    private final ArrayList<BlockContent> content = new ArrayList<>();
     private boolean forceBrackets;
     private int tmpId = 1;
 
@@ -44,13 +45,20 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
         this.forceBrackets = forceBrackets;
     }
 
-    private <T extends JStatement> T add(T s) {
+    private <T extends BlockContent> T add(T s) {
         content.add(s);
         return s;
     }
 
-    public JStatement[] content() {
-        return content.toArray(new JStatement[content.size()]);
+    private <T extends AbstractJExpr> ExpressionJStatement add(T item) {
+        final ExpressionJStatement statement = new ExpressionJStatement(item);
+        content.add(statement);
+        return statement;
+    }
+
+    private <T extends AbstractJCall> T add(T item) {
+        content.add(new ExpressionJStatement(item));
+        return item;
     }
 
     public JBlock block(final boolean forceBrackets) {
@@ -100,19 +108,19 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JStatement _continue() {
-        return add(new KeywordJStatement("continue"));
+        return add(new KeywordJStatement($KW.CONTINUE));
     }
 
     public JStatement _continue(final JLabel label) {
-        return add(new GotoJStatement("continue", label));
+        return add(new GotoJStatement($KW.CONTINUE, label));
     }
 
     public JStatement _break() {
-        return add(new KeywordJStatement("break"));
+        return add(new KeywordJStatement($KW.BREAK));
     }
 
     public JStatement _break(final JLabel label) {
-        return add(new GotoJStatement("break", label));
+        return add(new GotoJStatement($KW.BREAK, label));
     }
 
     public JBlock forEach(final int mods, final JType type, final String name, final JExpr iterable) {
@@ -128,15 +136,15 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JStatement _return(final JExpr expr) {
-        return add(new KeywordExprJStatement("return", expr));
+        return add(new KeywordExprJStatement($KW.RETURN, expr));
     }
 
     public JStatement _return() {
-        return add(new KeywordJStatement("return"));
+        return add(new KeywordJStatement($KW.RETURN));
     }
 
     public JStatement _assert(final JExpr expr) {
-        return add(new KeywordExprJStatement("assert", expr));
+        return add(new KeywordExprJStatement($KW.ASSERT, expr));
     }
 
     public JStatement _assert(final JExpr expr, final JExpr message) {
@@ -144,11 +152,19 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JCall callThis() {
-        return add(new DirectJCall("this"));
+        return add(new KeywordJCall($KW.THIS));
     }
 
     public JCall callSuper() {
-        return add(new DirectJCall("super"));
+        return add(new KeywordJCall($KW.SUPER));
+    }
+
+    public JStatement expr(final JExpr expr) {
+        if (expr instanceof AllowedStatementExpression) {
+            return add(new ExpressionJStatement(AbstractJExpr.of(expr)));
+        } else {
+            throw new IllegalArgumentException("Expression <<" + expr + ">> is not a valid statement");
+        }
     }
 
     public JCall call(final ExecutableElement element) {
@@ -204,7 +220,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JCall _new(final JType type) {
-        return add(new NewJCall((ReferenceJType) type));
+        return add(new NewJCall(AbstractJType.of(type)));
     }
 
     public JCall _new(final Class<?> type) {
@@ -224,71 +240,71 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JBlock _synchronized(final JExpr synchExpr) {
-        return add(new SynchJBlock(this, synchExpr));
+        return add(new SynchJBlock(this, ArrayJExpr.of(synchExpr)));
     }
 
-    public JStatement assign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement assign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement addAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("+=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement addAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_PLUS, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement subAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("-=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement subAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MINUS, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement mulAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("*=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement mulAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_TIMES, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement divAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("/=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement divAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_DIV, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement modAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("%=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement modAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MOD, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement andAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("&=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement andAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BAND, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement orAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("|=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement orAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BOR, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement xorAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("^=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement xorAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BXOR, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement shrAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr(">>=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement shrAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHR, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement lshrAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr(">>>=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement lshrAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_LSHR, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement shlAssign(final JAssignExpr target, final JExpr e1) {
-        return add(new AssignmentJExpr("<<=", (AbstractJExpr) target, (AbstractJExpr) e1));
+    public JStatement shlAssign(final JAssignableExpr target, final JExpr e1) {
+        return add(new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHL, AbstractJExpr.of(target), AbstractJExpr.of(e1)));
     }
 
-    public JStatement postInc(final JAssignExpr target) {
-        return add(new IncDecJExpr("++", (AbstractJExpr) target, Prec.POST_INC_DEC, true));
+    public JStatement postInc(final JAssignableExpr target) {
+        return add(new IncDecJExpr($PUNCT.UNOP.PP, AbstractJExpr.of(target), Prec.POST_INC_DEC, true));
     }
 
-    public JStatement postDec(final JAssignExpr target) {
-        return add(new IncDecJExpr("--", (AbstractJExpr) target, Prec.POST_INC_DEC, true));
+    public JStatement postDec(final JAssignableExpr target) {
+        return add(new IncDecJExpr($PUNCT.UNOP.MM, AbstractJExpr.of(target), Prec.POST_INC_DEC, true));
     }
 
-    public JStatement preInc(final JAssignExpr target) {
-        return add(new IncDecJExpr("++", (AbstractJExpr) target, Prec.PRE_INC_DEC, false));
+    public JStatement preInc(final JAssignableExpr target) {
+        return add(new IncDecJExpr($PUNCT.UNOP.PP, AbstractJExpr.of(target), Prec.PRE_INC_DEC, false));
     }
 
-    public JStatement preDec(final JAssignExpr target) {
-        return add(new IncDecJExpr("--", (AbstractJExpr) target, Prec.PRE_INC_DEC, false));
+    public JStatement preDec(final JAssignableExpr target) {
+        return add(new IncDecJExpr($PUNCT.UNOP.MM, AbstractJExpr.of(target), Prec.PRE_INC_DEC, false));
     }
 
     public JStatement empty() {
@@ -296,7 +312,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JStatement _throw(final JExpr expr) {
-        return add(new KeywordExprJStatement("throw", expr));
+        return add(new KeywordExprJStatement($KW.THROW, expr));
     }
 
     public JTry _try() {
@@ -304,11 +320,11 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
     }
 
     public JVarDeclaration var(final int mods, final JType type, final String name, final JExpr value) {
-        return null;
+        return add(new ImplJVarDeclaration(mods, type, name, value));
     }
 
     public JVarDeclaration var(final int mods, final JType type, final String name) {
-        return null;
+        return add(new ImplJVarDeclaration(mods, type, name, null));
     }
 
     public JExpr tempVar(final JType type, final JExpr value) {
@@ -335,10 +351,6 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
         return null;
     }
 
-    public Iterator<JStatement> iterator() {
-        return Collections.unmodifiableList(content).iterator();
-    }
-
     public JComment inlineLineComment() {
         return add(new LineJComment());
     }
@@ -357,5 +369,12 @@ class BasicJBlock extends BasicJCommentable implements JBlock {
 
     void setForceBrackets(final boolean forceBrackets) {
         this.forceBrackets = forceBrackets;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($PUNCT.BRACE.OPEN);
+        for (BlockContent statement : content) {
+            statement.write(writer);
+        }
     }
 }

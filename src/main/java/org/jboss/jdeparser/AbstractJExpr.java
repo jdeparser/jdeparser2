@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -29,92 +33,99 @@ abstract class AbstractJExpr implements JExpr {
         this.prec = prec;
     }
 
+    static AbstractJExpr of(final JExpr expr) {
+        if (expr instanceof AbstractJExpr) {
+            return (AbstractJExpr) expr;
+        }
+        throw new IllegalArgumentException("Expression from different implementation");
+    }
+
     public JExpr add(final JExpr e1) {
-        return new BinaryJExpr("+", this, (AbstractJExpr) e1, Prec.ADDITIVE);
+        return new BinaryJExpr($PUNCT.BINOP.PLUS, this, (AbstractJExpr) e1, Prec.ADDITIVE);
     }
 
     public JExpr sub(final JExpr e1) {
-        return new BinaryJExpr("-", this, (AbstractJExpr) e1, Prec.ADDITIVE);
+        return new BinaryJExpr($PUNCT.BINOP.MINUS, this, (AbstractJExpr) e1, Prec.ADDITIVE);
     }
 
     public JExpr mul(final JExpr e1) {
-        return new BinaryJExpr("*", this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
+        return new BinaryJExpr($PUNCT.BINOP.TIMES, this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
     }
 
     public JExpr div(final JExpr e1) {
-        return new BinaryJExpr("/", this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
+        return new BinaryJExpr($PUNCT.BINOP.DIV, this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
     }
 
     public JExpr mod(final JExpr e1) {
-        return new BinaryJExpr("%", this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
+        return new BinaryJExpr($PUNCT.BINOP.MOD, this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
     }
 
     public JExpr neg() {
-        return new UnaryJExpr("-", this);
+        return new UnaryJExpr($PUNCT.UNOP.MINUS, this);
     }
 
     public JExpr band(final JExpr e1) {
-        return new BinaryJExpr("&", this, (AbstractJExpr) e1, Prec.BIT_AND);
+        return new BinaryJExpr($PUNCT.BINOP.BAND, this, (AbstractJExpr) e1, Prec.BIT_AND);
     }
 
     public JExpr bor(final JExpr e1) {
-        return new BinaryJExpr("|", this, (AbstractJExpr) e1, Prec.BIT_OR);
+        return new BinaryJExpr($PUNCT.BINOP.BOR, this, (AbstractJExpr) e1, Prec.BIT_OR);
     }
 
     public JExpr bxor(final JExpr e1) {
-        return new BinaryJExpr("^", this, (AbstractJExpr) e1, Prec.BIT_XOR);
+        return new BinaryJExpr($PUNCT.BINOP.BXOR, this, (AbstractJExpr) e1, Prec.BIT_XOR);
     }
 
     public JExpr shr(final JExpr e1) {
-        return new BinaryJExpr(">>", this, (AbstractJExpr) e1, Prec.SHIFT);
+        return new BinaryJExpr($PUNCT.BINOP.SHR, this, (AbstractJExpr) e1, Prec.SHIFT);
     }
 
     public JExpr lshr(final JExpr e1) {
-        return new BinaryJExpr(">>>", this, (AbstractJExpr) e1, Prec.SHIFT);
+        return new BinaryJExpr($PUNCT.BINOP.LSHR, this, (AbstractJExpr) e1, Prec.SHIFT);
     }
 
     public JExpr shl(final JExpr e1) {
-        return new BinaryJExpr("<<", this, (AbstractJExpr) e1, Prec.SHIFT);
+        return new BinaryJExpr($PUNCT.BINOP.SHL, this, (AbstractJExpr) e1, Prec.SHIFT);
     }
 
     public JExpr comp() {
-        return new UnaryJExpr("~", this);
+        return new UnaryJExpr($PUNCT.UNOP.COMP, this);
     }
 
     public JExpr and(final JExpr e1) {
-        return new BinaryJExpr("&&", this, (AbstractJExpr) e1, Prec.LOG_AND);
+        return new BinaryJExpr($PUNCT.BINOP.LAND, this, (AbstractJExpr) e1, Prec.LOG_AND);
     }
 
     public JExpr or(final JExpr e1) {
-        return new BinaryJExpr("||", this, (AbstractJExpr) e1, Prec.LOG_OR);
+        return new BinaryJExpr($PUNCT.BINOP.LOR, this, (AbstractJExpr) e1, Prec.LOG_OR);
     }
 
     public JExpr not() {
-        return new UnaryJExpr("!", this);
+        return new UnaryJExpr($PUNCT.UNOP.NOT, this);
     }
 
     public JExpr eq(final JExpr e1) {
-        return new BinaryJExpr("==", this, (AbstractJExpr) e1, Prec.EQUALITY);
+        return new BinaryJExpr($PUNCT.BINOP.EQ, this, (AbstractJExpr) e1, Prec.EQUALITY);
     }
 
     public JExpr ne(final JExpr e1) {
-        return new BinaryJExpr("!=", this, (AbstractJExpr) e1, Prec.EQUALITY);
+        return new BinaryJExpr($PUNCT.BINOP.NE, this, (AbstractJExpr) e1, Prec.EQUALITY);
     }
 
     public JExpr lt(final JExpr e1) {
-        return new BinaryJExpr("<", this, (AbstractJExpr) e1, Prec.RELATIONAL);
+        return new BinaryJExpr($PUNCT.BINOP.LT, this, (AbstractJExpr) e1, Prec.RELATIONAL);
     }
 
     public JExpr gt(final JExpr e1) {
-        return new BinaryJExpr(">", this, (AbstractJExpr) e1, Prec.RELATIONAL);
+        return new BinaryJExpr($PUNCT.BINOP.GT, this, (AbstractJExpr) e1, Prec.RELATIONAL);
     }
 
     public JExpr le(final JExpr e1) {
-        return new BinaryJExpr("<=", this, (AbstractJExpr) e1, Prec.RELATIONAL);
+        return new BinaryJExpr($PUNCT.BINOP.LE, this, (AbstractJExpr) e1, Prec.RELATIONAL);
     }
 
     public JExpr ge(final JExpr e1) {
-        return new BinaryJExpr(">=", this, (AbstractJExpr) e1, Prec.RELATIONAL);
+        return new BinaryJExpr($PUNCT.BINOP.GE, this, (AbstractJExpr) e1, Prec.RELATIONAL);
     }
 
     public JExpr cond(final JExpr ifTrue, final JExpr ifFalse) {
@@ -145,16 +156,20 @@ abstract class AbstractJExpr implements JExpr {
         return new InstanceJCall(this, name);
     }
 
-    public JCall _new(final String className) {
-        return null;
+    public JCall _new(final String type) {
+        return new InnerNewJCall(this, JTypes.typeNamed(type));
     }
 
-    public JAnonymousClassDef _newAnon(final String className) {
-        return null;
+    public JCall _new(final JType type) {
+        return new InnerNewJCall(this, type);
     }
 
-    public JAssignExpr field(final String name) {
-        return new RefJExpr(this, name);
+    public JCall _new(final Class<?> type) {
+        return new InnerNewJCall(this, JTypes.typeOf(type));
+    }
+
+    public JAssignableExpr field(final String name) {
+        return new FieldRefJExpr(this, name);
     }
 
     public JExpr idx(final JExpr idx) {
@@ -166,10 +181,12 @@ abstract class AbstractJExpr implements JExpr {
     }
 
     public JExpr length() {
-        return new RefJExpr(this, "length");
+        return new FieldRefJExpr(this, "length");
     }
 
     public int prec() {
         return prec;
     }
+
+    abstract void write(final SourceFileWriter writer) throws IOException;
 }

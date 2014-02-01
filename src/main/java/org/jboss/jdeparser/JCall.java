@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JCall extends JExpr, JStatement {
+public interface JCall extends JExpr {
 
     JCall diamond();
 

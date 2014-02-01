@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -34,15 +38,11 @@ class CondJExpr extends AbstractJExpr {
         this.ifFalse = ifFalse.prec() < Prec.COND ? new ParenJExpr(ifFalse) : ifFalse;
     }
 
-    AbstractJExpr getCond() {
-        return cond;
-    }
-
-    AbstractJExpr getIfTrue() {
-        return ifTrue;
-    }
-
-    AbstractJExpr getIfFalse() {
-        return ifFalse;
+    void write(final SourceFileWriter writer) throws IOException {
+        writer.write(cond);
+        writer.write($PUNCT.Q);
+        writer.write(ifTrue);
+        writer.write($PUNCT.COLON);
+        writer.write(ifFalse);
     }
 }

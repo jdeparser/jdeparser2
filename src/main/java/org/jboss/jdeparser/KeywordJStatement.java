@@ -18,18 +18,27 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class KeywordJStatement extends BasicJCommentable {
+class KeywordJStatement extends BasicJCommentable implements BlockContent {
 
-    private final String keyword;
+    private final $KW keyword;
 
-    KeywordJStatement(String keyword) {
+    KeywordJStatement($KW keyword) {
         this.keyword = keyword;
     }
 
-    String getKeyword() {
+    $KW getKeyword() {
         return keyword;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(keyword);
+        writer.write($PUNCT.SEMI);
     }
 }

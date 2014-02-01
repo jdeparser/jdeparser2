@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,5 +34,9 @@ class ThisJType extends AbstractJType {
 
     public String toString() {
         return "<<THIS>>";
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.getThisType().write(sourceFileWriter);
     }
 }

@@ -18,12 +18,15 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ImplJSwitch extends BasicJCommentable implements JSwitch {
+class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
 
     private final BasicJBlock parent;
     private final JExpr expr;
@@ -70,5 +73,16 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch {
 
     DefaultJBlock getDefault() {
         return _default;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.SWITCH);
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.write(expr);
+        writer.write($PUNCT.PAREN.CLOSE);
+        writer.write($PUNCT.BRACE.OPEN);
+        for (CaseJBlock _case : cases) {
+            _case.write(writer);
+        }
     }
 }

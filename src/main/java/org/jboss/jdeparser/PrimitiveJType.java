@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,6 +36,21 @@ class PrimitiveJType extends AbstractJType {
 
     public JType box() {
         return boxed;
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        switch (simpleName) {
+            case "boolean": sourceFileWriter.write($KW.BOOLEAN); return;
+            case "byte": sourceFileWriter.write($KW.BYTE); return;
+            case "short": sourceFileWriter.write($KW.SHORT); return;
+            case "int": sourceFileWriter.write($KW.INT); return;
+            case "long": sourceFileWriter.write($KW.LONG); return;
+            case "char": sourceFileWriter.write($KW.CHAR); return;
+            case "float": sourceFileWriter.write($KW.FLOAT); return;
+            case "double": sourceFileWriter.write($KW.DOUBLE); return;
+            case "void": sourceFileWriter.write($KW.VOID); return;
+            default: throw new IllegalStateException();
+        }
     }
 
     public JExpr _class() {

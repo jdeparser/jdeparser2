@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
 /**
  * A modelled expression.
  *
@@ -29,9 +31,9 @@ public interface JExpr {
 
     JExpr TRUE = new BooleanJExpr(true);
 
-    JExpr THIS = new NameJExpr("this");
+    JExpr THIS = new KeywordJExpr($KW.THIS);
 
-    JExpr NULL = new NameJExpr("null");
+    JExpr NULL = new KeywordJExpr($KW.NULL);
 
     // arithmetic
 
@@ -111,13 +113,19 @@ public interface JExpr {
 
     JCall call(String name);
 
-    JCall _new(String className);
+    // construct inner
 
-    JAnonymousClassDef _newAnon(String className);
+    JCall _new(String type);
+
+    JCall _new(JType type);
+
+    JCall _new(Class<?> type);
+
+    // todo construct inner anonymous
 
     // field
 
-    JAssignExpr field(String name);
+    JAssignableExpr field(String name);
 
     // array
 

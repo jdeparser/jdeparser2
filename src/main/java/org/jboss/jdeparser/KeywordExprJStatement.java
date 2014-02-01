@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,12 +29,18 @@ class KeywordExprJStatement extends KeywordJStatement {
 
     private final JExpr expr;
 
-    KeywordExprJStatement(final String keyword, final JExpr expr) {
+    KeywordExprJStatement(final $KW keyword, final JExpr expr) {
         super(keyword);
         this.expr = expr;
     }
 
     JExpr getExpression() {
         return expr;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(getKeyword());
+        writer.write(expr);
+        writer.write($PUNCT.SEMI);
     }
 }

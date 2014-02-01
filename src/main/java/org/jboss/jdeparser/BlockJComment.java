@@ -18,9 +18,14 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class BlockJComment extends AbstractJComment {
 
+    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+
+    }
 }

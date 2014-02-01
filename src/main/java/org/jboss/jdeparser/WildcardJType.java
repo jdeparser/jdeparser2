@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -55,6 +59,12 @@ class WildcardJType extends AbstractJType {
     public JType wildcardSuper() {
         if (! extendsNotSuper) return this;
         throw new UnsupportedOperationException("wildcard super of wildcard extends not allowed");
+    }
+
+    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write($PUNCT.Q);
+        sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
+        sourceFileWriter.write(erasure());
     }
 
     public String toString() {

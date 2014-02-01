@@ -25,6 +25,7 @@ import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.NoType;
 import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.type.TypeVariable;
 import javax.lang.model.type.WildcardType;
@@ -35,16 +36,26 @@ import javax.lang.model.type.WildcardType;
 public final class JTypes {
     private JTypes() {}
 
-    public static JType typeVariable(String name) {
-        return new TypeVarJType(name);
-    }
-
     public static JType typeOf(Class<?> clazz) {
-        return new ClassJType(clazz.getName());
+        final Class<?> enclosingClass = clazz.getEnclosingClass();
+        if (enclosingClass != null) {
+            return ((ReferenceJType) typeOf(enclosingClass)).nestedClass(clazz.getSimpleName());
+        } else {
+            return typeNamed(clazz.getName());
+        }
     }
 
     public static JType typeNamed(String name) {
-        return new NameJType(name);
+        final int idx = name.lastIndexOf('.');
+        return new ReferenceJType(null, idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1));
+    }
+
+    public static JType nestedClassOf(JType type, String innerName) {
+        if (type instanceof ReferenceJType) {
+            return ((ReferenceJType) type).nestedClass(innerName);
+        } else {
+            throw new IllegalArgumentException("Cannot find nested class of " + type);
+        }
     }
 
     /**
@@ -64,12 +75,16 @@ public final class JTypes {
         } else if (typeMirror instanceof TypeVariable) {
             final TypeVariable typeVariable = (TypeVariable) typeMirror;
             final String name = typeVariable.asElement().getSimpleName().toString();
-            return JTypes.typeVariable(name);
+            return typeNamed(name);
         } else if (typeMirror instanceof DeclaredType) {
             final DeclaredType declaredType = (DeclaredType) typeMirror;
             final TypeElement typeElement = (TypeElement) declaredType.asElement();
+            final TypeMirror enclosingType = declaredType.getEnclosingType();
+            if (enclosingType != null && enclosingType.getKind() == TypeKind.DECLARED) {
+                return nestedClassOf(typeOf(enclosingType), typeElement.getSimpleName().toString());
+            }
             final String name = typeElement.getQualifiedName().toString();
-            final JType rawType = new ClassJType(name);
+            final JType rawType = JTypes.typeNamed(name);
             final List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
             if (typeArguments.isEmpty()) {
                 return rawType;

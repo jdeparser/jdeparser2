@@ -18,13 +18,16 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJCall extends AbstractJExpr implements JCall {
+abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStatementExpression {
 
     private ArrayList<AbstractJType> typeArgs;
     private ArrayList<AbstractJExpr> args;
@@ -84,7 +87,43 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall {
         return commentable.blockComment();
     }
 
-    public Iterable<JComment> comments() {
-        return commentable == null ? Collections.<JComment>emptyList() : commentable.comments();
+    void writeTypeArgs(final SourceFileWriter writer) throws IOException {
+        if (typeArgs != null) {
+            final Iterator<AbstractJType> iterator = typeArgs.iterator();
+            if (iterator.hasNext()) {
+                writer.pushStateContext(FormatStateContext.TYPE_VARS);
+                try {
+                    writer.write($PUNCT.ANGLE.OPEN);
+                    iterator.next().write(writer);
+                    while (iterator.hasNext()) {
+                        writer.write($PUNCT.COMMA);
+                        iterator.next().write(writer);
+                    }
+                    writer.write($PUNCT.ANGLE.CLOSE);
+                } finally {
+                    writer.popStateContext(FormatStateContext.TYPE_VARS);
+                }
+            }
+        }
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($PUNCT.PAREN.OPEN);
+        writer.pushStateContext(FormatStateContext.METHOD_PARAMS);
+        try {
+            if (args != null) {
+                final Iterator<AbstractJExpr> iterator = args.iterator();
+                if (iterator.hasNext()) {
+                    iterator.next().write(writer);
+                    while (iterator.hasNext()) {
+                        writer.write($PUNCT.COMMA);
+                        iterator.next().write(writer);
+                    }
+                }
+            }
+        } finally {
+            writer.popStateContext(FormatStateContext.METHOD_PARAMS);
+        }
+        writer.write($PUNCT.PAREN.CLOSE);
     }
 }

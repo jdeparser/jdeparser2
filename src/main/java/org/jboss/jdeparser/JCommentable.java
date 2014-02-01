@@ -25,6 +25,4 @@ public interface JCommentable {
     JComment lineComment();
 
     JComment blockComment();
-
-    Iterable<JComment> comments();
 }

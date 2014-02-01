@@ -18,59 +18,91 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef, ClassContent {
 
-    protected final AbstractJClassDef clazz;
-    protected final int mods;
-    protected final String name;
+    private final AbstractJClassDef clazz;
+    private int mods;
+    private ArrayList<ImplJParamDef> params;
+    private ArrayList<AbstractJType> _throws;
+    private BasicJBlock body;
 
-    AbstractJMethodDef(final AbstractJClassDef clazz, final String name, final int mods) {
+    AbstractJMethodDef(final AbstractJClassDef clazz, final int mods) {
         this.clazz = clazz;
-        this.name = name;
         this.mods = mods;
     }
 
     public JBlock _default() {
-        return null;
+        throw new UnsupportedOperationException("Default method implementation");
     }
 
     public JMethodDef _default(final JExpr expr) {
-        return null;
-    }
-
-    public JType returns() {
-        return null;
+        throw new UnsupportedOperationException("Default method value");
     }
 
     public JBlock body() {
-        return null;
+        if (! writeBody()) {
+            throw new UnsupportedOperationException("Method body on abstract method");
+        }
+        if (body == null) {
+            final JMethodDef enclosingMethod = clazz.enclosingMethod();
+            body = new BasicJBlock(enclosingMethod == null ? null : (BasicJBlock) enclosingMethod.body());
+        }
+        return body;
     }
 
     public JComment returnsDoc() {
         return null;
     }
 
-    public JParamDef param(final int mods, final String name) {
-        return null;
+    private ImplJParamDef add(ImplJParamDef item) {
+        if (params == null) {
+            params = new ArrayList<>();
+        }
+        params.add(item);
+        return item;
     }
 
-    public JParamDef param(final String name) {
-        return null;
+    public JParamDef param(final int mods, final JType type, final String name) {
+        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+            throw new IllegalStateException("Vararg parameter already added");
+        }
+        return add(new ImplJParamDef(mods, type, name));
     }
 
-    public JParamDef varargParam(final int mods, final String name) {
-        return null;
+    public JParamDef param(final JType type, final String name) {
+        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+            throw new IllegalStateException("Vararg parameter already added");
+        }
+        return add(new ImplJParamDef(0, type, name));
     }
 
-    public JParamDef varargParam(final String name) {
-        return null;
+    public JParamDef varargParam(final int mods, final JType type, final String name) {
+        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+            throw new IllegalStateException("Vararg parameter already added");
+        }
+        this.mods |= JMod.VARARGS;
+        return add(new ImplJParamDef(mods | JMod.VARARGS, type, name));
+    }
+
+    public JParamDef varargParam(final JType type, final String name) {
+        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+            throw new IllegalStateException("Vararg parameter already added");
+        }
+        mods |= JMod.VARARGS;
+        return add(new ImplJParamDef(JMod.VARARGS, type, name));
     }
 
     public JParamDef[] params() {
-        return new JParamDef[0];
+        return params.toArray(new JParamDef[params.size()]);
     }
 
     public JComment _throws(final String type) {
@@ -78,6 +110,11 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public JComment _throws(final JType type) {
+        if (_throws == null) {
+            _throws = new ArrayList<>();
+        }
+        _throws.add(AbstractJType.of(type));
+        // todo
         return null;
     }
 
@@ -85,11 +122,57 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return _throws(JTypes.typeOf(type));
     }
 
-    String getName() {
-        return name;
-    }
-
     int mods() {
         return mods;
+    }
+
+    boolean writeBody() {
+        return JMod.allAreClear(mods, JMod.ABSTRACT | JMod.NATIVE);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($PUNCT.PAREN.OPEN);
+        if (params != null) {
+            writer.pushStateContext(FormatStateContext.METHOD_PARAMS);
+            try {
+                final Iterator<ImplJParamDef> iterator = params.iterator();
+                if (iterator.hasNext()) {
+                    iterator.next().write(writer);
+                    while (iterator.hasNext()) {
+                        writer.write($PUNCT.COMMA);
+                        iterator.next().write(writer);
+                    }
+                }
+            } finally {
+                writer.popStateContext(FormatStateContext.METHOD_PARAMS);
+            }
+        }
+        writer.write($PUNCT.PAREN.CLOSE);
+        if (_throws != null) {
+            final Iterator<AbstractJType> iterator = _throws.iterator();
+            if (iterator.hasNext()) {
+                writer.write($KW.THROWS);
+                writer.write(iterator.next());
+                while (iterator.hasNext()) {
+                    writer.write($PUNCT.COMMA);
+                    iterator.next().write(writer);
+                }
+            }
+        }
+        if (! writeBody()) {
+            writer.write($PUNCT.SEMI);
+        } else {
+            writer.pushStateContext(FormatStateContext.METHOD);
+            try {
+                if (body == null) {
+                    writer.write($PUNCT.BRACE.OPEN);
+                    writer.write($PUNCT.BRACE.CLOSE);
+                } else {
+                    body.write(writer);
+                }
+            } finally {
+                writer.popStateContext(FormatStateContext.METHOD);
+            }
+        }
     }
 }

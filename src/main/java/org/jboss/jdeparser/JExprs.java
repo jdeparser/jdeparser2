@@ -153,22 +153,34 @@ public final class JExprs {
     }
 
     public static JExpr name(String name) {
-        return null;
+        return new NameJExpr(name);
     }
 
     public static JExpr array(JExpr... members) {
-        return null;
+        return new ArrayJExpr(members);
     }
 
     public static JExpr array(String... members) {
-        return null;
+        final JExpr[] exprs = new JExpr[members.length];
+        for (int i = 0; i < members.length; i++) {
+            exprs[i] = str(members[i]);
+        }
+        return new ArrayJExpr(exprs);
     }
 
     public static JExpr array(int... members) {
-        return null;
+        final JExpr[] exprs = new JExpr[members.length];
+        for (int i = 0; i < members.length; i++) {
+            exprs[i] = decimal(members[i]);
+        }
+        return new ArrayJExpr(exprs);
     }
 
     public static JExpr array(long... members) {
-        return null;
+        final JExpr[] exprs = new JExpr[members.length];
+        for (int i = 0; i < members.length; i++) {
+            exprs[i] = decimal(members[i]);
+        }
+        return new ArrayJExpr(exprs);
     }
 }

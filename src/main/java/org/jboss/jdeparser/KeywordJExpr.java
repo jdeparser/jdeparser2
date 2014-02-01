@@ -18,12 +18,23 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.$KW;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class RefJExpr extends AbstractJAssignExpr {
+class KeywordJExpr extends AbstractJExpr {
 
-    RefJExpr(final AbstractJExpr expr, final String refName) {
-        super(Prec.MEMBER_ACCESS);
+    private final $KW name;
+
+    KeywordJExpr(final $KW name) {
+        super(0);
+        this.name = name;
+    }
+
+    void write(final SourceFileWriter writer) throws IOException {
+        writer.write(name);
     }
 }

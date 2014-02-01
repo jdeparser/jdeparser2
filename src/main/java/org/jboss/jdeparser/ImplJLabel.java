@@ -18,10 +18,14 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ImplJLabel extends BasicJCommentable implements JLabel, JStatement {
+class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockContent {
 
     private String name;
 
@@ -42,5 +46,10 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement {
 
     void setName(final String name) {
         this.name = name;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.writeIdentifier(name);
+        writer.write($PUNCT.COLON);
     }
 }

@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,12 +29,18 @@ class GotoJStatement extends KeywordJStatement {
 
     private final JLabel label;
 
-    GotoJStatement(String keyword, JLabel label) {
+    GotoJStatement($KW keyword, JLabel label) {
         super(keyword);
         this.label = label;
     }
 
     JLabel getLabel() {
         return label;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(getKeyword());
+        writer.writeIdentifier(label.name());
+        writer.write($PUNCT.SEMI);
     }
 }

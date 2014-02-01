@@ -24,6 +24,6 @@ package org.jboss.jdeparser;
 class ConstructorJMethodDef extends AbstractJMethodDef {
 
     ConstructorJMethodDef(final AbstractJClassDef classDef, final int mods) {
-        super(classDef, "<init>", mods);
+        super(classDef, mods);
     }
 }

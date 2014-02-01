@@ -18,19 +18,31 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class MethodJMethodDef extends AbstractJMethodDef {
 
     private final JType returnType;
+    private final String name;
 
     MethodJMethodDef(final AbstractJClassDef clazz, final int mods, final JType returnType, final String name) {
-        super(clazz, name, mods);
+        super(clazz, mods);
         this.returnType = returnType;
+        this.name = name;
     }
 
     JType getReturnType() {
         return returnType;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        JMod.write(writer, mods());
+        writeTypeParams(writer);
+        writer.write(returnType);
+        writer.writeIdentifier(name);
+        super.write(writer);
     }
 }

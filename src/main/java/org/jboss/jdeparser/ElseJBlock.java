@@ -18,6 +18,10 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.$KW;
+
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,5 +29,10 @@ class ElseJBlock extends BasicJBlock {
 
     ElseJBlock(final ImplJIf _if) {
         super(_if.getParent());
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.ELSE);
+        super.write(writer);
     }
 }

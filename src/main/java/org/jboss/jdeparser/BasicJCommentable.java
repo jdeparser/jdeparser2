@@ -19,7 +19,6 @@
 package org.jboss.jdeparser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -46,9 +45,5 @@ class BasicJCommentable implements JStatement {
         final JComment comment = new BlockJComment();
         comments.add(comment);
         return comment;
-    }
-
-    public Iterable<JComment> comments() {
-        return comments == null ? Collections.<JComment>emptyList() : comments;
     }
 }

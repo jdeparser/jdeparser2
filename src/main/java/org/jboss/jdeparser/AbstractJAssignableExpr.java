@@ -18,79 +18,81 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.FormatStates.*;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJAssignExpr extends AbstractJExpr implements JAssignExpr {
+abstract class AbstractJAssignableExpr extends AbstractJExpr implements JAssignableExpr {
 
     private BasicJCommentable commentable;
 
-    protected AbstractJAssignExpr(final int prec) {
+    protected AbstractJAssignableExpr(final int prec) {
         super(prec);
     }
 
     public JExpr preDec() {
-        return new IncDecJExpr("--", this, Prec.PRE_INC_DEC);
+        return new IncDecJExpr($PUNCT.UNOP.MM, this, Prec.PRE_INC_DEC);
     }
 
     public JExpr preInc() {
-        return new IncDecJExpr("++", this, Prec.PRE_INC_DEC);
+        return new IncDecJExpr($PUNCT.UNOP.PP, this, Prec.PRE_INC_DEC);
     }
 
     public JExpr postDec() {
-        return new IncDecJExpr("--", this, Prec.POST_INC_DEC, true);
+        return new IncDecJExpr($PUNCT.UNOP.MM, this, Prec.POST_INC_DEC, true);
     }
 
     public JExpr postInc() {
-        return new IncDecJExpr("++", this, Prec.POST_INC_DEC, true);
+        return new IncDecJExpr($PUNCT.UNOP.PP, this, Prec.POST_INC_DEC, true);
     }
 
     public JExpr shlAssign(final JExpr e1) {
-        return new AssignmentJExpr("<<=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHL, this, (AbstractJExpr) e1);
     }
 
     public JExpr lshrAssign(final JExpr e1) {
-        return new AssignmentJExpr("<<<=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_LSHR, this, (AbstractJExpr) e1);
     }
 
     public JExpr shrAssign(final JExpr e1) {
-        return new AssignmentJExpr(">>=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHR, this, (AbstractJExpr) e1);
     }
 
     public JExpr xorAssign(final JExpr e1) {
-        return new AssignmentJExpr("^=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BXOR, this, (AbstractJExpr) e1);
     }
 
     public JExpr orAssign(final JExpr e1) {
-        return new AssignmentJExpr("|=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BOR, this, (AbstractJExpr) e1);
     }
 
     public JExpr andAssign(final JExpr e1) {
-        return new AssignmentJExpr("&=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BAND, this, (AbstractJExpr) e1);
     }
 
     public JExpr modAssign(final JExpr e1) {
-        return new AssignmentJExpr("%=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MOD, this, (AbstractJExpr) e1);
     }
 
     public JExpr divAssign(final JExpr e1) {
-        return new AssignmentJExpr("/=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_DIV, this, (AbstractJExpr) e1);
     }
 
     public JExpr mulAssign(final JExpr e1) {
-        return new AssignmentJExpr("*=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_TIMES, this, (AbstractJExpr) e1);
     }
 
     public JExpr subAssign(final JExpr e1) {
-        return new AssignmentJExpr("-=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MINUS, this, (AbstractJExpr) e1);
     }
 
     public JExpr addAssign(final JExpr e1) {
-        return new AssignmentJExpr("+=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_PLUS, this, (AbstractJExpr) e1);
     }
 
     public JExpr assign(final JExpr e1) {
-        return new AssignmentJExpr("=", this, (AbstractJExpr) e1);
+        return new AssignmentJExpr($PUNCT.BINOP.ASSIGN, this, (AbstractJExpr) e1);
     }
 
     private BasicJCommentable commentable() {
@@ -106,9 +108,5 @@ abstract class AbstractJAssignExpr extends AbstractJExpr implements JAssignExpr 
 
     public JComment blockComment() {
         return commentable().blockComment();
-    }
-
-    public Iterable<JComment> comments() {
-        return commentable().comments();
     }
 }
