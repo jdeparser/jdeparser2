@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ class ImplJIf extends ConditionJBlock implements JIf {
     private ElseJBlock _else;
 
     ImplJIf(final BasicJBlock parent, final JExpr cond) {
-        super(parent, false, cond);
+        super(parent, Braces.OPTIONAL, cond);
     }
 
     public JBlock _else() {

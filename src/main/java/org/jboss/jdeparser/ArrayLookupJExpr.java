@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -36,15 +36,10 @@ class ArrayLookupJExpr extends AbstractJExpr {
         this.idx = idx;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
-        expr.write(writer);
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(expr);
         writer.write($PUNCT.BRACKET.OPEN);
-        writer.pushStateContext(FormatStateContext.ARRAY_INDEX);
-        try {
-            idx.write(writer);
-        } finally {
-            writer.popStateContext(FormatStateContext.ARRAY_INDEX);
-        }
+        writer.write(idx);
         writer.write($PUNCT.BRACKET.CLOSE);
     }
 }

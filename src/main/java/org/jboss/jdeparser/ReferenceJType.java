@@ -60,7 +60,7 @@ class ReferenceJType extends AbstractJType {
     }
 
     public String qualifiedName() {
-        return enclosingType == null ? packageName + "." + binaryName() : enclosingType.qualifiedName() + "$" + simpleName;
+        return enclosingType == null ? packageName == null || packageName.isEmpty() ? binaryName() : packageName + "." + binaryName() : enclosingType.qualifiedName() + "$" + simpleName;
     }
 
     public JExpr _class() {
@@ -75,7 +75,7 @@ class ReferenceJType extends AbstractJType {
         return new TypeRefJExpr(this, "super");
     }
 
-    public JCall _new() {
+    public JCall _new(final JExpr dim) {
         return new NewJCall(this);
     }
 
@@ -83,7 +83,7 @@ class ReferenceJType extends AbstractJType {
         return unboxed == null ? this : unboxed;
     }
 
-    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+    void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         // todo: check imports versus current package
         sourceFileWriter.writeClass(qualifiedName());
     }

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,20 +63,19 @@ abstract class AbstractJGeneric extends BasicJAnnotatable implements JGeneric {
         if (typeParamDefs != null) {
             final Iterator<ImplJTypeParamDef> iterator = typeParamDefs.iterator();
             if (iterator.hasNext()) {
+                if (sourceFileWriter.getState() instanceof $KW) {
+                    sourceFileWriter.sp();
+                }
                 sourceFileWriter.write($PUNCT.ANGLE.OPEN);
-                sourceFileWriter.pushStateContext(FormatStateContext.TYPE_VARS);
-                try {
-                    ImplJTypeParamDef def = iterator.next();
+                ImplJTypeParamDef def = iterator.next();
+                def.write(sourceFileWriter);
+                while (iterator.hasNext()) {
+                    sourceFileWriter.write($PUNCT.COMMA);
+                    def = iterator.next();
                     def.write(sourceFileWriter);
-                    while (iterator.hasNext()) {
-                        sourceFileWriter.write($PUNCT.COMMA);
-                        def = iterator.next();
-                        def.write(sourceFileWriter);
-                    }
-                } finally {
-                    sourceFileWriter.popStateContext(FormatStateContext.TYPE_VARS);
                 }
                 sourceFileWriter.write($PUNCT.ANGLE.CLOSE);
+                sourceFileWriter.sp();
             }
         }
     }

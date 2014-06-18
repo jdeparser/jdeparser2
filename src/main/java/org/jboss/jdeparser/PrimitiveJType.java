@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ class PrimitiveJType extends AbstractJType {
         return boxed;
     }
 
-    void write(final SourceFileWriter sourceFileWriter) throws IOException {
+    void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         switch (simpleName) {
             case "boolean": sourceFileWriter.write($KW.BOOLEAN); return;
             case "byte": sourceFileWriter.write($KW.BYTE); return;

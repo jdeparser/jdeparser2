@@ -27,7 +27,7 @@ import javax.lang.model.element.ExecutableElement;
  */
 public interface JBlock extends JStatement, JInlineCommentable {
 
-    JBlock block(boolean forceBrackets);
+    JBlock block(Braces braces);
 
     // program flow
 
@@ -79,7 +79,7 @@ public interface JBlock extends JStatement, JInlineCommentable {
 
     // expression
 
-    JStatement expr(JExpr expr);
+    JStatement add(JExpr expr);
 
     // invocations
 
@@ -180,4 +180,14 @@ public interface JBlock extends JStatement, JInlineCommentable {
     JClassDef localClass(int mods, String name);
 
     JClassDef localInterface(int mods, String name);
+
+    /**
+     * Braces mode.
+     */
+    enum Braces {
+        OPTIONAL,
+        IF_MULTILINE,
+        REQUIRED,
+        ;
+    }
 }

@@ -30,5 +30,11 @@ public interface JTry extends JBlock {
 
     JCatch _catch(int mods, JType type, String var);
 
+    JTry ignore(String type);
+
+    JTry ignore(Class<? extends Throwable> type);
+
+    JTry ignore(JType type);
+
     JBlock _finally();
 }

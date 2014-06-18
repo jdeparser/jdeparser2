@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -36,9 +36,9 @@ class TypeRefJExpr extends AbstractJAssignableExpr {
         this.refName = refName;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(type);
         writer.write($PUNCT.DOT);
-        writer.writeIdentifier(refName);
+        writer.writeRaw(refName);
     }
 }

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.$KW;
+import static org.jboss.jdeparser.Tokens.$KW;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ class FinallyJBlock extends BasicJBlock {
     private final ImplJTry _try;
 
     FinallyJBlock(final ImplJTry _try) {
-        super(_try.getParent(), true);
+        super(_try.getParent(), Braces.REQUIRED);
         this._try = _try;
     }
 

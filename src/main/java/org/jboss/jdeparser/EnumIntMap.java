@@ -18,35 +18,43 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
-
-import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class InstanceOfJExpr extends AbstractJExpr {
+class EnumIntMap<E extends Enum<E>> {
+    private final Class<E> type;
+    private final E[] keys;
+    private final int[] values;
 
-    private final AbstractJExpr expr;
-    private final JType type;
-
-    InstanceOfJExpr(final AbstractJExpr expr, final JType type) {
-        super(Prec.INSTANCEOF);
-        this.expr = expr.prec() < Prec.INSTANCEOF ? new ParenJExpr(expr) : expr;
+    EnumIntMap(Class<E> type, int defaultVal) {
         this.type = type;
+        keys = type.getEnumConstants();
+        values = new int[keys.length];
+        Arrays.fill(values, defaultVal);
     }
 
-    AbstractJExpr getExpression() {
-        return expr;
+    EnumIntMap(EnumIntMap<E> orig) {
+        this.type = orig.type;
+        keys = orig.keys;
+        values = orig.values.clone();
     }
 
-    JType getType() {
-        return type;
+    public int get(E key) {
+        return values[type.cast(key).ordinal()];
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
-        writer.write(expr);
-        writer.write($KW.INSTANCEOF);
-        writer.write(type);
+    public int put(E key, int val) {
+        final int idx = type.cast(key).ordinal();
+        try {
+            return values[idx];
+        } finally {
+            values[idx] = val;
+        }
+    }
+
+    public static <E extends Enum<E>> EnumIntMap<E> of(final Class<E> enumClass) {
+        return new EnumIntMap<>(enumClass, 0);
     }
 }

@@ -25,8 +25,8 @@ abstract class ConditionJBlock extends BasicJBlock {
 
     private final JExpr cond;
 
-    ConditionJBlock(final BasicJBlock parent, final boolean forceBrackets, final JExpr cond) {
-        super(parent, forceBrackets);
+    ConditionJBlock(final BasicJBlock parent, final Braces braces, final JExpr cond) {
+        super(parent, braces);
         this.cond = cond;
     }
 

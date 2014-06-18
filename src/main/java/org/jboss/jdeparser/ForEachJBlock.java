@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ class ForEachJBlock extends BasicJBlock {
     private final JExpr iterable;
 
     ForEachJBlock(final BasicJBlock parent, final int mods, final JType type, final String name, final JExpr iterable) {
-        super(parent, false);
+        super(parent, Braces.IF_MULTILINE);
         this.mods = mods;
         this.type = type;
         this.name = name;
@@ -45,7 +45,7 @@ class ForEachJBlock extends BasicJBlock {
         writer.write($PUNCT.PAREN.OPEN);
         JMod.write(writer, mods);
         writer.write(type);
-        writer.writeIdentifier(name);
+        writer.writeRaw(name);
         writer.write($PUNCT.COLON);
         writer.write(iterable);
         writer.write($PUNCT.PAREN.CLOSE);

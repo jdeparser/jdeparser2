@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockC
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.writeIdentifier(name);
+        writer.writeRaw(name);
         writer.write($PUNCT.COLON);
     }
 }

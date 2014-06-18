@@ -42,7 +42,8 @@ class MethodJMethodDef extends AbstractJMethodDef {
         JMod.write(writer, mods());
         writeTypeParams(writer);
         writer.write(returnType);
-        writer.writeIdentifier(name);
+        writer.sp();
+        writer.writeRawWord(name);
         super.write(writer);
     }
 }

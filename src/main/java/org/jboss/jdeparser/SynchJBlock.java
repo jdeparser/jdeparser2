@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ class SynchJBlock extends BasicJBlock {
     private final AbstractJExpr synchExpr;
 
     SynchJBlock(final BasicJBlock parent, final AbstractJExpr synchExpr) {
-        super(parent, true);
+        super(parent, Braces.REQUIRED);
         this.synchExpr = synchExpr;
     }
 

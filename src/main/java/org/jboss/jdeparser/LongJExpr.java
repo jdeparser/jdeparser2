@@ -18,20 +18,26 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
-
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-interface FormatState {
+class LongJExpr extends AbstractJExpr implements JExpr {
 
-    boolean needsIndentBefore(SourceFileWriter writer);
+    private final long val;
+    private final int radix;
+    private final int sepInterval; // todo
 
-    boolean needsSpaceBefore(SourceFileWriter writer, $KW next);
+    LongJExpr(final long val, final int radix, final int sepInterval) {
+        super(0);
+        this.val = val;
+        this.radix = radix;
+        this.sepInterval = sepInterval;
+    }
 
-    boolean needsSpaceBefore(SourceFileWriter writer, $PUNCT next);
-
-    void write(SourceFileWriter writer) throws IOException;
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(Tokens.$NUMBER);
+        writer.writeRaw(Long.toString(val, radix) + "L");
+    }
 }

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -34,9 +34,9 @@ class InnerNewJCall extends NewJCall {
         this.target = target;
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
-        target.write(writer);
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(target);
         writer.write($PUNCT.DOT);
-        super.write(writer);
+        super.writeDirect(writer);
     }
 }

@@ -18,29 +18,48 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
-
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class StaticJCall extends AbstractMethodJCall {
+class ImplJParamDeclaration extends BasicJAnnotatable implements JParamDeclaration {
 
     private final JType type;
+    private final String name;
+    private final int mods;
 
-    StaticJCall(final JType type, final String name) {
-        super(name);
+    ImplJParamDeclaration(final int mods, final JType type, final String name) {
+        this.mods = mods;
         this.type = type;
+        this.name = name;
     }
 
-    JType getType() {
+    public JType type() {
         return type;
     }
 
-    public void writeDirect(final SourceFileWriter writer) throws IOException {
-        writer.write(AbstractJType.of(type));
-        writer.write($PUNCT.DOT);
-        super.writeDirect(writer);
+    public String name() {
+        return name;
+    }
+
+    public int mods() {
+        return mods & ~JMod.PRIVATE_BITS;
+    }
+
+    public boolean varargs() {
+        return JMod.allAreSet(mods, JMod.VARARGS);
+    }
+
+    public JComment doc() {
+        return null;
+    }
+
+    void write(final SourceFileWriter writer) throws IOException {
+        writeAnnotations(writer);
+        JMod.write(writer, mods());
+        writer.write(type);
+        writer.sp();
+        writer.writeRawWord(name);
     }
 }

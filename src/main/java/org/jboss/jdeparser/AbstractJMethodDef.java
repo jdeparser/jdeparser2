@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
 
     private final AbstractJClassDef clazz;
     private int mods;
-    private ArrayList<ImplJParamDef> params;
+    private ArrayList<ImplJParamDeclaration> params;
     private ArrayList<AbstractJType> _throws;
     private BasicJBlock body;
 
@@ -54,7 +54,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         }
         if (body == null) {
             final JMethodDef enclosingMethod = clazz.enclosingMethod();
-            body = new BasicJBlock(enclosingMethod == null ? null : (BasicJBlock) enclosingMethod.body());
+            body = new BasicJBlock(enclosingMethod == null ? null : (BasicJBlock) enclosingMethod.body(), JBlock.Braces.REQUIRED);
         }
         return body;
     }
@@ -63,7 +63,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return null;
     }
 
-    private ImplJParamDef add(ImplJParamDef item) {
+    private ImplJParamDeclaration add(ImplJParamDeclaration item) {
         if (params == null) {
             params = new ArrayList<>();
         }
@@ -71,38 +71,70 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return item;
     }
 
-    public JParamDef param(final int mods, final JType type, final String name) {
+    public JParamDeclaration param(final int mods, final JType type, final String name) {
         if (JMod.anyAreSet(mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
-        return add(new ImplJParamDef(mods, type, name));
+        return add(new ImplJParamDeclaration(mods, type, name));
     }
 
-    public JParamDef param(final JType type, final String name) {
+    public JParamDeclaration param(final JType type, final String name) {
         if (JMod.anyAreSet(mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
-        return add(new ImplJParamDef(0, type, name));
+        return add(new ImplJParamDeclaration(0, type, name));
     }
 
-    public JParamDef varargParam(final int mods, final JType type, final String name) {
+    public JParamDeclaration param(final int mods, final String type, final String name) {
+        return param(mods, JTypes.typeNamed(type), name);
+    }
+
+    public JParamDeclaration param(final String type, final String name) {
+        return param(JTypes.typeNamed(type), name);
+    }
+
+    public JParamDeclaration param(final int mods, final Class<?> type, final String name) {
+        return param(mods, JTypes.typeOf(type), name);
+    }
+
+    public JParamDeclaration param(final Class<?> type, final String name) {
+        return param(JTypes.typeOf(type), name);
+    }
+
+    public JParamDeclaration varargParam(final int mods, final JType type, final String name) {
         if (JMod.anyAreSet(mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
         this.mods |= JMod.VARARGS;
-        return add(new ImplJParamDef(mods | JMod.VARARGS, type, name));
+        return add(new ImplJParamDeclaration(mods | JMod.VARARGS, type, name));
     }
 
-    public JParamDef varargParam(final JType type, final String name) {
+    public JParamDeclaration varargParam(final JType type, final String name) {
         if (JMod.anyAreSet(mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
         mods |= JMod.VARARGS;
-        return add(new ImplJParamDef(JMod.VARARGS, type, name));
+        return add(new ImplJParamDeclaration(JMod.VARARGS, type, name));
     }
 
-    public JParamDef[] params() {
-        return params.toArray(new JParamDef[params.size()]);
+    public JParamDeclaration varargParam(final int mods, final String type, final String name) {
+        return varargParam(mods, JTypes.typeNamed(type), name);
+    }
+
+    public JParamDeclaration varargParam(final String type, final String name) {
+        return varargParam(JTypes.typeNamed(type), name);
+    }
+
+    public JParamDeclaration varargParam(final int mods, final Class<?> type, final String name) {
+        return varargParam(mods, JTypes.typeOf(type), name);
+    }
+
+    public JParamDeclaration varargParam(final Class<?> type, final String name) {
+        return varargParam(JTypes.typeOf(type), name);
+    }
+
+    public JParamDeclaration[] params() {
+        return params.toArray(new JParamDeclaration[params.size()]);
     }
 
     public JComment _throws(final String type) {
@@ -131,47 +163,44 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_METHOD_DECLARATION);
         writer.write($PUNCT.PAREN.OPEN);
         if (params != null) {
-            writer.pushStateContext(FormatStateContext.METHOD_PARAMS);
-            try {
-                final Iterator<ImplJParamDef> iterator = params.iterator();
-                if (iterator.hasNext()) {
+            writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
+            final Iterator<ImplJParamDeclaration> iterator = params.iterator();
+            if (iterator.hasNext()) {
+                iterator.next().write(writer);
+                while (iterator.hasNext()) {
+                    writer.write($PUNCT.COMMA);
                     iterator.next().write(writer);
-                    while (iterator.hasNext()) {
-                        writer.write($PUNCT.COMMA);
-                        iterator.next().write(writer);
-                    }
                 }
-            } finally {
-                writer.popStateContext(FormatStateContext.METHOD_PARAMS);
             }
+        } else {
+            writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION_EMPTY);
         }
         writer.write($PUNCT.PAREN.CLOSE);
         if (_throws != null) {
             final Iterator<AbstractJType> iterator = _throws.iterator();
             if (iterator.hasNext()) {
+                writer.sp();
                 writer.write($KW.THROWS);
                 writer.write(iterator.next());
                 while (iterator.hasNext()) {
                     writer.write($PUNCT.COMMA);
-                    iterator.next().write(writer);
+                    writer.write(iterator.next());
                 }
             }
         }
         if (! writeBody()) {
             writer.write($PUNCT.SEMI);
         } else {
-            writer.pushStateContext(FormatStateContext.METHOD);
-            try {
-                if (body == null) {
-                    writer.write($PUNCT.BRACE.OPEN);
-                    writer.write($PUNCT.BRACE.CLOSE);
-                } else {
-                    body.write(writer);
-                }
-            } finally {
-                writer.popStateContext(FormatStateContext.METHOD);
+            writer.write(FormatPreferences.Space.BEFORE_BRACE_METHOD);
+            if (body == null) {
+                writer.write($PUNCT.BRACE.OPEN);
+                writer.write(FormatPreferences.Space.WITHIN_BRACES_EMPTY);
+                writer.write($PUNCT.BRACE.CLOSE);
+            } else {
+                body.write(writer);
             }
         }
     }

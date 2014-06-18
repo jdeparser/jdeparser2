@@ -18,7 +18,8 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.FormatPreferences.Space;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -34,22 +35,19 @@ class ArrayJExpr extends AbstractJExpr implements JExpr {
         this.members = members;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.BRACE.OPEN);
-        writer.pushStateContext(FormatStateContext.ARRAY_INITIALIZER);
-        try {
-            final JExpr[] members = this.members;
-            final int len = members.length;
-            if (len > 0) {
-                writer.write(members[0]);
-                for (int i = 1; i < len; i ++) {
-                    writer.write($PUNCT.COMMA);
-                    writer.write(members[i]);
-                }
+        writer.write(Space.WITHIN_BRACES_ARRAY_INIT);
+        final JExpr[] members = this.members;
+        final int len = members.length;
+        if (len > 0) {
+            writer.write(members[0]);
+            for (int i = 1; i < len; i ++) {
+                writer.write($PUNCT.COMMA);
+                writer.write(members[i]);
             }
-            writer.write($PUNCT.BRACE.CLOSE);
-        } finally {
-            writer.popStateContext(FormatStateContext.ARRAY_INITIALIZER);
         }
+        writer.write(Space.WITHIN_BRACES_ARRAY_INIT);
+        writer.write($PUNCT.BRACE.CLOSE);
     }
 }

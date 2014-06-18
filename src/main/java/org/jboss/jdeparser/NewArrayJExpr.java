@@ -25,20 +25,28 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class KeywordJStatement extends BasicJCommentable implements BlockContent {
+class NewArrayJExpr extends AbstractJExpr {
 
-    private final $KW keyword;
+    private final ArrayJType type;
+    private final AbstractJExpr dim;
 
-    KeywordJStatement($KW keyword) {
-        this.keyword = keyword;
+    NewArrayJExpr(final ArrayJType type, final AbstractJExpr dim) {
+        super(Prec.METHOD_CALL);
+        this.type = type;
+        this.dim = dim;
     }
 
-    $KW getKeyword() {
-        return keyword;
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.NEW);
+        writer.write(type);
+        writer.write($PUNCT.BRACKET.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
+        writer.write(dim);
+        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
+        writer.write($PUNCT.BRACKET.CLOSE);
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(keyword);
-        writer.write($PUNCT.SEMI);
+    public String toString() {
+        return "new " + type + "[" + dim + "]";
     }
 }

@@ -32,10 +32,10 @@ class NewJCall extends AbstractJCall {
         this.type = type;
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(FormatStates.$KW.NEW);
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(Tokens.$KW.NEW);
         writer.write(type);
         super.writeTypeArgs(writer);
-        super.write(writer);
+        super.writeDirect(writer);
     }
 }

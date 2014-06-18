@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ class ForJBlock extends BasicJBlock implements JFor {
     private JExpr test;
 
     ForJBlock(final BasicJBlock parent) {
-        super(parent);
+        super(parent, Braces.IF_MULTILINE);
     }
 
     public JVarDeclaration init(final int mods, final JType type, final JExpr value) {

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ import java.io.IOException;
 class DoJBlock extends ConditionJBlock {
 
     DoJBlock(final BasicJBlock parent, final JExpr cond) {
-        super(parent, true, cond);
+        super(parent, Braces.REQUIRED, cond);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -36,9 +36,9 @@ class FieldRefJExpr extends AbstractJAssignableExpr {
         this.refName = refName;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
-        expr.write(writer);
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(expr);
         writer.write($PUNCT.DOT);
-        writer.writeIdentifier(refName);
+        writer.writeRaw(refName);
     }
 }

@@ -18,19 +18,26 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-enum FormatStateContext {
-    TOP,
-    CLASS,
-    METHOD,
-    TYPE_VARS,
-    PAREN_EXPRESSION,
-    METHOD_PARAMS,
-    ARRAY_INDEX,
-    ARRAY_INITIALIZER,
-    LINE_COMMENT,
-    BLOCK_COMMENT,
-    ;
+class IntegerJExpr extends AbstractJExpr implements JExpr {
+
+    private final int val;
+    private final int radix;
+    private final int sepInterval; // todo
+
+    IntegerJExpr(final int val, final int radix, final int sepInterval) {
+        super(0);
+        this.val = val;
+        this.radix = radix;
+        this.sepInterval = sepInterval;
+    }
+
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(Tokens.$NUMBER);
+        writer.writeRaw(Integer.toString(val, radix));
+    }
 }

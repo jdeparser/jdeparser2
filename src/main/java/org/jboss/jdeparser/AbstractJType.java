@@ -20,6 +20,10 @@ package org.jboss.jdeparser;
 
 import java.io.IOException;
 
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -71,8 +75,12 @@ abstract class AbstractJType implements JType {
         throw new UnsupportedOperationException("Instantiating a " + this + " as a class");
     }
 
-    public JExpr _new(final int dim) {
+    public JExpr _new(final JExpr dim) {
         throw new UnsupportedOperationException("Instantiating a " + this + " as an array");
+    }
+
+    public JExpr _new(final int dim) {
+        return _new(JExprs.decimal(dim));
     }
 
     public JType typeArg(final JType... args) {
@@ -113,5 +121,26 @@ abstract class AbstractJType implements JType {
         return wildcardSuper;
     }
 
-    abstract void write(SourceFileWriter sourceFileWriter) throws IOException;
+    public JExpr field(final String name) {
+        return new TypeRefJExpr(this, name);
+    }
+
+    public JExpr $(final String name) {
+        return field(name);
+    }
+
+    public JCall call(final String name) {
+        return new StaticJCall(this, name);
+    }
+
+    public JCall call(final ExecutableElement method) {
+        final ElementKind kind = method.getKind();
+        if (kind == ElementKind.METHOD && ! method.getModifiers().contains(Modifier.STATIC)) {
+            final String name = method.getSimpleName().toString();
+            return call(name);
+        }
+        throw new IllegalArgumentException("Unsupported element for call: " + method);
+    }
+
+    abstract void writeDirect(SourceFileWriter sourceFileWriter) throws IOException;
 }

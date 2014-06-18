@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import javax.lang.model.element.ExecutableElement;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -102,6 +104,14 @@ public interface JType {
      * @param dim the array size
      * @return the construction call
      */
+    JExpr _new(JExpr dim);
+
+    /**
+     * Construct a new instance of this array type.  If the type is not an array type, an exception is thrown.
+     *
+     * @param dim the array size
+     * @return the construction call
+     */
     JExpr _new(int dim);
 
     /**
@@ -160,4 +170,36 @@ public interface JType {
      * @return the wildcard
      */
     JType wildcardSuper();
+
+    /**
+     * Look up a static field on this type.
+     *
+     * @param name the field name
+     * @return the field expression
+     */
+    JExpr field(String name);
+
+    /**
+     * Look up a static field on this type.
+     *
+     * @param name the field name
+     * @return the field expression
+     */
+    JExpr $(String name);
+
+    /**
+     * Call a static method on this type.
+     *
+     * @param name the method to call
+     * @return the method call
+     */
+    JCall call(String name);
+
+    /**
+     * Call a static method on this type.
+     *
+     * @param method the method to call
+     * @return the method call
+     */
+    JCall call(ExecutableElement method);
 }

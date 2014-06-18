@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -40,7 +40,7 @@ class GotoJStatement extends KeywordJStatement {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(getKeyword());
-        writer.writeIdentifier(label.name());
+        writer.writeRaw(label.name());
         writer.write($PUNCT.SEMI);
     }
 }

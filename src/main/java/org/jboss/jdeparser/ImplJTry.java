@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ class ImplJTry extends BasicJBlock implements JTry {
     private FinallyJBlock finallyBlock;
 
     ImplJTry(final BasicJBlock parent) {
-        super(parent, true);
+        super(parent, Braces.REQUIRED);
     }
 
     public JTry with(final int mods, final JType type, final String var, final JExpr init) {
@@ -55,6 +55,19 @@ class ImplJTry extends BasicJBlock implements JTry {
 
     public JCatch _catch(final int mods, final JType type, final String var) {
         return add(new ImplJCatch(this, mods, type, var));
+    }
+
+    public JTry ignore(final String type) {
+        return ignore(JTypes.typeNamed(type));
+    }
+
+    public JTry ignore(final Class<? extends Throwable> type) {
+        return ignore(JTypes.typeOf(type));
+    }
+
+    public JTry ignore(final JType type) {
+        _catch(0, type, "ignored");
+        return this;
     }
 
     public JBlock _finally() {

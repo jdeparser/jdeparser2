@@ -21,7 +21,9 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JParamDef extends JAnnotatable {
+public interface JParamDeclaration extends JAnnotatable {
+    JType type();
+
     String name();
 
     int mods();

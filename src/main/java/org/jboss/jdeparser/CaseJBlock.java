@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ class CaseJBlock extends BasicJBlock {
     private final JExpr expr;
 
     CaseJBlock(final ImplJSwitch _switch, final JExpr expr) {
-        super(_switch.getParent(), false);
+        super(_switch.getParent(), Braces.OPTIONAL);
         this.expr = expr;
     }
 
@@ -39,8 +39,14 @@ class CaseJBlock extends BasicJBlock {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write($KW.CASE);
-        writer.write($PUNCT.COLON);
-        super.write(writer);
+        writer.pushIndent(FormatPreferences.Indentation.CASE_LABELS);
+        try {
+            writer.nl();
+            writer.write($KW.CASE);
+            writer.write($PUNCT.COLON);
+        } finally {
+            writer.popIndent(FormatPreferences.Indentation.CASE_LABELS);
+        }
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE);
     }
 }

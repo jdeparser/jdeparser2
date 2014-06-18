@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -38,11 +38,15 @@ class CondJExpr extends AbstractJExpr {
         this.ifFalse = ifFalse.prec() < Prec.COND ? new ParenJExpr(ifFalse) : ifFalse;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(cond);
+        writer.write(FormatPreferences.Space.BEFORE_TERNARY_Q);
         writer.write($PUNCT.Q);
+        writer.write(FormatPreferences.Space.AFTER_TERNARY_Q);
         writer.write(ifTrue);
+        writer.write(FormatPreferences.Space.BEFORE_TERNARY_COLON);
         writer.write($PUNCT.COLON);
+        writer.write(FormatPreferences.Space.AFTER_TERNARY_COLON);
         writer.write(ifFalse);
     }
 }

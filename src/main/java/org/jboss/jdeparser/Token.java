@@ -23,38 +23,6 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ImplJParamDef extends BasicJAnnotatable implements JParamDef {
-
-    private final JType type;
-    private final String name;
-    private final int mods;
-
-    ImplJParamDef(final int mods, final JType type, final String name) {
-        this.mods = mods;
-        this.type = type;
-        this.name = name;
-    }
-
-    public String name() {
-        return null;
-    }
-
-    public int mods() {
-        return mods & ~JMod.PRIVATE_BITS;
-    }
-
-    public boolean varargs() {
-        return JMod.allAreSet(mods, JMod.VARARGS);
-    }
-
-    public JComment doc() {
-        return null;
-    }
-
-    void write(final SourceFileWriter writer) throws IOException {
-        writeAnnotations(writer);
-        JMod.write(writer, mods());
-        writer.write(type);
-        writer.writeIdentifier(name);
-    }
+interface Token {
+    void write(SourceFileWriter writer) throws IOException;
 }

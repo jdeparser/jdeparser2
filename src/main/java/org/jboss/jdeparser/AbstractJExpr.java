@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -172,6 +172,10 @@ abstract class AbstractJExpr implements JExpr {
         return new FieldRefJExpr(this, name);
     }
 
+    public JAssignableExpr $(final String name) {
+        return field(name);
+    }
+
     public JExpr idx(final JExpr idx) {
         return new ArrayLookupJExpr(this, (AbstractJExpr) idx);
     }
@@ -188,5 +192,5 @@ abstract class AbstractJExpr implements JExpr {
         return prec;
     }
 
-    abstract void write(final SourceFileWriter writer) throws IOException;
+    abstract void writeDirect(final SourceFileWriter writer) throws IOException;
 }

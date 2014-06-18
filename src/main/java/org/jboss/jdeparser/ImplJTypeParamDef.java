@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ class ImplJTypeParamDef implements JTypeParamDef {
     }
 
     void write(final SourceFileWriter sourceFileWriter) throws IOException {
-        sourceFileWriter.writeIdentifier(name);
+        sourceFileWriter.writeClass(name);
         writeList(sourceFileWriter, _extends, $KW.EXTENDS);
         writeList(sourceFileWriter, _super, $KW.SUPER);
     }

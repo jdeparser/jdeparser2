@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ import java.io.IOException;
 class WhileJBlock extends ConditionJBlock {
 
     WhileJBlock(final BasicJBlock parent, final JExpr cond) {
-        super(parent, false, cond);
+        super(parent, Braces.IF_MULTILINE, cond);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

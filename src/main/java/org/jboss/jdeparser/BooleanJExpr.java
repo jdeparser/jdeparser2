@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ class BooleanJExpr extends AbstractJExpr {
         return value;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(value ? $KW.TRUE : $KW.FALSE);
     }
 }

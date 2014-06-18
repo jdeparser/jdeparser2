@@ -19,7 +19,7 @@
 package org.jboss.jdeparser;
 
 import static java.lang.Integer.bitCount;
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 import static org.jboss.jdeparser.JMod.*;
 
 import java.io.IOException;
@@ -134,7 +134,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public JBlock init() {
-        return add(new InitJBlock(this));
+        return add(new InitJBlock());
     }
 
     public JBlock staticInit() {
@@ -250,6 +250,10 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
 
     abstract $KW designation();
 
+    FormatPreferences.Indentation getMemberIndentation() {
+        return FormatPreferences.Indentation.MEMBERS_TOP_LEVEL;
+    }
+
     public void write(final SourceFileWriter sourceFileWriter) throws IOException {
         writeAnnotations(sourceFileWriter);
         sourceFileWriter.pushThisType(AbstractJType.of(genericType()));
@@ -273,18 +277,21 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
                     }
                 }
             }
+            sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
             sourceFileWriter.write($PUNCT.BRACE.OPEN);
-            sourceFileWriter.pushStateContext(FormatStateContext.CLASS);
+            sourceFileWriter.pushIndent(getMemberIndentation());
             try {
+                sourceFileWriter.nl();
                 for (ClassContent classContent : content) {
                     classContent.write(sourceFileWriter);
                 }
             } finally {
-                sourceFileWriter.popStateContext(FormatStateContext.CLASS);
+                sourceFileWriter.popIndent(getMemberIndentation());
             }
         } finally {
             sourceFileWriter.popThisType(AbstractJType.of(genericType()));
         }
+        sourceFileWriter.nl();
         sourceFileWriter.write($PUNCT.BRACE.CLOSE);
     }
 }

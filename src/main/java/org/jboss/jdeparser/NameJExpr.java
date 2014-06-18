@@ -32,11 +32,7 @@ class NameJExpr extends AbstractJExpr {
         this.name = name;
     }
 
-    String getName() {
-        return name;
-    }
-
-    void write(final SourceFileWriter writer) throws IOException {
-        writer.writeIdentifier(name);
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.writeRaw(name);
     }
 }

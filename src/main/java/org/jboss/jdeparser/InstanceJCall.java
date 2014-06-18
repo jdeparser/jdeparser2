@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -38,9 +38,9 @@ class InstanceJCall extends AbstractMethodJCall {
         return target;
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
-        AbstractJExpr.of(target).write(writer);
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.write(AbstractJExpr.of(target));
         writer.write($PUNCT.DOT);
-        super.write(writer);
+        super.writeDirect(writer);
     }
 }

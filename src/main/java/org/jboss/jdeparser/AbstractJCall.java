@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,39 +91,33 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
         if (typeArgs != null) {
             final Iterator<AbstractJType> iterator = typeArgs.iterator();
             if (iterator.hasNext()) {
-                writer.pushStateContext(FormatStateContext.TYPE_VARS);
-                try {
-                    writer.write($PUNCT.ANGLE.OPEN);
-                    iterator.next().write(writer);
-                    while (iterator.hasNext()) {
-                        writer.write($PUNCT.COMMA);
-                        iterator.next().write(writer);
-                    }
-                    writer.write($PUNCT.ANGLE.CLOSE);
-                } finally {
-                    writer.popStateContext(FormatStateContext.TYPE_VARS);
+                writer.write($PUNCT.ANGLE.OPEN);
+                writer.write(iterator.next());
+                while (iterator.hasNext()) {
+                    writer.write($PUNCT.COMMA);
+                    writer.write(FormatPreferences.Space.AFTER_COMMA_TYPE_ARGUMENT);
+                    writer.write(iterator.next());
                 }
+                writer.write($PUNCT.ANGLE.CLOSE);
             }
         }
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.PAREN.OPEN);
-        writer.pushStateContext(FormatStateContext.METHOD_PARAMS);
-        try {
-            if (args != null) {
-                final Iterator<AbstractJExpr> iterator = args.iterator();
-                if (iterator.hasNext()) {
-                    iterator.next().write(writer);
-                    while (iterator.hasNext()) {
-                        writer.write($PUNCT.COMMA);
-                        iterator.next().write(writer);
-                    }
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
+        if (args != null) {
+            final Iterator<AbstractJExpr> iterator = args.iterator();
+            if (iterator.hasNext()) {
+                writer.write(iterator.next());
+                while (iterator.hasNext()) {
+                    writer.write($PUNCT.COMMA);
+                    writer.write(FormatPreferences.Space.AFTER_COMMA);
+                    writer.write(iterator.next());
                 }
             }
-        } finally {
-            writer.popStateContext(FormatStateContext.METHOD_PARAMS);
         }
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
         writer.write($PUNCT.PAREN.CLOSE);
     }
 }

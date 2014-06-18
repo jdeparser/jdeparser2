@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.$KW;
+import static org.jboss.jdeparser.Tokens.$KW;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ import java.io.IOException;
 class ElseJBlock extends BasicJBlock {
 
     ElseJBlock(final ImplJIf _if) {
-        super(_if.getParent());
+        super(_if.getParent(), Braces.REQUIRED);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

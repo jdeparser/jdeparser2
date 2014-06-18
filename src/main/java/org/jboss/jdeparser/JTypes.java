@@ -36,6 +36,14 @@ import javax.lang.model.type.WildcardType;
 public final class JTypes {
     private JTypes() {}
 
+    public static JType _(Class<?> clazz) {
+        return typeOf(clazz);
+    }
+
+    public static JType _(String name) {
+        return typeNamed(name);
+    }
+
     public static JType typeOf(Class<?> clazz) {
         final Class<?> enclosingClass = clazz.getEnclosingClass();
         if (enclosingClass != null) {

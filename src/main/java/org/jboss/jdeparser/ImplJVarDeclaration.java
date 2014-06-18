@@ -19,7 +19,7 @@
 package org.jboss.jdeparser;
 
 import static org.jboss.jdeparser.Assertions.*;
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,24 +44,31 @@ class ImplJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration, 
         super.writeAnnotations(writer);
         JMod.write(writer, mods);
         writer.write(type);
+        writer.sp();
         final Iterator<Var> iterator = vars.iterator();
         if (alwaysTrue(iterator.hasNext())) {
             Var var;
             JExpr value;
             var = iterator.next();
-            writer.writeIdentifier(var.getName());
+            writer.writeRawWord(var.getName());
             value = var.getValue();
             if (value != null) {
+                writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());
                 writer.write($PUNCT.BINOP.ASSIGN);
+                writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());
                 writer.write(value);
             }
             while (iterator.hasNext()) {
+                writer.write(FormatPreferences.Space.BEFORE_COMMA);
                 writer.write($PUNCT.COMMA);
+                writer.write(FormatPreferences.Space.AFTER_COMMA);
                 var = iterator.next();
-                writer.writeIdentifier(var.getName());
+                writer.writeRawWord(var.getName());
                 value = var.getValue();
                 if (value != null) {
+                    writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());
                     writer.write($PUNCT.BINOP.ASSIGN);
+                    writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());
                     writer.write(value);
                 }
             }

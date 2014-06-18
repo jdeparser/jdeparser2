@@ -19,7 +19,7 @@
 package org.jboss.jdeparser;
 
 import static org.jboss.jdeparser.Assertions.*;
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ class ImplJCatch extends BasicJBlock implements JCatch {
     private final ArrayList<JType> types = new ArrayList<>(1);
 
     ImplJCatch(final ImplJTry _try, final int mods, final JType type, final String var) {
-        super(_try.getParent(), true);
+        super(_try.getParent(), Braces.REQUIRED);
         this.mods = mods;
         this.var = var;
         types.add(type);
@@ -72,6 +72,21 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         return _try._catch(mods, type, var);
     }
 
+    public JTry ignore(final String type) {
+        _try.ignore(type);
+        return this;
+    }
+
+    public JTry ignore(final Class<? extends Throwable> type) {
+        _try.ignore(type);
+        return this;
+    }
+
+    public JTry ignore(final JType type) {
+        _try.ignore(type);
+        return this;
+    }
+
     public JBlock _finally() {
         return _try._finally();
     }
@@ -104,7 +119,7 @@ class ImplJCatch extends BasicJBlock implements JCatch {
                 writer.write(iterator.next());
             }
         }
-        writer.writeIdentifier(var);
+        writer.writeRaw(var);
         super.write(writer);
     }
 }

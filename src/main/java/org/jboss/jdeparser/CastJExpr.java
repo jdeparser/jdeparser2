@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -44,10 +44,13 @@ class CastJExpr extends AbstractJExpr {
         return type;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_CAST);
         writer.write(type);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_CAST);
         writer.write($PUNCT.PAREN.CLOSE);
+        writer.write(FormatPreferences.Space.AFTER_CAST);
         writer.write(expr);
     }
 }

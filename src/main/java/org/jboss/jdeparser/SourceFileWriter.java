@@ -18,43 +18,61 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class SourceFileWriter implements Flushable, Closeable {
 
+    private static final char[] SPACES;
+
+    static {
+        char[] spaces = new char[128];
+        Arrays.fill(spaces, ' ');
+        SPACES = spaces;
+    }
+
     private final FormatPreferences format;
     private final CountingWriter writer;
     private final String lineSep;
-    private final ArrayDeque<FormatStateContext> stateStack = new ArrayDeque<>();
     private final ArrayDeque<AbstractJType> thisTypeStack = new ArrayDeque<>();
-    private FormatState state = $START;
+    private final ArrayDeque<FormatPreferences.Indentation> indentStack = new ArrayDeque<>();
+    private Token state = $START;
+    private boolean addedSpace;
+    private boolean addedNewLine;
 
     SourceFileWriter(final FormatPreferences format, final Writer writer) {
         this.format = format;
         this.writer = new CountingWriter(writer);
         // todo use preferences/config
-        lineSep = PLATFORM_LINE_SEP;
+        lineSep = System.lineSeparator();
     }
-
-    private int indent = 0;
-
-    private static final String PLATFORM_LINE_SEP = String.format("%n");
 
     void nl() throws IOException {
         writer.write(lineSep);
+        addedSpace = true;
+        addedNewLine = true;
     }
 
-    int getIndent() {
-        return indent;
+    /**
+     * Force a space if one hasn't already been added.
+     *
+     * @throws IOException etc.
+     */
+    void sp() throws IOException {
+        if (! addedSpace) {
+            assert ! addedNewLine;
+            addedSpace = true;
+            writer.write(' ');
+        }
     }
 
     int getLine() {
@@ -65,43 +83,88 @@ class SourceFileWriter implements Flushable, Closeable {
         return writer.getColumn();
     }
 
-    private void doIndent(int column) throws IOException {
-        for (int i = this.getColumn(); i < column; i ++) {
-            write(' ');
+    private void addIndent() throws IOException {
+        assert addedNewLine;
+        assert addedSpace;
+        int total = 0;
+        for (FormatPreferences.Indentation indentation : indentStack) {
+            if (indentation == null) {
+                // no-indent states
+                continue;
+            }
+            final int i = format.getIndent(indentation);
+            if (format.isIndentAbsolute(indentation)) {
+                total = i;
+            } else {
+                total += i;
+            }
         }
+        if (total > 0) {
+            while (total > 128) {
+                writer.write(SPACES, 0, 128);
+                total -= 128;
+            }
+            writer.write(SPACES, 0, total);
+        }
+        addedNewLine = false;
+        addedSpace = false;
     }
 
-    private void doIndent() throws IOException {
-        if (state.needsIndentBefore(this)) {
-            doIndent(indent * format.getIndentSize());
+    void write(FormatPreferences.Space rule) throws IOException {
+        if (rule == null) {
+            return;
         }
-    }
-
-    private void write(final char ch) throws IOException {
-        writer.write(ch);
+        if (addedNewLine) {
+            addIndent();
+        }
+        if (format.getSpaceType(rule) == FormatPreferences.SpaceType.NEWLINE) {
+            if (! addedNewLine) {
+                nl();
+            }
+        } else if (format.getSpaceType(rule) == FormatPreferences.SpaceType.SPACE) {
+            if (! addedSpace) {
+                sp();
+            }
+        }
     }
 
     void writeClass(final String nameToWrite) throws IOException {
-        doIndent();
+        if (addedNewLine) {
+            addIndent();
+        } else if (state instanceof $KW || state == $WORD || state == $NUMBER) {
+            sp();
+        }
         writer.write(nameToWrite);
-
+        this.state = $WORD;
+        addedSpace = addedNewLine = false;
     }
 
-    void write(final FormatState state) throws IOException {
-        doIndent();
+    void write(final Token state) throws IOException {
+        if (addedNewLine) {
+            addIndent();
+        }
         state.write(this);
         this.state = state;
-//        if (state.needsNewLine(this)) {
-//            nl();
-//        }
     }
 
     void writeRaw(final char ch) throws IOException {
+        assert ! Character.isWhitespace(ch);
         writer.write(ch);
+        addedSpace = addedNewLine = false;
     }
 
-    void writeIdentifier(final String rawText) throws IOException {
+    void writeRaw(final String rawText) throws IOException {
+        // todo not comprehensive
+        assert rawText.indexOf(' ') == -1 && rawText.indexOf('\r') == -1 && rawText.indexOf('\n') == -1;
         writer.write(rawText);
+        addedNewLine = addedSpace = false;
+    }
+
+    void writeRawWord(final String rawText) throws IOException {
+        if (addedNewLine) {
+            addIndent();
+        }
+        writeRaw(rawText);
     }
 
     public void flush() throws IOException {
@@ -113,30 +176,40 @@ class SourceFileWriter implements Flushable, Closeable {
     }
 
     void write(final JType type) throws IOException {
-        if (type != null) AbstractJType.of(type).write(this);
+        if (addedNewLine) {
+            addIndent();
+        }
+        if (type != null) AbstractJType.of(type).writeDirect(this);
     }
 
     void write(final AbstractJType type) throws IOException {
-        if (type != null) type.write(this);
+        if (addedNewLine) {
+            addIndent();
+        }
+        if (type != null) type.writeDirect(this);
     }
 
     void write(final JExpr expr) throws IOException {
-        if (expr != null) AbstractJExpr.of(expr).write(this);
+        if (addedNewLine) {
+            addIndent();
+        }
+        if (expr != null) AbstractJExpr.of(expr).writeDirect(this);
     }
 
     void write(final AbstractJExpr expr) throws IOException {
-        if (expr != null) expr.write(this);
+        if (addedNewLine) {
+            addIndent();
+        }
+        if (expr != null) expr.writeDirect(this);
     }
 
-    void pushStateContext(final FormatStateContext stateContext) {
-        stateStack.push(stateContext);
-        indent ++;
+    void pushIndent(FormatPreferences.Indentation indent) {
+        indentStack.push(indent);
     }
 
-    void popStateContext(final FormatStateContext expected) {
-        final FormatStateContext pop = stateStack.pop();
-        assert pop == expected;
-        indent --;
+    void popIndent(FormatPreferences.Indentation indent) {
+        final FormatPreferences.Indentation pop = indentStack.pop();
+        assert pop == indent;
     }
 
     AbstractJType getThisType() {
@@ -150,5 +223,9 @@ class SourceFileWriter implements Flushable, Closeable {
     void popThisType(final AbstractJType thisType) {
         final AbstractJType pop = thisTypeStack.pop();
         assert pop == thisType;
+    }
+
+    Token getState() {
+        return state;
     }
 }

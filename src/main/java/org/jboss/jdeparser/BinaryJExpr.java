@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -38,8 +38,8 @@ class BinaryJExpr extends AbstractJExpr {
     BinaryJExpr(final $PUNCT.BINOP op, final AbstractJExpr e1, final AbstractJExpr e2, final int prec, final Assoc assoc) {
         super(prec);
         this.op = op;
-        this.e1 = e1.prec() < prec ? new ParenJExpr(e1) : e1;
-        this.e2 = e2.prec() < prec ? new ParenJExpr(e2) : e2;
+        this.e1 = e1.prec() > prec ? new ParenJExpr(e1) : e1;
+        this.e2 = e2.prec() > prec ? new ParenJExpr(e2) : e2;
         this.assoc = assoc;
     }
 
@@ -55,9 +55,11 @@ class BinaryJExpr extends AbstractJExpr {
         return assoc;
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(e1);
+        writer.write(op.getSpacingRule());
         writer.write(op);
+        writer.write(op.getSpacingRule());
         writer.write(e2);
     }
 }

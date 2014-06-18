@@ -44,15 +44,31 @@ public interface JMethodDef extends JGeneric, JAnnotatable, JDocCommentable {
 
     JComment returnsDoc();
 
-    JParamDef param(int mods, JType type, String name);
+    JParamDeclaration param(int mods, JType type, String name);
 
-    JParamDef param(JType type, String name);
+    JParamDeclaration param(JType type, String name);
 
-    JParamDef varargParam(int mods, JType type, String name);
+    JParamDeclaration param(int mods, String type, String name);
 
-    JParamDef varargParam(JType type, String name);
+    JParamDeclaration param(String type, String name);
 
-    JParamDef[] params();
+    JParamDeclaration param(int mods, Class<?> type, String name);
+
+    JParamDeclaration param(Class<?> type, String name);
+
+    JParamDeclaration varargParam(int mods, JType type, String name);
+
+    JParamDeclaration varargParam(JType type, String name);
+
+    JParamDeclaration varargParam(int mods, String type, String name);
+
+    JParamDeclaration varargParam(String type, String name);
+
+    JParamDeclaration varargParam(int mods, Class<?> type, String name);
+
+    JParamDeclaration varargParam(Class<?> type, String name);
+
+    JParamDeclaration[] params();
 
     JComment _throws(String type);
 

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +49,8 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
             content.add(new ClassFileContent() {
                 public void write(final SourceFileWriter sourceFileWriter) throws IOException {
                     sourceFileWriter.write($KW.PACKAGE);
-                    sourceFileWriter.writeIdentifier(packageName);
+                    sourceFileWriter.sp();
+                    sourceFileWriter.writeRaw(packageName);
                     sourceFileWriter.write($PUNCT.SEMI);
                 }
             });

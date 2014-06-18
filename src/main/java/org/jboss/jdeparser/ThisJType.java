@@ -36,7 +36,7 @@ class ThisJType extends AbstractJType {
         return "<<THIS>>";
     }
 
-    void write(final SourceFileWriter sourceFileWriter) throws IOException {
-        sourceFileWriter.getThisType().write(sourceFileWriter);
+    void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write(sourceFileWriter.getThisType());
     }
 }

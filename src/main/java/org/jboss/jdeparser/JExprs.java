@@ -25,11 +25,11 @@ public final class JExprs {
     private JExprs() {}
 
     public static JExpr decimal(int val) {
-        return null;
+        return new IntegerJExpr(val, 10, 0);
     }
 
     public static JExpr decimal(long val) {
-        return null;
+        return new LongJExpr(val, 10, 0);
     }
 
     public static JExpr decimal(float val) {
@@ -57,11 +57,11 @@ public final class JExprs {
     }
 
     public static JExpr decimal(int val, int sepInterval) {
-        return null;
+        return new IntegerJExpr(val, 10, sepInterval);
     }
 
     public static JExpr decimal(long val, int sepInterval) {
-        return null;
+        return new LongJExpr(val, 10, sepInterval);
     }
 
     public static JExpr decimal(float val, int sepInterval) {
@@ -73,11 +73,11 @@ public final class JExprs {
     }
 
     public static JExpr hex(int val) {
-        return null;
+        return new IntegerJExpr(val, 16, 0);
     }
 
     public static JExpr hex(long val) {
-        return null;
+        return new LongJExpr(val, 16, 0);
     }
 
     public static JExpr hex(float val) {
@@ -105,11 +105,11 @@ public final class JExprs {
     }
 
     public static JExpr hex(int val, int sepInterval) {
-        return null;
+        return new IntegerJExpr(val, 16, sepInterval);
     }
 
     public static JExpr hex(long val, int sepInterval) {
-        return null;
+        return new LongJExpr(val, 16, sepInterval);
     }
 
     public static JExpr hex(float val, int sepInterval) {
@@ -121,11 +121,11 @@ public final class JExprs {
     }
 
     public static JExpr binary(int val) {
-        return null;
+        return new IntegerJExpr(val, 2, 0);
     }
 
     public static JExpr binary(long val) {
-        return null;
+        return new LongJExpr(val, 2, 0);
     }
 
     public static JExpr binary(int val, String format) {
@@ -137,19 +137,29 @@ public final class JExprs {
     }
 
     public static JExpr binary(int val, int sepInterval) {
-        return null;
+        return new IntegerJExpr(val, 2, sepInterval);
     }
 
     public static JExpr binary(long val, int sepInterval) {
-        return null;
+        return new LongJExpr(val, 2, sepInterval);
     }
 
     public static JExpr str(String string) {
-        return null;
+        return new StringJExpr(string);
     }
 
     public static JExpr ch(int val) {
         return null;
+    }
+
+    /**
+     * Return a name expression.
+     *
+     * @param name the name
+     * @return the expression
+     */
+    public static JExpr $(String name) {
+        return name(name);
     }
 
     public static JExpr name(String name) {

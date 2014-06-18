@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -37,8 +37,8 @@ class ArrayJType extends AbstractJType {
         return elementType;
     }
 
-    void write(final SourceFileWriter sourceFileWriter) throws IOException {
-        elementType.write(sourceFileWriter);
+    void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write(elementType);
         sourceFileWriter.write($PUNCT.BRACKET.OPEN);
         sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
@@ -51,8 +51,8 @@ class ArrayJType extends AbstractJType {
         return elementType.qualifiedName();
     }
 
-    public JExpr _new(final int dim) {
-        return super._new(dim);
+    public JExpr _new(final JExpr dim) {
+        return new NewArrayJExpr(this, AbstractJExpr.of(dim));
     }
 
     public String simpleName() {

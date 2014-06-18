@@ -23,7 +23,7 @@ package org.jboss.jdeparser;
  */
 class InitJBlock extends BasicJBlock implements ClassContent {
 
-    InitJBlock(final AbstractJClassDef parent) {
-        super(null);
+    InitJBlock() {
+        super(null, Braces.REQUIRED);
     }
 }

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,16 +33,12 @@ import javax.lang.model.element.Modifier;
 class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     private final BasicJBlock parent;
     private final ArrayList<BlockContent> content = new ArrayList<>();
-    private boolean forceBrackets;
+    private Braces braces = Braces.OPTIONAL;
     private int tmpId = 1;
 
-    BasicJBlock(final BasicJBlock parent) {
-        this(parent, true);
-    }
-
-    BasicJBlock(final BasicJBlock parent, final boolean forceBrackets) {
+    BasicJBlock(final BasicJBlock parent, final Braces braces) {
         this.parent = parent;
-        this.forceBrackets = forceBrackets;
+        this.braces = braces;
     }
 
     private <T extends BlockContent> T add(T s) {
@@ -61,8 +57,8 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return item;
     }
 
-    public JBlock block(final boolean forceBrackets) {
-        return add(new BasicJBlock(this, forceBrackets));
+    public JBlock block(final Braces braces) {
+        return add(new BasicJBlock(this, braces));
     }
 
     public JIf _if(final JExpr cond) {
@@ -159,7 +155,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return add(new KeywordJCall($KW.SUPER));
     }
 
-    public JStatement expr(final JExpr expr) {
+    public JStatement add(final JExpr expr) {
         if (expr instanceof AllowedStatementExpression) {
             return add(new ExpressionJStatement(AbstractJExpr.of(expr)));
         } else {
@@ -363,18 +359,29 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return parent;
     }
 
-    boolean isForceBrackets() {
-        return forceBrackets;
-    }
-
-    void setForceBrackets(final boolean forceBrackets) {
-        this.forceBrackets = forceBrackets;
+    void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace) throws IOException {
+        if (braces == Braces.REQUIRED || braces == Braces.IF_MULTILINE && content.size() != 1) {
+            writer.write(beforeBrace);
+            writer.write($PUNCT.BRACE.OPEN);
+            writer.pushIndent(FormatPreferences.Indentation.LINE);
+            try {
+                writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
+                for (BlockContent statement : content) {
+                    statement.write(writer);
+                }
+                writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
+            } finally {
+                writer.popIndent(FormatPreferences.Indentation.LINE);
+            }
+            writer.write($PUNCT.BRACE.CLOSE);
+        } else {
+            for (BlockContent statement : content) {
+                statement.write(writer);
+            }
+        }
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write($PUNCT.BRACE.OPEN);
-        for (BlockContent statement : content) {
-            statement.write(writer);
-        }
+        write(writer, FormatPreferences.Space.BEFORE_BRACE);
     }
 }

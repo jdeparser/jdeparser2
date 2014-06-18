@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 
@@ -42,7 +42,7 @@ class UnaryJExpr extends AbstractJExpr {
     UnaryJExpr(final $PUNCT.UNOP op, final AbstractJExpr expr, final int prec, boolean postfix) {
         super(prec);
         this.op = op;
-        this.expr = expr.prec() < prec ? new ParenJExpr(expr) : expr;
+        this.expr = expr.prec() > prec ? new ParenJExpr(expr) : expr;
         this.postfix = postfix;
     }
 
@@ -54,13 +54,13 @@ class UnaryJExpr extends AbstractJExpr {
         return postfix;
     }
 
-    public void write(final SourceFileWriter writer) throws IOException {
+    public void writeDirect(final SourceFileWriter writer) throws IOException {
         if (isPostfix()) {
-            expr.write(writer);
+            writer.write(expr);
             writer.write(op);
         } else {
             writer.write(op);
-            expr.write(writer);
+            writer.write(expr);
         }
     }
 }

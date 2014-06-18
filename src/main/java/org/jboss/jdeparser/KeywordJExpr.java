@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.$KW;
+import static org.jboss.jdeparser.Tokens.$KW;
 
 import java.io.IOException;
 
@@ -34,7 +34,7 @@ class KeywordJExpr extends AbstractJExpr {
         this.name = name;
     }
 
-    void write(final SourceFileWriter writer) throws IOException {
+    void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(name);
     }
 }

@@ -18,7 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatStates.*;
+import static org.jboss.jdeparser.Tokens.*;
 
 /**
  * A modelled expression.
@@ -126,6 +126,8 @@ public interface JExpr {
     // field
 
     JAssignableExpr field(String name);
+
+    JAssignableExpr $(String name);
 
     // array
 
