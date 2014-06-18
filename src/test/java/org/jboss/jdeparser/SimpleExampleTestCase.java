@@ -23,9 +23,10 @@ import static org.jboss.jdeparser.JMod.FINAL;
 import static org.jboss.jdeparser.JMod.PUBLIC;
 import static org.jboss.jdeparser.JTypes._;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.junit.Test;
@@ -33,15 +34,11 @@ import org.junit.Test;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public class SimpleExampleTestCase {
+public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
 
     @Test
     public void testSimple() throws IOException {
-        final JSources sources = JDeparser.createSources(new JFiler() {
-            public OutputStream openStream(final String packageName, final String fileName) throws IOException {
-                return new ByteArrayOutputStream();
-            }
-        }, new FormatPreferences(new Properties()));
+        final JSources sources = JDeparser.createSources(getFiler(), new FormatPreferences(new Properties()));
         final JClassFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
         final JClassDef baz = bazFile._class(PUBLIC | FINAL, "Baz");
         final JMethodDef getString = baz.method(PUBLIC | FINAL, String.class, "getString");
@@ -55,5 +52,11 @@ public class SimpleExampleTestCase {
         body.var(FINAL, _(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
         body.add(_(System.class).$("out").call("println").arg(tmp1));
         sources.writeSources();
+        final ByteArrayInputStream inputStream = openFile("org.foo.bar", "Baz.java");
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
     }
 }
