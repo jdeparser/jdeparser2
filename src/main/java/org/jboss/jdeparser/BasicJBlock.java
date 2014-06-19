@@ -316,11 +316,11 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JVarDeclaration var(final int mods, final JType type, final String name, final JExpr value) {
-        return add(new ImplJVarDeclaration(mods, type, name, value));
+        return add(new FirstJVarDeclaration(mods, type, name, value));
     }
 
     public JVarDeclaration var(final int mods, final JType type, final String name) {
-        return add(new ImplJVarDeclaration(mods, type, name, null));
+        return add(new FirstJVarDeclaration(mods, type, name, null));
     }
 
     public JExpr tempVar(final JType type, final JExpr value) {

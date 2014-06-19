@@ -35,6 +35,10 @@ public interface JExpr {
 
     JExpr NULL = new KeywordJExpr($KW.NULL);
 
+    JExpr ZERO = new IntegerJExpr(0, 10, 0);
+
+    JExpr ONE = new IntegerJExpr(1, 10, 0);
+
     // arithmetic
 
     JExpr add(JExpr e1);

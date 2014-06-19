@@ -166,12 +166,20 @@ public final class JExprs {
         return name(paramDeclaration.name());
     }
 
+    public static JAssignableExpr $(JVarDeclaration varDeclaration) {
+        return name(varDeclaration.name());
+    }
+
     public static JAssignableExpr name(String name) {
         return new NameJExpr(name);
     }
 
     public static JAssignableExpr name(JParamDeclaration paramDeclaration) {
         return name(paramDeclaration.name());
+    }
+
+    public static JAssignableExpr name(JVarDeclaration varDeclaration) {
+        return name(varDeclaration.name());
     }
 
     public static JExpr array(JExpr... members) {

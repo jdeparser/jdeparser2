@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 class ForJBlock extends BasicJBlock implements JFor {
 
-    private ImplJVarDeclaration init;
+    private FirstJVarDeclaration init;
     private JExpr test;
     private JExpr update;
 
@@ -36,7 +36,7 @@ class ForJBlock extends BasicJBlock implements JFor {
     }
 
     public JVarDeclaration init(final int mods, final JType type, final String name, final JExpr value) {
-        return init = new ImplJVarDeclaration(mods, type, name, value);
+        return init = new FirstJVarDeclaration(mods, type, name, value);
     }
 
     public JFor test(final JExpr expr) {

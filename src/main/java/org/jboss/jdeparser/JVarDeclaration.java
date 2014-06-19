@@ -25,6 +25,8 @@ public interface JVarDeclaration extends JAnnotatable, JDocCommentable {
 
     JType type();
 
+    String name();
+
     JVarDeclaration add(String name, JExpr init);
 
     JVarDeclaration add(String name);
