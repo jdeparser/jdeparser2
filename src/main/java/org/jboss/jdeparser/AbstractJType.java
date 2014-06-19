@@ -122,7 +122,7 @@ abstract class AbstractJType implements JType {
     }
 
     public JExpr field(final String name) {
-        return new TypeRefJExpr(this, name);
+        return new StaticRefJExpr(this, name);
     }
 
     public JExpr $(final String name) {

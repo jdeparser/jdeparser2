@@ -21,7 +21,9 @@ package org.jboss.jdeparser;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -32,14 +34,23 @@ class ImplJSources implements JSources {
     private final FormatPreferences format;
 
     private final List<ImplJClassFile> classFiles = new ArrayList<>();
+    private final Map<String, AbstractJClassDef> classes = new HashMap<>();
 
     ImplJSources(final JFiler filer, final FormatPreferences format) {
         this.filer = filer;
         this.format = format;
     }
 
+    void addClassDef(AbstractJClassDef classDef) {
+        classes.put(((ImplJClassFile)classDef.classFile()).getPackageName() + "." + classDef.getName(), classDef);
+    }
+
+    boolean hasClass(String qualifiedName) {
+        return classes.containsKey(qualifiedName);
+    }
+
     public JClassFile createSourceFile(final String packageName, final String fileName) {
-        final ImplJClassFile classFile = new ImplJClassFile(packageName, fileName);
+        final ImplJClassFile classFile = new ImplJClassFile(this, packageName, fileName);
         classFiles.add(classFile);
         return classFile;
     }

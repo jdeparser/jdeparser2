@@ -54,7 +54,7 @@ class PrimitiveJType extends AbstractJType {
     }
 
     public JExpr _class() {
-        return new TypeRefJExpr(this, "class");
+        return new StaticRefJExpr(this, "class");
     }
 
     public String simpleName() {

@@ -22,19 +22,23 @@ import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class ImplJClassFile extends BasicJCommentable implements JClassFile {
-    private final ArrayList<ReferenceJType> imports = new ArrayList<>();
-    private final ArrayList<TypeRefJExpr> staticImports = new ArrayList<>();
+    private final ImplJSources sources;
+    private final Map<String, ReferenceJType> imports = new HashMap<>();
+    private final Map<String, StaticRefJExpr> staticImports = new HashMap<>();
     private final ArrayList<ClassFileContent> content = new ArrayList<>();
     private final String packageName;
     private final String fileName;
     private boolean packageWritten;
 
-    ImplJClassFile(final String packageName, final String fileName) {
+    ImplJClassFile(final ImplJSources sources, final String packageName, final String fileName) {
+        this.sources = sources;
         this.packageName = packageName;
         this.fileName = fileName;
     }
@@ -58,6 +62,25 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         }
     }
 
+    boolean hasImport(final String name) {
+        return imports.containsKey(name);
+    }
+
+    boolean hasImport(final JType type) {
+        return type instanceof ReferenceJType && imports.containsKey(type.simpleName()) && imports.get(type.simpleName()).qualifiedName().equals(type.qualifiedName());
+    }
+
+    boolean hasStaticImport(final String name) {
+        return staticImports.containsKey(name);
+    }
+
+    boolean hasStaticImport(final JExpr expr) {
+        if (! (expr instanceof StaticRefJExpr)) return false;
+        final StaticRefJExpr staticRefJExpr = (StaticRefJExpr) expr;
+        final String refName = staticRefJExpr.getStaticRef().getRefName();
+        return staticImports.containsKey(refName) && staticImports.get(refName).getStaticRef().getType().qualifiedName().equals(staticRefJExpr.getStaticRef().getType().qualifiedName());
+    }
+
     public JClassFile _import(final String type) {
         return _import(JTypes.typeNamed(type));
     }
@@ -67,7 +90,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         if (imports.isEmpty()) {
             content.add(new ClassFileContent() {
                 public void write(final SourceFileWriter sourceFileWriter) throws IOException {
-                    for (ReferenceJType _import : imports) {
+                    for (ReferenceJType _import : imports.values()) {
                         sourceFileWriter.write($KW.IMPORT);
                         sourceFileWriter.writeClass(_import.qualifiedName());
                         sourceFileWriter.write($PUNCT.SEMI);
@@ -75,7 +98,13 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                 }
             });
         }
-        imports.add((ReferenceJType) type);
+        if (! (type instanceof ReferenceJType)) {
+            return this;
+        }
+        if (imports.containsKey(type.qualifiedName())) {
+            return this;
+        }
+        imports.put(type.qualifiedName(), (ReferenceJType) type);
         return this;
     }
 
@@ -92,7 +121,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         if (staticImports.isEmpty()) {
             content.add(new ClassFileContent() {
                 public void write(final SourceFileWriter sourceFileWriter) throws IOException {
-                    for (TypeRefJExpr staticImport : staticImports) {
+                    for (StaticRefJExpr staticImport : staticImports.values()) {
                         sourceFileWriter.write($KW.IMPORT);
                         sourceFileWriter.write($KW.STATIC);
                         sourceFileWriter.write(staticImport);
@@ -101,7 +130,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                 }
             });
         }
-        staticImports.add(new TypeRefJExpr(AbstractJType.of(type), member));
+        staticImports.put(member, new StaticRefJExpr(AbstractJType.of(type), member));
         return this;
     }
 
@@ -146,8 +175,14 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
     }
 
     void write(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.setClassFile(this);
         for (ClassFileContent item : content) {
             item.write(sourceFileWriter);
         }
+        sourceFileWriter.setClassFile(null);
+    }
+
+    ImplJSources getSources() {
+        return sources;
     }
 }

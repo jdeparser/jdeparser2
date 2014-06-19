@@ -64,15 +64,15 @@ class ReferenceJType extends AbstractJType {
     }
 
     public JExpr _class() {
-        return new TypeRefJExpr(this, "class");
+        return new StaticRefJExpr(this, "class");
     }
 
     public JExpr _this() {
-        return new TypeRefJExpr(this, "this");
+        return new StaticRefJExpr(this, "this");
     }
 
     public JExpr _super() {
-        return new TypeRefJExpr(this, "super");
+        return new StaticRefJExpr(this, "super");
     }
 
     public JCall _new(final JExpr dim) {
@@ -84,8 +84,18 @@ class ReferenceJType extends AbstractJType {
     }
 
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
-        // todo: check imports versus current package
-        sourceFileWriter.writeClass(qualifiedName());
+        final ImplJClassFile cf = sourceFileWriter.getClassFile();
+        final String currentPackageName = cf.getPackageName();
+        final boolean packageMatches = currentPackageName.equals(packageName);
+        if (packageMatches && cf.hasImport(simpleName())) {
+            // an explicit import masks the implicit import
+            sourceFileWriter.writeClass(qualifiedName());
+        } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().getSources().hasClass(currentPackageName + "." + simpleName()) || packageMatches) {
+            // implicit import
+            sourceFileWriter.writeClass(simpleName());
+        } else {
+            sourceFileWriter.writeClass(qualifiedName());
+        }
     }
 
     public JType typeArg(final JType... args) {
