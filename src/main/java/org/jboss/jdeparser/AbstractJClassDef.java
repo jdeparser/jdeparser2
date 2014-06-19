@@ -218,6 +218,10 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return allAreClear(mods, ABSTRACT | NATIVE);
     }
 
+    boolean hasInterfaceStyleExtends() {
+        return false;
+    }
+
     public JMethodDef constructor(final int mods) {
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
@@ -262,14 +266,15 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             sourceFileWriter.write(designation());
             sourceFileWriter.writeClass(name);
             writeTypeParams(sourceFileWriter);
-            if (_extends != null) {
+            final boolean ifExt = hasInterfaceStyleExtends();
+            if (! ifExt && _extends != null) {
                 sourceFileWriter.write($KW.EXTENDS);
                 sourceFileWriter.write(_extends);
             }
             if (_implements != null) {
                 final Iterator<JType> iterator = _implements.iterator();
                 if (iterator.hasNext()) {
-                    sourceFileWriter.write($KW.IMPLEMENTS);
+                    sourceFileWriter.write(ifExt ? $KW.EXTENDS : $KW.IMPLEMENTS);
                     sourceFileWriter.write(iterator.next());
                     while (iterator.hasNext()) {
                         sourceFileWriter.write($PUNCT.COMMA);

@@ -150,7 +150,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
 
     public JClassDef _interface(final int mods, final String name) {
         checkPackage();
-        return null;
+        return add(new InterfaceJClassDef(this, mods, name));
     }
 
     public JClassDef annotationInterface(final int mods, final String name) {
