@@ -52,6 +52,10 @@ class EnumJClassDef extends AbstractJClassDef {
                 sourceFileWriter.write(FormatPreferences.Space.AFTER_COMMA_ENUM_CONSTANT);
                 iterator.next().writeDirect(sourceFileWriter);
             }
+            if (sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.ENUM_TRAILING_COMMA)) {
+                sourceFileWriter.write(Tokens.$PUNCT.COMMA);
+                sourceFileWriter.write(FormatPreferences.Space.AFTER_COMMA_ENUM_CONSTANT);
+            }
         }
         sourceFileWriter.write(Tokens.$PUNCT.SEMI);
         sourceFileWriter.write(FormatPreferences.Space.AFTER_SEMICOLON);

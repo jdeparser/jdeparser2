@@ -113,7 +113,7 @@ public final class FormatPreferences {
     private final EnumIntMap<Indentation> indents;
     private final EnumSet<Indentation> absoluteIndents;
     private final EnumMap<Space, SpaceType> spaceTypes;
-    private final EnumSet<Opt> optimizations;
+    private final EnumSet<Opt> options;
     private final EnumMap<Wrapping, WrappingMode> wrapping;
 
     private int lineLength = 140;
@@ -124,7 +124,7 @@ public final class FormatPreferences {
         indents = new EnumIntMap<>(DEFAULT_INDENTS);
         absoluteIndents = EnumSet.copyOf(DEFAULT_ABS_INDENTS);
         spaceTypes = new EnumMap<>(DEFAULT_SPACE_TYPES);
-        optimizations = EnumSet.copyOf(DEFAULT_OPTS);
+        options = EnumSet.copyOf(DEFAULT_OPTS);
         wrapping = new EnumMap<>(DEFAULT_WRAPPING);
     }
 
@@ -182,7 +182,7 @@ public final class FormatPreferences {
                             try {
                                 final Opt o = Opt.valueOf(xf(l.get(1)));
                                 final boolean v = Boolean.parseBoolean(value);
-                                if (v) optimizations.add(o); else optimizations.remove(o);
+                                if (v) options.add(o); else options.remove(o);
                             } catch (IllegalArgumentException ignored) {
                             }
                             break;
@@ -344,18 +344,18 @@ public final class FormatPreferences {
 
     // ---------------------------------------------------------------------
 
-    public void addOptimization(Opt... opts) {
-        Collections.addAll(this.optimizations, opts);
+    public void addOption(Opt... opts) {
+        Collections.addAll(this.options, opts);
     }
 
-    public void removeOptimization(Opt... opts) {
+    public void removeOption(Opt... opts) {
         for (Opt opt : opts) {
-            this.optimizations.remove(opt);
+            this.options.remove(opt);
         }
     }
 
-    public boolean hasOptimization(Opt opt) {
-        return optimizations.contains(opt);
+    public boolean hasOption(Opt opt) {
+        return options.contains(opt);
     }
 
     // =====================================================================
@@ -502,8 +502,7 @@ public final class FormatPreferences {
     // ---------------------------------------------------------------------
 
     public enum Opt {
-        ELIMINATE_EXPRESSIONS,
-
+        ENUM_TRAILING_COMMA,
     }
 
 

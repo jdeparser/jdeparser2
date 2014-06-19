@@ -237,4 +237,8 @@ class SourceFileWriter implements Flushable, Closeable {
     ImplJClassFile getClassFile() {
         return classFile;
     }
+
+    FormatPreferences getFormat() {
+        return format;
+    }
 }
