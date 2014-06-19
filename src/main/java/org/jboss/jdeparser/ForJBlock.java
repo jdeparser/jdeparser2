@@ -27,22 +27,16 @@ import java.io.IOException;
  */
 class ForJBlock extends BasicJBlock implements JFor {
 
+    private ImplJVarDeclaration init;
     private JExpr test;
+    private JExpr update;
 
     ForJBlock(final BasicJBlock parent) {
         super(parent, Braces.IF_MULTILINE);
     }
 
-    public JVarDeclaration init(final int mods, final JType type, final JExpr value) {
-        return null;
-    }
-
-    public JVarDeclaration init(final int mods, final String type, final JExpr value) {
-        return null;
-    }
-
-    public JVarDeclaration init(final int mods, final Class<?> type, final JExpr value) {
-        return null;
+    public JVarDeclaration init(final int mods, final JType type, final String name, final JExpr value) {
+        return init = new ImplJVarDeclaration(mods, type, name, value);
     }
 
     public JFor test(final JExpr expr) {
@@ -51,17 +45,25 @@ class ForJBlock extends BasicJBlock implements JFor {
     }
 
     public JFor update(final JExpr updateExpr) {
+        update = updateExpr;
         return this;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.FOR);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_FOR);
         writer.write($PUNCT.PAREN.OPEN);
-        // todo initializers
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
+        if (init != null) init.write(writer);
+        writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
         writer.write($PUNCT.SEMI);
+        writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
         writer.write(test);
+        writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
         writer.write($PUNCT.SEMI);
-        // todo update
+        writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
+        writer.write(update);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
         writer.write($PUNCT.PAREN.CLOSE);
         super.write(writer);
     }
