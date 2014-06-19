@@ -21,17 +21,9 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JCall extends JExpr, JSimpleArgs {
+public interface JSimpleArgs {
 
-    JCall diamond();
+    JSimpleArgs arg(JExpr expr);
 
-    JCall typeArg(JType type);
-
-    JCall typeArg(String type);
-
-    JCall typeArg(Class<?> type);
-
-    JCall arg(JExpr expr);
-
-    JType[] typeArguments();
+    JExpr[] arguments();
 }

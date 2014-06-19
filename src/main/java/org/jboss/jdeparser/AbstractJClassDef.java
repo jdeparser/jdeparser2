@@ -144,7 +144,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(new StaticInitJBlock());
     }
 
-    public JCall _enum(final String name) {
+    public JEnumConstant _enum(final String name) {
         throw new UnsupportedOperationException("Enum constants may only be added to enums");
     }
 

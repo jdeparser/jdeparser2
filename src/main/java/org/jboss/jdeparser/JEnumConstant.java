@@ -21,22 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class EnumJCall extends AbstractJCall {
+public interface JEnumConstant extends JSimpleArgs, JAnnotatable, JDocCommentable {
 
-    private final EnumJClassDef classDef;
-    private final String name;
-
-    EnumJCall(final EnumJClassDef classDef, final String name) {
-        super(0);
-        this.classDef = classDef;
-        this.name = name;
-    }
-
-    EnumJClassDef getClassDef() {
-        return classDef;
-    }
-
-    String getName() {
-        return name;
-    }
+    JEnumConstant arg(JExpr expr);
 }

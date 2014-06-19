@@ -55,7 +55,7 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JInlineComment
      * @param name the constant name
      * @return the call for enum construction
      */
-    JCall _enum(String name);
+    JEnumConstant _enum(String name);
 
     JVarDeclaration field(int mods, JType type, String name);
 

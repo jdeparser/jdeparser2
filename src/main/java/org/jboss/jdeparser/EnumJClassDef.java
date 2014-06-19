@@ -27,7 +27,7 @@ import java.util.Map;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class EnumJClassDef extends AbstractJClassDef {
-    private final Map<String, EnumJCall> constants = new LinkedHashMap<>();
+    private final Map<String, ImplJEnumConstant> constants = new LinkedHashMap<>();
 
     EnumJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
         super(mods, classFile, name);
@@ -37,14 +37,14 @@ class EnumJClassDef extends AbstractJClassDef {
         return Tokens.$KW.ENUM;
     }
 
-    public JCall _enum(final String name) {
-        final EnumJCall c = new EnumJCall(this, name);
+    public JEnumConstant _enum(final String name) {
+        final ImplJEnumConstant c = new ImplJEnumConstant(this, name);
         constants.put(name, c);
         return c;
     }
 
     void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {
-        final Iterator<EnumJCall> iterator = constants.values().iterator();
+        final Iterator<ImplJEnumConstant> iterator = constants.values().iterator();
         if (iterator.hasNext()) {
             iterator.next().writeDirect(sourceFileWriter);
             while (iterator.hasNext()) {

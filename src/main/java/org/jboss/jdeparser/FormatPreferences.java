@@ -502,7 +502,7 @@ public final class FormatPreferences {
     // ---------------------------------------------------------------------
 
     public enum Opt {
-        ENUM_TRAILING_COMMA,
+        ENUM_TRAILING_COMMA, ENUM_EMPTY_PARENS,
     }
 
 
