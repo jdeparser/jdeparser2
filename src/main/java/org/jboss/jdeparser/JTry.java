@@ -22,7 +22,7 @@ package org.jboss.jdeparser;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JTry extends JBlock {
-    JTry with(int mods, JType type, String var, JExpr init);
+    JVarDeclaration with(int mods, JType type, String var, JExpr init);
 
     JCatch _catch(int mods, String type, String var);
 

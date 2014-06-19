@@ -121,6 +121,14 @@ abstract class AbstractJType implements JType {
         return wildcardSuper;
     }
 
+    public JType nestedType(final String name) {
+        throw new UnsupportedOperationException("Lookup of nested type on " + this);
+    }
+
+    public JType _(final String name) {
+        return nestedType(name);
+    }
+
     public JAssignableExpr field(final String name) {
         return new StaticRefJExpr(this, name);
     }

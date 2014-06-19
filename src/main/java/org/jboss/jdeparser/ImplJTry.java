@@ -22,22 +22,29 @@ import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class ImplJTry extends BasicJBlock implements JTry {
 
-    private ArrayList<ImplJCatch> catches = new ArrayList<>();
+    private ArrayList<ImplJCatch> catches;
+    private ArrayList<FirstJVarDeclaration> resources;
     private FinallyJBlock finallyBlock;
 
     ImplJTry(final BasicJBlock parent) {
         super(parent, Braces.REQUIRED);
     }
 
-    public JTry with(final int mods, final JType type, final String var, final JExpr init) {
-        // todo add resource to list
-        return this;
+    public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
+        return new FirstJVarDeclaration(mods, type, var, init);
+    }
+
+    private <T extends FirstJVarDeclaration> T add(T item) {
+        if (resources == null) resources = new ArrayList<>();
+        resources.add(item);
+        return item;
     }
 
     public JCatch _catch(final int mods, final String type, final String var) {
@@ -48,13 +55,14 @@ class ImplJTry extends BasicJBlock implements JTry {
         return _catch(mods, JTypes.typeOf(type), var);
     }
 
-    private <T extends ImplJCatch> T add(T item) {
-        catches.add(item);
-        return item;
-    }
-
     public JCatch _catch(final int mods, final JType type, final String var) {
         return add(new ImplJCatch(this, mods, type, var));
+    }
+
+    private <T extends ImplJCatch> T add(T item) {
+        if (catches == null) catches = new ArrayList<>();
+        catches.add(item);
+        return item;
     }
 
     public JTry ignore(final String type) {
@@ -79,11 +87,25 @@ class ImplJTry extends BasicJBlock implements JTry {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.TRY);
-        if (false) {
-            // todo: resources
+        if (resources != null) {
+            final Iterator<FirstJVarDeclaration> iterator = resources.iterator();
+            if (iterator.hasNext()) {
+                writer.write(FormatPreferences.Space.BEFORE_PAREN_TRY);
+                writer.write($PUNCT.PAREN.OPEN);
+                writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
+                iterator.next().write(writer);
+                while (iterator.hasNext()) {
+                    writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
+                    writer.write($PUNCT.SEMI);
+                    writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
+                    iterator.next().write(writer);
+                }
+            }
+            writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
+            writer.write($PUNCT.PAREN.CLOSE);
         }
         super.write(writer);
-        for (ImplJCatch _catch : catches) {
+        if (catches != null) for (ImplJCatch _catch : catches) {
             _catch.write(writer);
         }
         if (finallyBlock != null) {
