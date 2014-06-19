@@ -162,8 +162,16 @@ public final class JExprs {
         return name(name);
     }
 
+    public static JExpr $(JParamDeclaration paramDeclaration) {
+        return name(paramDeclaration.name());
+    }
+
     public static JExpr name(String name) {
         return new NameJExpr(name);
+    }
+
+    public static JExpr name(JParamDeclaration paramDeclaration) {
+        return name(paramDeclaration.name());
     }
 
     public static JExpr array(JExpr... members) {
