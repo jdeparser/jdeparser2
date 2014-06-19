@@ -158,19 +158,19 @@ public final class JExprs {
      * @param name the name
      * @return the expression
      */
-    public static JExpr $(String name) {
+    public static JAssignableExpr $(String name) {
         return name(name);
     }
 
-    public static JExpr $(JParamDeclaration paramDeclaration) {
+    public static JAssignableExpr $(JParamDeclaration paramDeclaration) {
         return name(paramDeclaration.name());
     }
 
-    public static JExpr name(String name) {
+    public static JAssignableExpr name(String name) {
         return new NameJExpr(name);
     }
 
-    public static JExpr name(JParamDeclaration paramDeclaration) {
+    public static JAssignableExpr name(JParamDeclaration paramDeclaration) {
         return name(paramDeclaration.name());
     }
 

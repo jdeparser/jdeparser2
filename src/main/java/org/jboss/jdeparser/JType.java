@@ -177,7 +177,7 @@ public interface JType {
      * @param name the field name
      * @return the field expression
      */
-    JExpr field(String name);
+    JAssignableExpr field(String name);
 
     /**
      * Look up a static field on this type.
@@ -185,7 +185,7 @@ public interface JType {
      * @param name the field name
      * @return the field expression
      */
-    JExpr $(String name);
+    JAssignableExpr $(String name);
 
     /**
      * Call a static method on this type.

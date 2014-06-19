@@ -121,11 +121,11 @@ abstract class AbstractJType implements JType {
         return wildcardSuper;
     }
 
-    public JExpr field(final String name) {
+    public JAssignableExpr field(final String name) {
         return new StaticRefJExpr(this, name);
     }
 
-    public JExpr $(final String name) {
+    public JAssignableExpr $(final String name) {
         return field(name);
     }
 

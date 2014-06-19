@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class NameJExpr extends AbstractJExpr {
+class NameJExpr extends AbstractJAssignableExpr {
 
     private final String name;
 
