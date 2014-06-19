@@ -103,7 +103,7 @@ class ReferenceJType extends AbstractJType {
         return new NarrowedJType(this, args);
     }
 
-    JType nestedClass(final String name) {
+    public JType nestedType(final String name) {
         return new ReferenceJType(this, packageName, name);
     }
 

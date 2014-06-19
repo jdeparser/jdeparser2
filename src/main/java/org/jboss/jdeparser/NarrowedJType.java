@@ -89,6 +89,14 @@ class NarrowedJType extends AbstractJType {
         return erased;
     }
 
+    public JCall call(final String name) {
+        return erasure().call(name);
+    }
+
+    public JType nestedType(final String name) {
+        return erasure().nestedType(name);
+    }
+
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write(erasure());
         final JType[] args = this.args;

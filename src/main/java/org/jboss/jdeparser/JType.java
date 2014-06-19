@@ -172,6 +172,22 @@ public interface JType {
     JType wildcardSuper();
 
     /**
+     * Get a nested type within this reference type.
+     *
+     * @param name the name of the nested type
+     * @return the nested type
+     */
+    JType nestedType(String name);
+
+    /**
+     * Get a nested type within this reference type.
+     *
+     * @param name the name of the nested type
+     * @return the nested type
+     */
+    JType _(String name);
+
+    /**
      * Look up a static field on this type.
      *
      * @param name the field name

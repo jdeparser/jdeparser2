@@ -36,6 +36,10 @@ import javax.lang.model.type.WildcardType;
 public final class JTypes {
     private JTypes() {}
 
+    public static JType _(JClassDef classDef) {
+        return typeOf(classDef);
+    }
+
     public static JType _(Class<?> clazz) {
         return typeOf(clazz);
     }
@@ -44,26 +48,24 @@ public final class JTypes {
         return typeNamed(name);
     }
 
+    public static JType typeOf(JClassDef classDef) {
+        final String packageName = ((ImplJClassFile) classDef.classFile()).getPackageName();
+        final String name = ((AbstractJClassDef) classDef).getName();
+        return typeNamed(packageName == null ? name : packageName + "." + name);
+    }
+
     public static JType typeOf(Class<?> clazz) {
         final Class<?> enclosingClass = clazz.getEnclosingClass();
         if (enclosingClass != null) {
-            return ((ReferenceJType) typeOf(enclosingClass)).nestedClass(clazz.getSimpleName());
+            return _(enclosingClass)._(clazz.getSimpleName());
         } else {
-            return typeNamed(clazz.getName());
+            return _(clazz.getName());
         }
     }
 
     public static JType typeNamed(String name) {
         final int idx = name.lastIndexOf('.');
         return new ReferenceJType(null, idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1));
-    }
-
-    public static JType nestedClassOf(JType type, String innerName) {
-        if (type instanceof ReferenceJType) {
-            return ((ReferenceJType) type).nestedClass(innerName);
-        } else {
-            throw new IllegalArgumentException("Cannot find nested class of " + type);
-        }
     }
 
     /**
@@ -89,7 +91,7 @@ public final class JTypes {
             final TypeElement typeElement = (TypeElement) declaredType.asElement();
             final TypeMirror enclosingType = declaredType.getEnclosingType();
             if (enclosingType != null && enclosingType.getKind() == TypeKind.DECLARED) {
-                return nestedClassOf(typeOf(enclosingType), typeElement.getSimpleName().toString());
+                return typeOf(enclosingType).nestedType(typeElement.getSimpleName().toString());
             }
             final String name = typeElement.getQualifiedName().toString();
             final JType rawType = JTypes.typeNamed(name);
