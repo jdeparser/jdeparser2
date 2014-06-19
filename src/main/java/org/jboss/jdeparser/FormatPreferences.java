@@ -64,6 +64,7 @@ public final class FormatPreferences {
         EnumMap<Space, SpaceType> spaceTypes = new EnumMap<>(Space.class);
         spaceTypes.put(AFTER_COMMA, SpaceType.SPACE);
         spaceTypes.put(AFTER_COMMA_TYPE_ARGUMENT, SpaceType.SPACE);
+        spaceTypes.put(AFTER_COMMA_ENUM_CONSTANT, SpaceType.NEWLINE);
 
         spaceTypes.put(BEFORE_PAREN_IF, SpaceType.SPACE);
         spaceTypes.put(BEFORE_PAREN_FOR, SpaceType.SPACE);
@@ -458,6 +459,9 @@ public final class FormatPreferences {
         // comma
         BEFORE_COMMA,
         AFTER_COMMA,
+
+        // enum
+        AFTER_COMMA_ENUM_CONSTANT,
 
         // semi
         BEFORE_SEMICOLON,

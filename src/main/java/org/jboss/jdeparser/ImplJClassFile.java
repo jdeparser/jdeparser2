@@ -145,7 +145,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
 
     public JClassDef _enum(final int mods, final String name) {
         checkPackage();
-        return null;
+        return add(new EnumJClassDef(this, mods, name));
     }
 
     public JClassDef _interface(final int mods, final String name) {

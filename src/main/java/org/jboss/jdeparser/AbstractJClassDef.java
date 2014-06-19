@@ -282,9 +282,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             sourceFileWriter.pushIndent(getMemberIndentation());
             try {
                 sourceFileWriter.nl();
-                for (ClassContent classContent : content) {
-                    classContent.write(sourceFileWriter);
-                }
+                writeContent(sourceFileWriter);
             } finally {
                 sourceFileWriter.popIndent(getMemberIndentation());
             }
@@ -293,5 +291,11 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         }
         sourceFileWriter.nl();
         sourceFileWriter.write($PUNCT.BRACE.CLOSE);
+    }
+
+    void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {
+        for (ClassContent classContent : content) {
+            classContent.write(sourceFileWriter);
+        }
     }
 }
