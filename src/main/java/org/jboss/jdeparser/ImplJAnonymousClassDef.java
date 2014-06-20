@@ -177,4 +177,20 @@ class ImplJAnonymousClassDef extends AbstractJCall implements JAnonymousClassDef
     public JComment blockComment() {
         return classDef.blockComment();
     }
+
+    public JClassDef _class(final int mods, final String name) {
+        return classDef._class(mods, name);
+    }
+
+    public JClassDef _enum(final int mods, final String name) {
+        return classDef._enum(mods, name);
+    }
+
+    public JClassDef _interface(final int mods, final String name) {
+        return classDef._interface(mods, name);
+    }
+
+    public JClassDef annotationInterface(final int mods, final String name) {
+        return classDef._interface(mods, name);
+    }
 }

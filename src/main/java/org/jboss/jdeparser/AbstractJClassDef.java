@@ -30,7 +30,7 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent {
+abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent, ClassContent {
 
     private final int mods;
     private final String name;
@@ -246,6 +246,23 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             throw new IllegalArgumentException("Invalid constructor modifier(s) given");
         }
         return add(new ConstructorJMethodDef(this, mods));
+    }
+
+    public JClassDef _class(final int mods, final String name) {
+        return add(new PlainJClassDef(mods, this, name));
+    }
+
+    public JClassDef _enum(final int mods, final String name) {
+        return add(new EnumJClassDef(mods, this, name));
+    }
+
+    public JClassDef _interface(final int mods, final String name) {
+        return add(new InterfaceJClassDef(mods, this, name));
+    }
+
+    public JClassDef annotationInterface(final int mods, final String name) {
+        // todo
+        return null;
     }
 
     public JComment inlineLineComment() {

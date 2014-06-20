@@ -113,6 +113,10 @@ public interface JBlock extends JStatement, JInlineCommentable {
 
     JAnonymousClassDef _newAnon(Class<?> type);
 
+    // local class definition
+
+    JClassDef _class(int mods, String name);
+
     // synch
 
     JBlock _synchronized(JExpr synchExpr);

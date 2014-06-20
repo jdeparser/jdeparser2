@@ -70,4 +70,12 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JInlineComment
     JMethodDef method(int mods, String returnType, String name);
 
     JMethodDef constructor(int mods);
+
+    JClassDef _class(int mods, String name);
+
+    JClassDef _enum(int mods, String name);
+
+    JClassDef _interface(int mods, String name);
+
+    JClassDef annotationInterface(int mods, String name);
 }

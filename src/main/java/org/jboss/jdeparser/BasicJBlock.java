@@ -236,6 +236,10 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return _newAnon(JTypes.typeOf(type));
     }
 
+    public JClassDef _class(final int mods, final String name) {
+        return add(new PlainJClassDef(mods, (ImplJClassFile) null, name));
+    }
+
     public JBlock _synchronized(final JExpr synchExpr) {
         return add(new SynchJBlock(this, ArrayJExpr.of(synchExpr)));
     }
