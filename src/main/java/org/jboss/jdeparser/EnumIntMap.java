@@ -28,9 +28,16 @@ class EnumIntMap<E extends Enum<E>> {
     private final E[] keys;
     private final int[] values;
 
+    private static final ClassValue<Object> cvo = new ClassValue<Object>() {
+        protected Object computeValue(final Class<?> type) {
+            return type.getEnumConstants();
+        }
+    };
+
+    @SuppressWarnings("unchecked")
     EnumIntMap(Class<E> type, int defaultVal) {
         this.type = type;
-        keys = type.getEnumConstants();
+        keys = (E[]) cvo.get(type);
         values = new int[keys.length];
         Arrays.fill(values, defaultVal);
     }
