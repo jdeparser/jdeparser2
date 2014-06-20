@@ -86,30 +86,34 @@ class ImplJTry extends BasicJBlock implements JTry {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write($KW.TRY);
-        if (resources != null) {
-            final Iterator<FirstJVarDeclaration> iterator = resources.iterator();
-            if (iterator.hasNext()) {
-                writer.write(FormatPreferences.Space.BEFORE_PAREN_TRY);
-                writer.write($PUNCT.PAREN.OPEN);
-                writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
-                iterator.next().write(writer);
-                while (iterator.hasNext()) {
-                    writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
-                    writer.write($PUNCT.SEMI);
-                    writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
+        if ((catches == null || catches.isEmpty()) && (resources == null || resources.isEmpty()) && finallyBlock == null) {
+            super.write(writer, null);
+        } else {
+            writer.write($KW.TRY);
+            if (resources != null) {
+                final Iterator<FirstJVarDeclaration> iterator = resources.iterator();
+                if (iterator.hasNext()) {
+                    writer.write(FormatPreferences.Space.BEFORE_PAREN_TRY);
+                    writer.write($PUNCT.PAREN.OPEN);
+                    writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
                     iterator.next().write(writer);
+                    while (iterator.hasNext()) {
+                        writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
+                        writer.write($PUNCT.SEMI);
+                        writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
+                        iterator.next().write(writer);
+                    }
                 }
+                writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
+                writer.write($PUNCT.PAREN.CLOSE);
             }
-            writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
-            writer.write($PUNCT.PAREN.CLOSE);
-        }
-        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_TRY);
-        if (catches != null) for (ImplJCatch _catch : catches) {
-            _catch.write(writer);
-        }
-        if (finallyBlock != null) {
-            finallyBlock.write(writer);
+            super.write(writer, FormatPreferences.Space.BEFORE_BRACE_TRY);
+            if (catches != null) for (ImplJCatch _catch : catches) {
+                _catch.write(writer);
+            }
+            if (finallyBlock != null) {
+                finallyBlock.write(writer);
+            }
         }
     }
 }

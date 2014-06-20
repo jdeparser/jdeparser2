@@ -370,6 +370,10 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace) throws IOException {
+        write(writer, beforeBrace, braces);
+    }
+
+    void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace, Braces braces) throws IOException {
         if (braces == Braces.REQUIRED || braces == Braces.IF_MULTILINE && content.size() != 1) {
             writer.write(beforeBrace);
             writer.write($PUNCT.BRACE.OPEN);
