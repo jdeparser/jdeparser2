@@ -29,8 +29,12 @@ import java.util.Map;
 class EnumJClassDef extends AbstractJClassDef {
     private final Map<String, ImplJEnumConstant> constants = new LinkedHashMap<>();
 
-    EnumJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
-        super(mods, name);
+    EnumJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+        super(mods, classFile, name);
+    }
+
+    EnumJClassDef(final int mods, final AbstractJClassDef enclosingClass, final String name) {
+        super(mods, enclosingClass, name);
     }
 
     Tokens.$KW designation() {

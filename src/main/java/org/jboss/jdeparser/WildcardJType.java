@@ -35,14 +35,6 @@ class WildcardJType extends AbstractJType {
         this.extendsNotSuper = extendsNotSuper;
     }
 
-    public String qualifiedName() {
-        return targetType.qualifiedName();
-    }
-
-    public String binaryName() {
-        return targetType.binaryName();
-    }
-
     public String simpleName() {
         return targetType.simpleName();
     }

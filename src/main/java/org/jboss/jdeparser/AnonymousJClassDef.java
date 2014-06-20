@@ -26,7 +26,7 @@ import java.io.IOException;
 class AnonymousJClassDef extends AbstractJClassDef {
 
     AnonymousJClassDef(ImplJAnonymousClassDef anonymousClassDef) {
-        super(0, anonymousClassDef.type().qualifiedName());
+        super(0, anonymousClassDef.type().simpleName());
     }
 
     Tokens.$KW designation() {

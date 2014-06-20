@@ -23,8 +23,12 @@ package org.jboss.jdeparser;
  */
 class InterfaceJClassDef extends AbstractJClassDef {
 
-    InterfaceJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
-        super(mods, name);
+    InterfaceJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+        super(mods, classFile, name);
+    }
+
+    InterfaceJClassDef(final int mods, final AbstractJClassDef enclosingClass, final String name) {
+        super(mods, enclosingClass, name);
     }
 
     Tokens.$KW designation() {

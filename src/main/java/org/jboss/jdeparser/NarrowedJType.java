@@ -40,14 +40,6 @@ class NarrowedJType extends AbstractJType {
         return erased.simpleName();
     }
 
-    public String binaryName() {
-        return erased.binaryName();
-    }
-
-    public String qualifiedName() {
-        return erased.qualifiedName();
-    }
-
     public JExpr _class() {
         return erased._class();
     }

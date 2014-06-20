@@ -23,17 +23,12 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ThisJType extends AbstractJType {
+class ClassDefJType extends AbstractJType {
 
-    ThisJType() {
-    }
+    private final JClassDef classDef;
 
-    public String simpleName() {
-        return "<<THIS>>";
-    }
-
-    public String toString() {
-        return "<<THIS>>";
+    ClassDefJType(final JClassDef classDef) {
+        this.classDef = classDef;
     }
 
     public JExpr _class() {
@@ -48,7 +43,7 @@ class ThisJType extends AbstractJType {
         return new StaticRefJExpr(this, "super");
     }
 
-    public JCall _new() {
+    public JCall _new(final JExpr dim) {
         return new NewJCall(this);
     }
 
@@ -56,7 +51,23 @@ class ThisJType extends AbstractJType {
         return new ImplJAnonymousClassDef(this);
     }
 
+    public String simpleName() {
+        return ((AbstractJClassDef) classDef).getName();
+    }
+
+    public JType typeArg(final JType... args) {
+        return new NarrowedJType(this, args);
+    }
+
+    public JType nestedType(final String name) {
+        return new NestedJType(this, name);
+    }
+
+    public String toString() {
+        return "Anonymous instance of " + simpleName();
+    }
+
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
-        sourceFileWriter.write(sourceFileWriter.getThisType());
+        sourceFileWriter.write(classDef.erasedType());
     }
 }

@@ -31,7 +31,7 @@ class PrimitiveJType extends AbstractJType {
 
     PrimitiveJType(final String simpleName, final String boxed) {
         this.simpleName = simpleName;
-        this.boxed = boxed == null ? null : new ReferenceJType(null, "java.lang", boxed, this);
+        this.boxed = boxed == null ? null : new ReferenceJType("java.lang", boxed, this);
     }
 
     public JType box() {

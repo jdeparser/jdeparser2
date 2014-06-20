@@ -111,7 +111,7 @@ public final class FormatPreferences {
 
         DEFAULT_SPACE_TYPES = spaceTypes;
 
-        DEFAULT_OPTS = EnumSet.noneOf(Opt.class);
+        DEFAULT_OPTS = EnumSet.of(Opt.COMPACT_INIT_ONLY_CLASS);
 
         EnumMap<Wrapping, WrappingMode> wm = new EnumMap<>(Wrapping.class);
         wm.put(Wrapping.EXCEPTION_LIST, WrappingMode.WRAP_ONLY_IF_LONG);

@@ -25,8 +25,8 @@ import static org.jboss.jdeparser.Tokens.*;
  */
 class PlainJClassDef extends AbstractJClassDef {
 
-    PlainJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
-        super(mods, name);
+    PlainJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+        super(mods, classFile, name);
     }
 
     $KW designation() {

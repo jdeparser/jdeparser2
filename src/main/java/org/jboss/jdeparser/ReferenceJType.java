@@ -24,20 +24,18 @@ import java.io.IOException;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class ReferenceJType extends AbstractJType {
-    private final ReferenceJType enclosingType;
+
     private final PrimitiveJType unboxed;
     private final String packageName;
     private final String simpleName;
 
-    ReferenceJType(final ReferenceJType enclosingType, final String packageName, final String simpleName) {
-        this.enclosingType = enclosingType;
+    ReferenceJType(final String packageName, final String simpleName) {
         this.packageName = packageName;
         this.simpleName = simpleName;
         this.unboxed = null;
     }
 
-    ReferenceJType(final ReferenceJType enclosingType, final String packageName, final String simpleName, final PrimitiveJType unboxed) {
-        this.enclosingType = enclosingType;
+    ReferenceJType(final String packageName, final String simpleName, final PrimitiveJType unboxed) {
         this.packageName = packageName;
         this.simpleName = simpleName;
         this.unboxed = unboxed;
@@ -53,14 +51,6 @@ class ReferenceJType extends AbstractJType {
 
     public String simpleName() {
         return simpleName;
-    }
-
-    public String binaryName() {
-        return enclosingType == null ? simpleName : enclosingType.binaryName() + "$" + simpleName;
-    }
-
-    public String qualifiedName() {
-        return enclosingType == null ? packageName == null || packageName.isEmpty() ? binaryName() : packageName + "." + binaryName() : enclosingType.qualifiedName() + "$" + simpleName;
     }
 
     public JExpr _class() {
@@ -93,12 +83,12 @@ class ReferenceJType extends AbstractJType {
         final boolean packageMatches = currentPackageName.equals(packageName);
         if (packageMatches && cf.hasImport(simpleName())) {
             // an explicit import masks the implicit import
-            sourceFileWriter.writeClass(qualifiedName());
+            sourceFileWriter.writeClass(qualifiedName(sourceFileWriter));
         } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().getSources().hasClass(currentPackageName + "." + simpleName()) || packageMatches) {
             // implicit import
             sourceFileWriter.writeClass(simpleName());
         } else {
-            sourceFileWriter.writeClass(qualifiedName());
+            sourceFileWriter.writeClass(qualifiedName(sourceFileWriter));
         }
     }
 
@@ -108,10 +98,10 @@ class ReferenceJType extends AbstractJType {
     }
 
     public JType nestedType(final String name) {
-        return new ReferenceJType(this, packageName, name);
+        return new ReferenceJType(packageName, name);
     }
 
     public String toString() {
-        return qualifiedName();
+        return "Reference of type " + simpleName();
     }
 }

@@ -67,19 +67,26 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         return imports.containsKey(name);
     }
 
-    boolean hasImport(final JType type) {
-        return type instanceof ReferenceJType && imports.containsKey(type.simpleName()) && imports.get(type.simpleName()).qualifiedName().equals(type.qualifiedName());
+    boolean hasImport(final JType type, final SourceFileWriter writer) {
+        if (type instanceof ReferenceJType) {
+            ReferenceJType referenceJType = (ReferenceJType) type;
+            final String name = referenceJType.simpleName();
+            if (imports.containsKey(name) && imports.get(name).qualifiedName(writer).equals(referenceJType.qualifiedName(writer))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     boolean hasStaticImport(final String name) {
         return staticImports.containsKey(name);
     }
 
-    boolean hasStaticImport(final JExpr expr) {
+    boolean hasStaticImport(final JExpr expr, final SourceFileWriter writer) {
         if (! (expr instanceof StaticRefJExpr)) return false;
         final StaticRefJExpr staticRefJExpr = (StaticRefJExpr) expr;
         final String refName = staticRefJExpr.getRefName();
-        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName().equals(staticRefJExpr.getType().qualifiedName());
+        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName(writer).equals(staticRefJExpr.getType().qualifiedName(writer));
     }
 
     public JClassFile _import(final String type) {
@@ -93,7 +100,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                 public void write(final SourceFileWriter sourceFileWriter) throws IOException {
                     for (ReferenceJType _import : imports.values()) {
                         sourceFileWriter.write($KW.IMPORT);
-                        sourceFileWriter.writeClass(_import.qualifiedName());
+                        sourceFileWriter.writeClass(_import.qualifiedName(sourceFileWriter));
                         sourceFileWriter.write($PUNCT.SEMI);
                         sourceFileWriter.nl();
                     }
@@ -103,10 +110,10 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         if (! (type instanceof ReferenceJType)) {
             return this;
         }
-        if (imports.containsKey(type.qualifiedName())) {
+        if (imports.containsKey(type.simpleName())) {
             return this;
         }
-        imports.put(type.qualifiedName(), (ReferenceJType) type);
+        imports.put(type.simpleName(), (ReferenceJType) type);
         return this;
     }
 
@@ -143,17 +150,17 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
 
     public JClassDef _class(final int mods, final String name) {
         checkPackage();
-        return add(new PlainJClassDef(this, mods, name));
+        return add(new PlainJClassDef(mods, this, name));
     }
 
     public JClassDef _enum(final int mods, final String name) {
         checkPackage();
-        return add(new EnumJClassDef(this, mods, name));
+        return add(new EnumJClassDef(mods, this, name));
     }
 
     public JClassDef _interface(final int mods, final String name) {
         checkPackage();
-        return add(new InterfaceJClassDef(this, mods, name));
+        return add(new InterfaceJClassDef(mods, this, name));
     }
 
     public JClassDef annotationInterface(final int mods, final String name) {

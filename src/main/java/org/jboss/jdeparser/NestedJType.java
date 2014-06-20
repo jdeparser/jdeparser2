@@ -18,22 +18,21 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.Tokens.$PUNCT;
+
 import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ThisJType extends AbstractJType {
+class NestedJType extends AbstractJType {
 
-    ThisJType() {
-    }
+    private final AbstractJType enclosingType;
+    private final String name;
 
-    public String simpleName() {
-        return "<<THIS>>";
-    }
-
-    public String toString() {
-        return "<<THIS>>";
+    NestedJType(final AbstractJType enclosingType, final String name) {
+        this.enclosingType = enclosingType;
+        this.name = name;
     }
 
     public JExpr _class() {
@@ -48,7 +47,7 @@ class ThisJType extends AbstractJType {
         return new StaticRefJExpr(this, "super");
     }
 
-    public JCall _new() {
+    public JCall _new(final JExpr dim) {
         return new NewJCall(this);
     }
 
@@ -56,7 +55,25 @@ class ThisJType extends AbstractJType {
         return new ImplJAnonymousClassDef(this);
     }
 
-    void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
-        sourceFileWriter.write(sourceFileWriter.getThisType());
+    public String simpleName() {
+        return name;
+    }
+
+    public JType typeArg(final JType... args) {
+        return new NarrowedJType(this, args);
+    }
+
+    public JType nestedType(final String name) {
+        return new NestedJType(this, name);
+    }
+
+    public String toString() {
+        return "Nested type " + name + " of " + enclosingType;
+    }
+
+    void writeDirect(final SourceFileWriter writer) throws IOException {
+        enclosingType.writeDirect(writer);
+        writer.write($PUNCT.DOT);
+        writer.writeClass(name);
     }
 }

@@ -49,8 +49,7 @@ public final class JTypes {
     }
 
     public static JType typeOf(JClassDef classDef) {
-        // todo: special type impl that is resolved during generation
-        return null;
+        return new ClassDefJType(classDef);
     }
 
     public static JType typeOf(Class<?> clazz) {
@@ -64,7 +63,7 @@ public final class JTypes {
 
     public static JType typeNamed(String name) {
         final int idx = name.lastIndexOf('.');
-        return new ReferenceJType(null, idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1));
+        return new ReferenceJType(idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1));
     }
 
     /**

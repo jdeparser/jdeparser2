@@ -43,12 +43,8 @@ class ArrayJType extends AbstractJType {
         sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
 
-    public String binaryName() {
-        return elementType.binaryName();
-    }
-
-    public String qualifiedName() {
-        return elementType.qualifiedName();
+    String qualifiedName(final SourceFileWriter writer) {
+        return elementType.qualifiedName(writer);
     }
 
     public JExpr _new(final JExpr dim) {

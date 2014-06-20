@@ -53,13 +53,9 @@ public interface JType {
 
     JType LONG = new PrimitiveJType("long", "Long");
 
-    JType OBJECT = new ReferenceJType(null, "java.lang", "Object");
+    JType OBJECT = new ReferenceJType("java.lang", "Object");
 
     JType WILDCARD = OBJECT.wildcardExtends();
-
-    String qualifiedName();
-
-    String binaryName();
 
     String simpleName();
 

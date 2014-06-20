@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,5 +27,9 @@ class InitJBlock extends BasicJBlock implements ClassContent {
 
     InitJBlock() {
         super(null, Braces.REQUIRED);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        super.write(writer, null);
     }
 }
