@@ -237,6 +237,8 @@ enum Tokens implements Token {
     }
 
     enum $KW implements Token {
+        AT_INTERFACE("@interface", null, null),
+
         ABSTRACT(null, null),
         ASSERT(null, null),
         BOOLEAN(null, null),
@@ -304,6 +306,12 @@ enum Tokens implements Token {
             this.kw = name().toLowerCase(Locale.US);
         }
 
+        $KW(final String name, final Space before, final Space after) {
+            this.before = before;
+            this.after = after;
+            this.kw = name;
+        }
+
         String getKeyword() {
             return kw;
         }
@@ -319,7 +327,10 @@ enum Tokens implements Token {
         }
 
         static Token forName(final String keyword) {
-            return valueOf(keyword.toUpperCase(Locale.US));
+            switch (keyword) {
+                case "@interface": return AT_INTERFACE;
+                default: return valueOf(keyword.toUpperCase(Locale.US));
+            }
         }
     }
 }

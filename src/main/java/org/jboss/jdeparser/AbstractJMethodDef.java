@@ -78,10 +78,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public JParamDeclaration param(final JType type, final String name) {
-        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
-            throw new IllegalStateException("Vararg parameter already added");
-        }
-        return add(new ImplJParamDeclaration(0, type, name));
+        return param(0, type, name);
     }
 
     public JParamDeclaration param(final int mods, final String type, final String name) {
@@ -109,11 +106,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public JParamDeclaration varargParam(final JType type, final String name) {
-        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
-            throw new IllegalStateException("Vararg parameter already added");
-        }
-        mods |= JMod.VARARGS;
-        return add(new ImplJParamDeclaration(JMod.VARARGS, type, name));
+        return varargParam(0, type, name);
     }
 
     public JParamDeclaration varargParam(final int mods, final String type, final String name) {
@@ -190,6 +183,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
                 }
             }
         }
+        writePostfix(writer);
         if (! writeBody()) {
             writer.write($PUNCT.SEMI);
         } else {
@@ -202,6 +196,9 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
                 body.write(writer);
             }
         }
+    }
+
+    void writePostfix(final SourceFileWriter writer) throws IOException {
     }
 
     AbstractJClassDef clazz() {

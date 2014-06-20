@@ -80,7 +80,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return name;
     }
 
-    private <C extends ClassContent> C add(C item) {
+    <C extends ClassContent> C add(C item) {
         content.add(item);
         return item;
     }
@@ -261,8 +261,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public JClassDef annotationInterface(final int mods, final String name) {
-        // todo
-        return null;
+        return add(new AnnotationJClassDef(mods, this, name));
     }
 
     public JComment inlineLineComment() {
