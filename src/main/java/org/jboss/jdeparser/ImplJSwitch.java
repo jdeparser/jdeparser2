@@ -77,12 +77,16 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.SWITCH);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_SWITCH);
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_SWITCH);
         writer.write(expr);
         writer.write($PUNCT.PAREN.CLOSE);
+        writer.write(FormatPreferences.Space.BEFORE_BRACE_SWITCH);
         writer.write($PUNCT.BRACE.OPEN);
         for (CaseJBlock _case : cases) {
             _case.write(writer);
         }
+        writer.write($PUNCT.BRACE.CLOSE);
     }
 }

@@ -57,6 +57,8 @@ public final class FormatPreferences {
         ind.put(Indentation.LINE, 4);
         ind.put(Indentation.LINE_CONTINUATION, 4);
         ind.put(Indentation.MEMBERS_TOP_LEVEL, 4);
+        ind.put(Indentation.LABELS, -4);
+        ind.put(Indentation.CASE_LABELS, -4);
         DEFAULT_INDENTS = ind;
 
         DEFAULT_ABS_INDENTS = EnumSet.noneOf(Indentation.class);
@@ -65,6 +67,8 @@ public final class FormatPreferences {
         spaceTypes.put(AFTER_COMMA, SpaceType.SPACE);
         spaceTypes.put(AFTER_COMMA_TYPE_ARGUMENT, SpaceType.SPACE);
         spaceTypes.put(AFTER_COMMA_ENUM_CONSTANT, SpaceType.NEWLINE);
+
+        spaceTypes.put(AFTER_LABEL, SpaceType.SPACE);
 
         spaceTypes.put(BEFORE_PAREN_IF, SpaceType.SPACE);
         spaceTypes.put(BEFORE_PAREN_FOR, SpaceType.SPACE);
@@ -101,9 +105,13 @@ public final class FormatPreferences {
         spaceTypes.put(AFTER_TERNARY_Q, SpaceType.SPACE);
         spaceTypes.put(BEFORE_TERNARY_COLON, SpaceType.SPACE);
         spaceTypes.put(AFTER_TERNARY_COLON, SpaceType.SPACE);
+
+        spaceTypes.put(BEFORE_COLON, SpaceType.SPACE);
+        spaceTypes.put(AFTER_COLON, SpaceType.SPACE);
+
         DEFAULT_SPACE_TYPES = spaceTypes;
 
-        DEFAULT_OPTS = EnumSet.allOf(Opt.class);
+        DEFAULT_OPTS = EnumSet.noneOf(Opt.class);
 
         EnumMap<Wrapping, WrappingMode> wm = new EnumMap<>(Wrapping.class);
         wm.put(Wrapping.EXCEPTION_LIST, WrappingMode.WRAP_ONLY_IF_LONG);
@@ -460,6 +468,10 @@ public final class FormatPreferences {
         BEFORE_COMMA,
         AFTER_COMMA,
 
+        // colon (assert, foreach)
+        BEFORE_COLON,
+        AFTER_COLON,
+
         // enum
         AFTER_COMMA_ENUM_CONSTANT,
 
@@ -469,6 +481,9 @@ public final class FormatPreferences {
 
         // cast
         AFTER_CAST,
+
+        // colon (label, case, default)
+        AFTER_LABEL,
         ;
     }
 
@@ -502,7 +517,9 @@ public final class FormatPreferences {
     // ---------------------------------------------------------------------
 
     public enum Opt {
-        ENUM_TRAILING_COMMA, ENUM_EMPTY_PARENS,
+        ENUM_TRAILING_COMMA,
+        ENUM_EMPTY_PARENS,
+        COMPACT_INIT_ONLY_CLASS,
     }
 
 

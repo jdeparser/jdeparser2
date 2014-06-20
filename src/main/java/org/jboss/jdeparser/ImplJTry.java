@@ -38,7 +38,7 @@ class ImplJTry extends BasicJBlock implements JTry {
     }
 
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
-        return new FirstJVarDeclaration(mods, type, var, init);
+        return add(new FirstJVarDeclaration(mods, type, var, init));
     }
 
     private <T extends FirstJVarDeclaration> T add(T item) {
@@ -104,7 +104,7 @@ class ImplJTry extends BasicJBlock implements JTry {
             writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
             writer.write($PUNCT.PAREN.CLOSE);
         }
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_TRY);
         if (catches != null) for (ImplJCatch _catch : catches) {
             _catch.write(writer);
         }

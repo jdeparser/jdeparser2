@@ -63,8 +63,9 @@ class WildcardJType extends AbstractJType {
 
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write($PUNCT.Q);
+        sourceFileWriter.sp();
         sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
-        sourceFileWriter.write(erasure());
+        sourceFileWriter.write(getTargetType());
     }
 
     public String toString() {

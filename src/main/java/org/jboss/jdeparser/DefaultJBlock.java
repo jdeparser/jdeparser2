@@ -34,6 +34,7 @@ class DefaultJBlock extends BasicJBlock {
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.DEFAULT);
         writer.write($PUNCT.COLON);
+        writer.write(FormatPreferences.Space.AFTER_LABEL);
         super.write(writer);
     }
 }

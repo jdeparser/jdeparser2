@@ -55,6 +55,10 @@ class InterfaceJClassDef extends AbstractJClassDef {
         throw new UnsupportedOperationException("Interfaces cannot have constructors");
     }
 
+    boolean supportsCompactInitOnly() {
+        return false;
+    }
+
     boolean methodCanHaveBody(final int mods) {
         return false;
     }

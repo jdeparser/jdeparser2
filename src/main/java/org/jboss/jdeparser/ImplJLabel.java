@@ -49,7 +49,13 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockC
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.writeRaw(name);
-        writer.write($PUNCT.COLON);
+        writer.pushIndent(FormatPreferences.Indentation.LABELS);
+        try {
+            writer.writeRaw(name);
+            writer.write($PUNCT.COLON);
+        } finally {
+            writer.popIndent(FormatPreferences.Indentation.LABELS);
+        }
+        writer.write(FormatPreferences.Space.AFTER_LABEL);
     }
 }

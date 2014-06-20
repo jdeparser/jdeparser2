@@ -109,7 +109,9 @@ class ImplJCatch extends BasicJBlock implements JCatch {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.CATCH);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_CATCH);
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_CATCH);
         JMod.write(writer, mods);
         final Iterator<JType> iterator = types.iterator();
         if (alwaysTrue(iterator.hasNext())) {
@@ -120,6 +122,8 @@ class ImplJCatch extends BasicJBlock implements JCatch {
             }
         }
         writer.writeRaw(var);
-        super.write(writer);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_CATCH);
+        writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_CATCH);
     }
 }

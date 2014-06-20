@@ -27,7 +27,8 @@ import java.io.IOException;
  */
 class StaticRefJExpr extends AbstractJAssignableExpr {
 
-    private final StaticRef staticRef;
+    private final AbstractJType type;
+    private final String refName;
 
     StaticRefJExpr(final AbstractJType type, final String refName) {
         super(Prec.MEMBER_ACCESS);
@@ -37,46 +38,21 @@ class StaticRefJExpr extends AbstractJAssignableExpr {
         if (refName == null) {
             throw new IllegalArgumentException("refName is null");
         }
-        staticRef = new StaticRef(type, refName);
+        this.type = type;
+        this.refName = refName;
     }
 
-    StaticRef getStaticRef() {
-        return staticRef;
+    AbstractJType getType() {
+        return type;
+    }
+
+    String getRefName() {
+        return refName;
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
-        writer.write(staticRef.getType());
+        writer.write(type);
         writer.write($PUNCT.DOT);
-        writer.writeRaw(staticRef.getRefName());
-    }
-
-    static final class StaticRef {
-        private final AbstractJType type;
-        private final String refName;
-
-        StaticRef(final AbstractJType type, final String refName) {
-            this.type = type;
-            this.refName = refName;
-        }
-
-        public AbstractJType getType() {
-            return type;
-        }
-
-        public String getRefName() {
-            return refName;
-        }
-
-        public boolean equals(Object other) {
-            return other instanceof StaticRef && equals((StaticRef) other);
-        }
-
-        public boolean equals(StaticRef other) {
-            return other != null && type.qualifiedName().equals(other.type.qualifiedName()) && refName.equals(other.refName);
-        }
-
-        public int hashCode() {
-            return type.qualifiedName().hashCode() * 31 + refName.hashCode();
-        }
+        writer.writeRaw(refName);
     }
 }

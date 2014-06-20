@@ -32,7 +32,7 @@ class InstanceOfJExpr extends AbstractJExpr {
 
     InstanceOfJExpr(final AbstractJExpr expr, final JType type) {
         super(Prec.INSTANCEOF);
-        this.expr = expr.prec() < Prec.INSTANCEOF ? new ParenJExpr(expr) : expr;
+        this.expr = expr.prec() > Prec.INSTANCEOF ? new ParenJExpr(expr) : expr;
         this.type = type;
     }
 

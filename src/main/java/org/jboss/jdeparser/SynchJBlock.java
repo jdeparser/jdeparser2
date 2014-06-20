@@ -36,9 +36,10 @@ class SynchJBlock extends BasicJBlock {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.SYNCHRONIZED);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_SYNCHRONIZED);
         writer.write($PUNCT.PAREN.OPEN);
         writer.write(synchExpr);
         writer.write($PUNCT.PAREN.CLOSE);
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_SYNCHRONIZE);
     }
 }

@@ -40,7 +40,9 @@ class ParenJExpr extends AbstractJExpr {
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_EXPR);
         writer.write(expr);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_EXPR);
         writer.write($PUNCT.PAREN.CLOSE);
     }
 }

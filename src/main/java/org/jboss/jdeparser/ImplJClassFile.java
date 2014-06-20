@@ -56,6 +56,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                     sourceFileWriter.sp();
                     sourceFileWriter.writeRaw(packageName);
                     sourceFileWriter.write($PUNCT.SEMI);
+                    sourceFileWriter.nl();
                 }
             });
             packageWritten = true;
@@ -77,8 +78,8 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
     boolean hasStaticImport(final JExpr expr) {
         if (! (expr instanceof StaticRefJExpr)) return false;
         final StaticRefJExpr staticRefJExpr = (StaticRefJExpr) expr;
-        final String refName = staticRefJExpr.getStaticRef().getRefName();
-        return staticImports.containsKey(refName) && staticImports.get(refName).getStaticRef().getType().qualifiedName().equals(staticRefJExpr.getStaticRef().getType().qualifiedName());
+        final String refName = staticRefJExpr.getRefName();
+        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName().equals(staticRefJExpr.getType().qualifiedName());
     }
 
     public JClassFile _import(final String type) {
@@ -94,6 +95,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                         sourceFileWriter.write($KW.IMPORT);
                         sourceFileWriter.writeClass(_import.qualifiedName());
                         sourceFileWriter.write($PUNCT.SEMI);
+                        sourceFileWriter.nl();
                     }
                 }
             });
@@ -126,6 +128,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                         sourceFileWriter.write($KW.STATIC);
                         sourceFileWriter.write(staticImport);
                         sourceFileWriter.write($PUNCT.SEMI);
+                        sourceFileWriter.nl();
                     }
                 }
             });

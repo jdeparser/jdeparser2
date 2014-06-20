@@ -72,9 +72,6 @@ enum Tokens implements Token {
 
         public void write(final SourceFileWriter writer) throws IOException {
             writer.writeRaw(ch);
-            if (this == SEMI) {
-                writer.nl();
-            }
         }
 
         public char getChar() {

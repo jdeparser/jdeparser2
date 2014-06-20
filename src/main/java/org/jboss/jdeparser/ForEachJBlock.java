@@ -42,13 +42,18 @@ class ForEachJBlock extends BasicJBlock {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.FOR);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_FOR);
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
         JMod.write(writer, mods);
         writer.write(type);
         writer.writeRaw(name);
+        writer.write(FormatPreferences.Space.BEFORE_COLON);
         writer.write($PUNCT.COLON);
+        writer.write(FormatPreferences.Space.AFTER_COLON);
         writer.write(iterable);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
         writer.write($PUNCT.PAREN.CLOSE);
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_FOR);
     }
 }

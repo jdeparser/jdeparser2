@@ -106,7 +106,9 @@ class NarrowedJType extends AbstractJType {
             JType type = args[0];
             sourceFileWriter.write(type);
             for (int i = 1; i < len; i ++) {
+                sourceFileWriter.write(FormatPreferences.Space.BEFORE_COMMA);
                 sourceFileWriter.write($PUNCT.COMMA);
+                sourceFileWriter.write(FormatPreferences.Space.AFTER_COMMA_TYPE_ARGUMENT);
                 type = args[i];
                 sourceFileWriter.write(type);
             }

@@ -29,5 +29,6 @@ class EmptyJStatement extends BasicJCommentable implements BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.SEMI);
+        writer.nl();
     }
 }

@@ -84,7 +84,9 @@ class ImplJTypeParamDef implements JTypeParamDef {
         sourceFileWriter.write(type);
         while (iterator.hasNext()) {
             type = iterator.next();
+            sourceFileWriter.write(FormatPreferences.Space.AROUND_BITWISE);
             sourceFileWriter.write($PUNCT.BINOP.BAND);
+            sourceFileWriter.write(FormatPreferences.Space.AROUND_BITWISE);
             sourceFileWriter.write(type);
         }
     }

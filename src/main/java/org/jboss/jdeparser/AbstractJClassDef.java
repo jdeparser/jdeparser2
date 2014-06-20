@@ -222,6 +222,10 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return false;
     }
 
+    boolean supportsCompactInitOnly() {
+        return true;
+    }
+
     public JMethodDef constructor(final int mods) {
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
@@ -284,18 +288,24 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             }
             sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
             sourceFileWriter.write($PUNCT.BRACE.OPEN);
-            sourceFileWriter.pushIndent(getMemberIndentation());
-            try {
-                sourceFileWriter.nl();
+            final boolean hasOption = sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.COMPACT_INIT_ONLY_CLASS);
+            if (supportsCompactInitOnly() && hasOption && content.size() == 1 && content.get(0) instanceof InitJBlock) {
                 writeContent(sourceFileWriter);
-            } finally {
-                sourceFileWriter.popIndent(getMemberIndentation());
+                sourceFileWriter.write($PUNCT.BRACE.CLOSE);
+            } else {
+                sourceFileWriter.pushIndent(getMemberIndentation());
+                try {
+                    sourceFileWriter.nl();
+                    writeContent(sourceFileWriter);
+                } finally {
+                    sourceFileWriter.popIndent(getMemberIndentation());
+                }
+                sourceFileWriter.nl();
+                sourceFileWriter.write($PUNCT.BRACE.CLOSE);
             }
         } finally {
             sourceFileWriter.popThisType(AbstractJType.of(genericType()));
         }
-        sourceFileWriter.nl();
-        sourceFileWriter.write($PUNCT.BRACE.CLOSE);
     }
 
     void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {

@@ -44,6 +44,7 @@ class CaseJBlock extends BasicJBlock {
             writer.nl();
             writer.write($KW.CASE);
             writer.write($PUNCT.COLON);
+            writer.write(FormatPreferences.Space.AFTER_LABEL);
         } finally {
             writer.popIndent(FormatPreferences.Indentation.CASE_LABELS);
         }

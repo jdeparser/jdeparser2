@@ -22,6 +22,7 @@ import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -33,7 +34,7 @@ import javax.lang.model.element.Modifier;
 class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     private final BasicJBlock parent;
     private final ArrayList<BlockContent> content = new ArrayList<>();
-    private Braces braces = Braces.OPTIONAL;
+    private final Braces braces;
     private int tmpId = 1;
 
     BasicJBlock(final BasicJBlock parent, final Braces braces) {
@@ -365,11 +366,22 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
             writer.write($PUNCT.BRACE.OPEN);
             writer.pushIndent(FormatPreferences.Indentation.LINE);
             try {
-                writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
-                for (BlockContent statement : content) {
-                    statement.write(writer);
+                final Iterator<BlockContent> iterator = content.iterator();
+                if (iterator.hasNext()) {
+                    writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
+                    if (iterator.hasNext()) {
+                        BlockContent statement = iterator.next();
+                        statement.write(writer);
+                        while (iterator.hasNext()) {
+                            writer.nl();
+                            statement = iterator.next();
+                            statement.write(writer);
+                        }
+                    }
+                    writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
+                } else {
+                    writer.write(FormatPreferences.Space.WITHIN_BRACES_EMPTY);
                 }
-                writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
             } finally {
                 writer.popIndent(FormatPreferences.Indentation.LINE);
             }
@@ -377,6 +389,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         } else {
             for (BlockContent statement : content) {
                 statement.write(writer);
+                writer.nl();
             }
         }
     }

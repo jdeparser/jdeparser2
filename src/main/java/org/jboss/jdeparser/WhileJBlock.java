@@ -33,9 +33,12 @@ class WhileJBlock extends ConditionJBlock {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.WHILE);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_WHILE);
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_WHILE);
         writer.write(getCondition());
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_WHILE);
         writer.write($PUNCT.PAREN.CLOSE);
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_WHILE);
     }
 }
