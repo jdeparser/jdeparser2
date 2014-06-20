@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,18 +36,24 @@ class ImplJSources implements JSources {
 
     private final List<ImplJClassFile> classFiles = new ArrayList<>();
     private final Map<String, AbstractJClassDef> classes = new HashMap<>();
+    private final Map<AbstractJClassDef, String> qualifiedNames = new IdentityHashMap<>();
 
     ImplJSources(final JFiler filer, final FormatPreferences format) {
         this.filer = filer;
         this.format = format;
     }
 
-    void addClassDef(AbstractJClassDef classDef) {
-        classes.put(((ImplJClassFile)classDef.classFile()).getPackageName() + "." + classDef.getName(), classDef);
+    void addClassDef(String qualifiedName, AbstractJClassDef classDef) {
+        classes.put(qualifiedName, classDef);
+        qualifiedNames.put(classDef, qualifiedName);
     }
 
     boolean hasClass(String qualifiedName) {
         return classes.containsKey(qualifiedName);
+    }
+
+    String qualifiedNameOf(AbstractJClassDef classDef) {
+        return qualifiedNames.get(classDef);
     }
 
     public JClassFile createSourceFile(final String packageName, final String fileName) {

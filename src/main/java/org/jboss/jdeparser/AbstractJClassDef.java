@@ -32,9 +32,6 @@ import java.util.Iterator;
  */
 abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent {
 
-    private final AbstractJMethodDef enclosingMethod;
-    private final AbstractJClassDef enclosingClass;
-    private final ImplJClassFile classFile;
     private final int mods;
     private final String name;
 
@@ -44,28 +41,19 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private JType erased;
     private JType generic;
 
-    AbstractJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    AbstractJClassDef(final int mods, final String name) {
         this.mods = mods;
-        this.classFile = classFile;
         this.name = name;
-        this.enclosingMethod = null;
-        this.enclosingClass = null;
     }
 
     AbstractJClassDef(final int mods, final AbstractJClassDef enclosingClass, final String name) {
         this.mods = mods;
-        this.classFile = enclosingClass.classFile;
         this.name = name;
-        this.enclosingMethod = null;
-        this.enclosingClass = enclosingClass;
     }
 
     AbstractJClassDef(final int mods, final AbstractJMethodDef enclosingMethod, final String name) {
         this.mods = mods;
         this.name = name;
-        this.enclosingMethod = enclosingMethod;
-        this.enclosingClass = enclosingMethod.clazz();
-        this.classFile = enclosingMethod.clazz().classFile;
     }
 
     int getMods() {
@@ -79,18 +67,6 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private <C extends ClassContent> C add(C item) {
         content.add(item);
         return item;
-    }
-
-    public JClassFile classFile() {
-        return classFile;
-    }
-
-    public JMethodDef enclosingMethod() {
-        return enclosingMethod;
-    }
-
-    public JClassDef enclosingClassDef() {
-        return enclosingClass;
     }
 
     public JClassDef _extends(final String name) {

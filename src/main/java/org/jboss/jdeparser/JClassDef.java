@@ -23,12 +23,6 @@ package org.jboss.jdeparser;
  */
 public interface JClassDef extends JAnnotatable, JDocCommentable, JInlineCommentable, JGeneric {
 
-    JClassFile classFile();
-
-    JMethodDef enclosingMethod();
-
-    JClassDef enclosingClassDef();
-
     JClassDef _extends(String name);
 
     JClassDef _extends(JType type);

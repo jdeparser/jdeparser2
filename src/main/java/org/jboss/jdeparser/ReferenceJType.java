@@ -79,6 +79,10 @@ class ReferenceJType extends AbstractJType {
         return new NewJCall(this);
     }
 
+    public JAnonymousClassDef _newAnon() {
+        return new ImplJAnonymousClassDef(this);
+    }
+
     public JType unbox() {
         return unboxed == null ? this : unboxed;
     }

@@ -225,15 +225,15 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JAnonymousClassDef _newAnon(final String type) {
-        return null;
+        return _newAnon(JTypes.typeNamed(type));
     }
 
     public JAnonymousClassDef _newAnon(final JType type) {
-        return null;
+        return add(new ImplJAnonymousClassDef(type));
     }
 
     public JAnonymousClassDef _newAnon(final Class<?> type) {
-        return null;
+        return _newAnon(JTypes.typeOf(type));
     }
 
     public JBlock _synchronized(final JExpr synchExpr) {

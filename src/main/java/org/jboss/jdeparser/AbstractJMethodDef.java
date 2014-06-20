@@ -53,8 +53,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
             throw new UnsupportedOperationException("Method body on abstract method");
         }
         if (body == null) {
-            final JMethodDef enclosingMethod = clazz.enclosingMethod();
-            body = new BasicJBlock(enclosingMethod == null ? null : (BasicJBlock) enclosingMethod.body(), JBlock.Braces.REQUIRED);
+            body = new BasicJBlock(null, JBlock.Braces.REQUIRED);
         }
         return body;
     }

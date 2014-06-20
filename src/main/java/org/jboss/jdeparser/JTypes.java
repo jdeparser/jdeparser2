@@ -49,9 +49,8 @@ public final class JTypes {
     }
 
     public static JType typeOf(JClassDef classDef) {
-        final String packageName = ((ImplJClassFile) classDef.classFile()).getPackageName();
-        final String name = ((AbstractJClassDef) classDef).getName();
-        return typeNamed(packageName == null ? name : packageName + "." + name);
+        // todo: special type impl that is resolved during generation
+        return null;
     }
 
     public static JType typeOf(Class<?> clazz) {

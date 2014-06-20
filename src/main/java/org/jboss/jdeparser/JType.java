@@ -115,6 +115,13 @@ public interface JType {
     JExpr _new(int dim);
 
     /**
+     * Construct a new anonymous subclass of this type.
+     *
+     * @return the anonymous subclass definition
+     */
+    JAnonymousClassDef _newAnon();
+
+    /**
      * This type, with the given generic type arguments.
      *
      * @param args the type arguments

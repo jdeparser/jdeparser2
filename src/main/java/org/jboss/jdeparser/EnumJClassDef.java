@@ -30,7 +30,7 @@ class EnumJClassDef extends AbstractJClassDef {
     private final Map<String, ImplJEnumConstant> constants = new LinkedHashMap<>();
 
     EnumJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
-        super(mods, classFile, name);
+        super(mods, name);
     }
 
     Tokens.$KW designation() {

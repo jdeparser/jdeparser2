@@ -51,6 +51,9 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).add(JExprs.decimal(456)).mul(JExprs.decimal(246)));
         body.var(FINAL, _(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
         body.add(_(System.class).$("out").call("println").arg(tmp1));
+        final JAnonymousClassDef anon = _(Runnable.class)._newAnon();
+        anon.init().add(_(System.class).$("out").call("println").arg(JExprs.str("Bananas!")));
+        body.add(anon);
         sources.writeSources();
         final ByteArrayInputStream inputStream = openFile("org.foo.bar", "Baz.java");
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

@@ -18,18 +18,31 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class PlainJClassDef extends AbstractJClassDef {
+class AnonymousJClassDef extends AbstractJClassDef {
 
-    PlainJClassDef(final ImplJClassFile classFile, final int mods, final String name) {
-        super(mods, name);
+    AnonymousJClassDef(ImplJAnonymousClassDef anonymousClassDef) {
+        super(0, anonymousClassDef.type().qualifiedName());
     }
 
-    $KW designation() {
-        return $KW.CLASS;
+    Tokens.$KW designation() {
+        // not used
+        return Tokens.$KW.NEW;
+    }
+
+    void writeTypeParams(final SourceFileWriter sourceFileWriter) throws IOException {
+        // none
+    }
+
+    void writeAnnotations(final SourceFileWriter writer) throws IOException {
+        // none
+    }
+
+    void writeClassHeader(final SourceFileWriter sourceFileWriter) throws IOException {
+        // none
     }
 }
