@@ -58,6 +58,11 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return item;
     }
 
+    public JBlock blankLine() {
+        add(BlankLine.getInstance());
+        return this;
+    }
+
     public JBlock block(final Braces braces) {
         return add(new BasicJBlock(this, braces));
     }

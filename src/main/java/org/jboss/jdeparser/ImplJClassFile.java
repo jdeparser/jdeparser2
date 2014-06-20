@@ -51,12 +51,12 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
     private void checkPackage() {
         if (! packageWritten) {
             content.add(new ClassFileContent() {
-                public void write(final SourceFileWriter sourceFileWriter) throws IOException {
-                    sourceFileWriter.write($KW.PACKAGE);
-                    sourceFileWriter.sp();
-                    sourceFileWriter.writeRaw(packageName);
-                    sourceFileWriter.write($PUNCT.SEMI);
-                    sourceFileWriter.nl();
+                public void write(final SourceFileWriter writer) throws IOException {
+                    writer.write($KW.PACKAGE);
+                    writer.sp();
+                    writer.writeRaw(packageName);
+                    writer.write($PUNCT.SEMI);
+                    writer.nl();
                 }
             });
             packageWritten = true;
@@ -97,12 +97,12 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         checkPackage();
         if (imports.isEmpty()) {
             content.add(new ClassFileContent() {
-                public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+                public void write(final SourceFileWriter writer) throws IOException {
                     for (ReferenceJType _import : imports.values()) {
-                        sourceFileWriter.write($KW.IMPORT);
-                        sourceFileWriter.writeClass(_import.qualifiedName(sourceFileWriter));
-                        sourceFileWriter.write($PUNCT.SEMI);
-                        sourceFileWriter.nl();
+                        writer.write($KW.IMPORT);
+                        writer.writeClass(_import.qualifiedName(writer));
+                        writer.write($PUNCT.SEMI);
+                        writer.nl();
                     }
                 }
             });
@@ -129,13 +129,13 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         checkPackage();
         if (staticImports.isEmpty()) {
             content.add(new ClassFileContent() {
-                public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+                public void write(final SourceFileWriter writer) throws IOException {
                     for (StaticRefJExpr staticImport : staticImports.values()) {
-                        sourceFileWriter.write($KW.IMPORT);
-                        sourceFileWriter.write($KW.STATIC);
-                        sourceFileWriter.write(staticImport);
-                        sourceFileWriter.write($PUNCT.SEMI);
-                        sourceFileWriter.nl();
+                        writer.write($KW.IMPORT);
+                        writer.write($KW.STATIC);
+                        writer.write(staticImport);
+                        writer.write($PUNCT.SEMI);
+                        writer.nl();
                     }
                 }
             });
@@ -146,6 +146,12 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
 
     public JClassFile importStatic(final Class<?> type, final String member) {
         return importStatic(JTypes.typeOf(type), member);
+    }
+
+    public JClassFile blankLine() {
+        checkPackage();
+        add(BlankLine.getInstance());
+        return this;
     }
 
     public JClassDef _class(final int mods, final String name) {

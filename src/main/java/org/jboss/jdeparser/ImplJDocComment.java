@@ -61,7 +61,7 @@ class ImplJDocComment extends AbstractJComment implements JDocComment {
         return null;
     }
 
-    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
 
     }
 }

@@ -18,29 +18,23 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JClassFile extends JInlineCommentable {
-    JClassFile _import(String type);
+class BlankLine implements ClassFileContent, ClassContent, BlockContent {
 
-    JClassFile _import(JType type);
+    private static final BlankLine INSTANCE = new BlankLine();
 
-    JClassFile _import(Class<?> type);
+    private BlankLine() {
+    }
 
-    JClassFile importStatic(String type, String member);
+    static BlankLine getInstance() {
+        return INSTANCE;
+    }
 
-    JClassFile importStatic(JType type, String member);
-
-    JClassFile importStatic(Class<?> type, String member);
-
-    JClassFile blankLine();
-
-    JClassDef _class(int mods, String name);
-
-    JClassDef _enum(int mods, String name);
-
-    JClassDef _interface(int mods, String name);
-
-    JClassDef annotationInterface(int mods, String name);
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.nl();
+    }
 }

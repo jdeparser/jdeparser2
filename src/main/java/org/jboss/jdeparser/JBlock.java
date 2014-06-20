@@ -27,6 +27,8 @@ import javax.lang.model.element.ExecutableElement;
  */
 public interface JBlock extends JStatement, JInlineCommentable {
 
+    JBlock blankLine();
+
     JBlock block(Braces braces);
 
     // program flow

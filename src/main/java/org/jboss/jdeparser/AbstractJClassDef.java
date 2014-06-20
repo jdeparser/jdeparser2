@@ -126,6 +126,11 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return this;
     }
 
+    public JClassDef blankLine() {
+        add(BlankLine.getInstance());
+        return this;
+    }
+
     public JType erasedType() {
         if (erased == null) {
             erased = JTypes.typeNamed(name);
@@ -290,14 +295,14 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return FormatPreferences.Indentation.MEMBERS_TOP_LEVEL;
     }
 
-    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
-        writeAnnotations(sourceFileWriter);
-        sourceFileWriter.pushThisType(AbstractJType.of(genericType()));
+    public void write(final SourceFileWriter writer) throws IOException {
+        writeAnnotations(writer);
+        writer.pushThisType(AbstractJType.of(genericType()));
         try {
-            writeClassHeader(sourceFileWriter);
-            writeContentBlock(sourceFileWriter);
+            writeClassHeader(writer);
+            writeContentBlock(writer);
         } finally {
-            sourceFileWriter.popThisType(AbstractJType.of(genericType()));
+            writer.popThisType(AbstractJType.of(genericType()));
         }
     }
 

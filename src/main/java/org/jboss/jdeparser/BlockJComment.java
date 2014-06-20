@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 class BlockJComment extends AbstractJComment {
 
-    public void write(final SourceFileWriter sourceFileWriter) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
 
     }
 }

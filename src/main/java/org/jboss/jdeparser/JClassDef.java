@@ -35,6 +35,8 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JInlineComment
 
     JClassDef _implements(Class<?>... clazz);
 
+    JClassDef blankLine();
+
     JType erasedType();
 
     JType genericType();
