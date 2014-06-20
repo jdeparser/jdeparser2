@@ -18,8 +18,11 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-interface ClassContent extends Writable {
+interface Writable {
+    void write(SourceFileWriter sourceFileWriter) throws IOException;
 }
