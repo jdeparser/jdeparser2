@@ -32,6 +32,8 @@ import java.util.Iterator;
  */
 abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent {
 
+    private final AbstractJMethodDef enclosingMethod;
+    private final AbstractJClassDef enclosingClass;
     private final ImplJClassFile classFile;
     private final int mods;
     private final String name;
@@ -42,10 +44,28 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private JType erased;
     private JType generic;
 
-    public AbstractJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    AbstractJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
         this.mods = mods;
         this.classFile = classFile;
         this.name = name;
+        this.enclosingMethod = null;
+        this.enclosingClass = null;
+    }
+
+    AbstractJClassDef(final int mods, final AbstractJClassDef enclosingClass, final String name) {
+        this.mods = mods;
+        this.classFile = enclosingClass.classFile;
+        this.name = name;
+        this.enclosingMethod = null;
+        this.enclosingClass = enclosingClass;
+    }
+
+    AbstractJClassDef(final int mods, final AbstractJMethodDef enclosingMethod, final String name) {
+        this.mods = mods;
+        this.name = name;
+        this.enclosingMethod = enclosingMethod;
+        this.enclosingClass = enclosingMethod.clazz();
+        this.classFile = enclosingMethod.clazz().classFile;
     }
 
     int getMods() {
@@ -66,11 +86,11 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public JMethodDef enclosingMethod() {
-        return null;
+        return enclosingMethod;
     }
 
     public JClassDef enclosingClassDef() {
-        return null;
+        return enclosingClass;
     }
 
     public JClassDef _extends(final String name) {
@@ -266,45 +286,53 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         writeAnnotations(sourceFileWriter);
         sourceFileWriter.pushThisType(AbstractJType.of(genericType()));
         try {
-            JMod.write(sourceFileWriter, mods);
-            sourceFileWriter.write(designation());
-            sourceFileWriter.writeClass(name);
-            writeTypeParams(sourceFileWriter);
-            final boolean ifExt = hasInterfaceStyleExtends();
-            if (! ifExt && _extends != null) {
-                sourceFileWriter.write($KW.EXTENDS);
-                sourceFileWriter.write(_extends);
-            }
-            if (_implements != null) {
-                final Iterator<JType> iterator = _implements.iterator();
-                if (iterator.hasNext()) {
-                    sourceFileWriter.write(ifExt ? $KW.EXTENDS : $KW.IMPLEMENTS);
-                    sourceFileWriter.write(iterator.next());
-                    while (iterator.hasNext()) {
-                        sourceFileWriter.write($PUNCT.COMMA);
-                        sourceFileWriter.write(iterator.next());
-                    }
-                }
-            }
-            sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
-            sourceFileWriter.write($PUNCT.BRACE.OPEN);
-            final boolean hasOption = sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.COMPACT_INIT_ONLY_CLASS);
-            if (supportsCompactInitOnly() && hasOption && content.size() == 1 && content.get(0) instanceof InitJBlock) {
-                writeContent(sourceFileWriter);
-                sourceFileWriter.write($PUNCT.BRACE.CLOSE);
-            } else {
-                sourceFileWriter.pushIndent(getMemberIndentation());
-                try {
-                    sourceFileWriter.nl();
-                    writeContent(sourceFileWriter);
-                } finally {
-                    sourceFileWriter.popIndent(getMemberIndentation());
-                }
-                sourceFileWriter.nl();
-                sourceFileWriter.write($PUNCT.BRACE.CLOSE);
-            }
+            writeClassHeader(sourceFileWriter);
+            writeContentBlock(sourceFileWriter);
         } finally {
             sourceFileWriter.popThisType(AbstractJType.of(genericType()));
+        }
+    }
+
+    void writeContentBlock(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
+        sourceFileWriter.write($PUNCT.BRACE.OPEN);
+        final boolean hasOption = sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.COMPACT_INIT_ONLY_CLASS);
+        if (supportsCompactInitOnly() && hasOption && content.size() == 1 && content.get(0) instanceof InitJBlock) {
+            writeContent(sourceFileWriter);
+            sourceFileWriter.write($PUNCT.BRACE.CLOSE);
+        } else {
+            sourceFileWriter.pushIndent(getMemberIndentation());
+            try {
+                sourceFileWriter.nl();
+                writeContent(sourceFileWriter);
+            } finally {
+                sourceFileWriter.popIndent(getMemberIndentation());
+            }
+            sourceFileWriter.nl();
+            sourceFileWriter.write($PUNCT.BRACE.CLOSE);
+        }
+    }
+
+    void writeClassHeader(final SourceFileWriter sourceFileWriter) throws IOException {
+        JMod.write(sourceFileWriter, mods);
+        sourceFileWriter.write(designation());
+        sourceFileWriter.writeClass(name);
+        writeTypeParams(sourceFileWriter);
+        final boolean ifExt = hasInterfaceStyleExtends();
+        if (! ifExt && _extends != null) {
+            sourceFileWriter.write($KW.EXTENDS);
+            sourceFileWriter.write(_extends);
+        }
+        if (_implements != null) {
+            final Iterator<JType> iterator = _implements.iterator();
+            if (iterator.hasNext()) {
+                sourceFileWriter.write(ifExt ? $KW.EXTENDS : $KW.IMPLEMENTS);
+                sourceFileWriter.write(iterator.next());
+                while (iterator.hasNext()) {
+                    sourceFileWriter.write($PUNCT.COMMA);
+                    sourceFileWriter.write(iterator.next());
+                }
+            }
         }
     }
 

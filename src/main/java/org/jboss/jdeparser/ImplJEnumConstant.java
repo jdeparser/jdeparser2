@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.Tokens.$PUNCT;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +32,7 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
     private final EnumJClassDef classDef;
     private final String name;
     private ArrayList<AbstractJExpr> args;
+    private EnumConstantJClassDef body;
 
     ImplJEnumConstant(final EnumJClassDef classDef, final String name) {
         this.classDef = classDef;
@@ -52,31 +55,39 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
         return this;
     }
 
+    public JClassDef body() {
+        return body != null ? body : (body = new EnumConstantJClassDef(this));
+    }
+
     public JExpr[] arguments() {
         return args.toArray(new JExpr[args.size()]);
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
-        if (args == null) {
+        if (args == null || args.isEmpty()) {
             if (writer.getFormat().hasOption(FormatPreferences.Opt.ENUM_EMPTY_PARENS)) {
-                writer.write(Tokens.$PUNCT.PAREN.OPEN);
+                writer.write($PUNCT.PAREN.OPEN);
                 writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL_EMPTY);
-                writer.write(Tokens.$PUNCT.PAREN.CLOSE);
+                writer.write($PUNCT.PAREN.CLOSE);
             }
         } else {
-            writer.write(Tokens.$PUNCT.PAREN.OPEN);
+            writer.write($PUNCT.PAREN.OPEN);
             writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
             final Iterator<AbstractJExpr> iterator = args.iterator();
             if (iterator.hasNext()) {
                 writer.write(iterator.next());
                 while (iterator.hasNext()) {
-                    writer.write(Tokens.$PUNCT.COMMA);
+                    writer.write($PUNCT.COMMA);
                     writer.write(FormatPreferences.Space.AFTER_COMMA);
                     writer.write(iterator.next());
                 }
             }
             writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
-            writer.write(Tokens.$PUNCT.PAREN.CLOSE);
+            writer.write($PUNCT.PAREN.CLOSE);
+        }
+        if (body != null) {
+            writer.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
+            body.write(writer);
         }
     }
 }

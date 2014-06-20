@@ -18,12 +18,27 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JEnumConstant extends JSimpleArgs, JAnnotatable, JDocCommentable {
+class EnumConstantJClassDef extends AbstractJClassDef {
 
-    JEnumConstant arg(JExpr expr);
+    EnumConstantJClassDef(final ImplJEnumConstant enumConstant) {
+        super(0, enumConstant.getClassDef(), enumConstant.getName());
+    }
 
-    JClassDef body();
+    Tokens.$KW designation() {
+        // not used
+        return Tokens.$KW.ENUM;
+    }
+
+    void writeAnnotations(final SourceFileWriter writer) throws IOException {
+        // nothing (already written in an earlier stage)
+    }
+
+    void writeClassHeader(final SourceFileWriter sourceFileWriter) throws IOException {
+        // nothing
+    }
 }

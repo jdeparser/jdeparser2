@@ -43,6 +43,18 @@ class EnumJClassDef extends AbstractJClassDef {
         return c;
     }
 
+    public JClassDef _extends(final String name) {
+        throw new UnsupportedOperationException("extends on enum");
+    }
+
+    public JClassDef _extends(final JType type) {
+        throw new UnsupportedOperationException("extends on enum");
+    }
+
+    public JClassDef _extends(final Class<?> clazz) {
+        throw new UnsupportedOperationException("extends on enum");
+    }
+
     void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {
         final Iterator<ImplJEnumConstant> iterator = constants.values().iterator();
         if (iterator.hasNext()) {

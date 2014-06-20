@@ -204,4 +204,8 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
             }
         }
     }
+
+    AbstractJClassDef clazz() {
+        return clazz;
+    }
 }
