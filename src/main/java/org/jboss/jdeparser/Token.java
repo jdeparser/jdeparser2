@@ -18,11 +18,8 @@
 
 package org.jboss.jdeparser;
 
-import java.io.IOException;
-
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-interface Token {
-    void write(SourceFileWriter writer) throws IOException;
+interface Token extends Writable {
 }
