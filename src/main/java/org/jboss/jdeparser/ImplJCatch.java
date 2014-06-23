@@ -56,7 +56,15 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         return or(JTypes.typeOf(orType));
     }
 
+    public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
+        return _try.with(mods, type, var, init);
+    }
+
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
+        return _try.with(mods, type, var, init);
+    }
+
+    public JVarDeclaration with(final int mods, final Class<? extends AutoCloseable> type, final String var, final JExpr init) {
         return _try.with(mods, type, var, init);
     }
 

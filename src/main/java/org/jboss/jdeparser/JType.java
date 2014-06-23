@@ -123,7 +123,23 @@ public interface JType {
      * @param args the type arguments
      * @return the generic type
      */
+    JType typeArg(String... args);
+
+    /**
+     * This type, with the given generic type arguments.
+     *
+     * @param args the type arguments
+     * @return the generic type
+     */
     JType typeArg(JType... args);
+
+    /**
+     * This type, with the given generic type arguments.
+     *
+     * @param args the type arguments
+     * @return the generic type
+     */
+    JType typeArg(Class<?>... args);
 
     /**
      * Get the type arguments of this type.

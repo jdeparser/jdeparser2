@@ -83,8 +83,24 @@ abstract class AbstractJType implements JType {
         throw new UnsupportedOperationException("Instantiating a " + this + " as a class");
     }
 
+    public JType typeArg(final String... args) {
+        final JType[] types = new JType[args.length];
+        for (int i = 0, argsLength = args.length; i < argsLength; i++) {
+            types[i] = JTypes.typeNamed(args[i]);
+        }
+        return typeArg(types);
+    }
+
     public JType typeArg(final JType... args) {
         throw new UnsupportedOperationException("Adding type arguments to " + this);
+    }
+
+    public JType typeArg(final Class<?>... args) {
+        final JType[] types = new JType[args.length];
+        for (int i = 0, argsLength = args.length; i < argsLength; i++) {
+            types[i] = JTypes.typeOf(args[i]);
+        }
+        return typeArg(types);
     }
 
     public JType[] typeArgs() {

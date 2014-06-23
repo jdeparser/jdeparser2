@@ -78,6 +78,10 @@ class ImplJAnonymousClassDef extends AbstractJCall implements JAnonymousClassDef
         return classDef.erasedType();
     }
 
+    public JClassDef blankLine() {
+        return classDef.blankLine();
+    }
+
     public JType genericType() {
         return classDef.genericType();
     }

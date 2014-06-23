@@ -136,8 +136,16 @@ abstract class AbstractJExpr implements JExpr {
         return new ParenJExpr(this);
     }
 
+    public JExpr _instanceof(final String type) {
+        return _instanceof(JTypes.typeNamed(type));
+    }
+
     public JExpr _instanceof(final JType type) {
         return new InstanceOfJExpr(this, type);
+    }
+
+    public JExpr _instanceof(final Class<?> type) {
+        return _instanceof(JTypes.typeOf(type));
     }
 
     public JExpr cast(final String type) {

@@ -22,7 +22,15 @@ package org.jboss.jdeparser;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JTypeParamDef {
+    JTypeParamDef _extends(String type);
+
     JTypeParamDef _extends(JType type);
 
+    JTypeParamDef _extends(Class<?> type);
+
+    JTypeParamDef _super(String type);
+
     JTypeParamDef _super(JType type);
+
+    JTypeParamDef _super(Class<?> type);
 }

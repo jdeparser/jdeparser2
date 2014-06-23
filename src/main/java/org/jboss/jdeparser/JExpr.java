@@ -103,7 +103,11 @@ public interface JExpr {
 
     // instance
 
+    JExpr _instanceof(String type);
+
     JExpr _instanceof(JType type);
+
+    JExpr _instanceof(Class<?> type);
 
     // cast
 

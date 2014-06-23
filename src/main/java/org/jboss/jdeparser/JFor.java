@@ -23,7 +23,11 @@ package org.jboss.jdeparser;
  */
 public interface JFor extends JBlock {
 
+    JVarDeclaration init(int mods, String type, String name, JExpr value);
+
     JVarDeclaration init(int mods, JType type, String name, JExpr value);
+
+    JVarDeclaration init(int mods, Class<?> type, String name, JExpr value);
 
     JFor test(JExpr expr);
 

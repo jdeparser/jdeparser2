@@ -35,8 +35,16 @@ class ForJBlock extends BasicJBlock implements JFor {
         super(parent, Braces.IF_MULTILINE);
     }
 
+    public JVarDeclaration init(final int mods, final String type, final String name, final JExpr value) {
+        return init(mods, JTypes.typeNamed(type), name, value);
+    }
+
     public JVarDeclaration init(final int mods, final JType type, final String name, final JExpr value) {
         return init = new FirstJVarDeclaration(mods, type, name, value);
+    }
+
+    public JVarDeclaration init(final int mods, final Class<?> type, final String name, final JExpr value) {
+        return init(mods, JTypes.typeOf(type), name, value);
     }
 
     public JFor test(final JExpr expr) {

@@ -57,7 +57,11 @@ public interface JBlock extends JStatement, JInlineCommentable {
 
     JStatement _break(JLabel label);
 
+    JBlock forEach(int mods, String type, String name, JExpr iterable);
+
     JBlock forEach(int mods, JType type, String name, JExpr iterable);
+
+    JBlock forEach(int mods, Class<?> type, String name, JExpr iterable);
 
     JFor _for();
 
@@ -171,11 +175,23 @@ public interface JBlock extends JStatement, JInlineCommentable {
 
     // declarations
 
+    JVarDeclaration var(int mods, String type, String name, JExpr value);
+
     JVarDeclaration var(int mods, JType type, String name, JExpr value);
+
+    JVarDeclaration var(int mods, Class<?> type, String name, JExpr value);
+
+    JVarDeclaration var(int mods, String type, String name);
 
     JVarDeclaration var(int mods, JType type, String name);
 
+    JVarDeclaration var(int mods, Class<?> type, String name);
+
+    JExpr tempVar(String type, JExpr value);
+
     JExpr tempVar(JType type, JExpr value);
+
+    JExpr tempVar(Class<?> type, JExpr value);
 
     String tempName();
 

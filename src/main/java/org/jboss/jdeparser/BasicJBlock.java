@@ -125,8 +125,16 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return add(new GotoJStatement($KW.BREAK, label));
     }
 
+    public JBlock forEach(final int mods, final String type, final String name, final JExpr iterable) {
+        return forEach(mods, JTypes.typeNamed(type), name, iterable);
+    }
+
     public JBlock forEach(final int mods, final JType type, final String name, final JExpr iterable) {
         return add(new ForEachJBlock(this, mods, type, name, iterable));
+    }
+
+    public JBlock forEach(final int mods, final Class<?> type, final String name, final JExpr iterable) {
+        return forEach(mods, JTypes.typeOf(type), name, iterable);
     }
 
     public JFor _for() {
@@ -325,12 +333,32 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return add(new ImplJTry(this));
     }
 
+    public JVarDeclaration var(final int mods, final String type, final String name, final JExpr value) {
+        return var(mods, JTypes.typeNamed(type), name, value);
+    }
+
     public JVarDeclaration var(final int mods, final JType type, final String name, final JExpr value) {
         return add(new FirstJVarDeclaration(mods, type, name, value));
     }
 
+    public JVarDeclaration var(final int mods, final Class<?> type, final String name, final JExpr value) {
+        return var(mods, JTypes.typeOf(type), name, value);
+    }
+
+    public JVarDeclaration var(final int mods, final String type, final String name) {
+        return var(mods, JTypes.typeNamed(type), name);
+    }
+
     public JVarDeclaration var(final int mods, final JType type, final String name) {
         return add(new FirstJVarDeclaration(mods, type, name, null));
+    }
+
+    public JVarDeclaration var(final int mods, final Class<?> type, final String name) {
+        return var(mods, JTypes.typeOf(type), name);
+    }
+
+    public JExpr tempVar(final String type, final JExpr value) {
+        return tempVar(JTypes.typeNamed(type), value);
     }
 
     public JExpr tempVar(final JType type, final JExpr value) {
@@ -338,6 +366,10 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         final NameJExpr expr = new NameJExpr(name);
         var(0, type, name, value);
         return expr;
+    }
+
+    public JExpr tempVar(final Class<?> type, final JExpr value) {
+        return tempVar(JTypes.typeOf(type), value);
     }
 
     public String tempName() {

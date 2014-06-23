@@ -37,8 +37,16 @@ class ImplJTry extends BasicJBlock implements JTry {
         super(parent, Braces.REQUIRED);
     }
 
+    public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
+        return with(mods, JTypes.typeNamed(type), var, init);
+    }
+
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
         return add(new FirstJVarDeclaration(mods, type, var, init));
+    }
+
+    public JVarDeclaration with(final int mods, final Class<? extends AutoCloseable> type, final String var, final JExpr init) {
+        return with(mods, JTypes.typeOf(type), var, init);
     }
 
     private <T extends FirstJVarDeclaration> T add(T item) {

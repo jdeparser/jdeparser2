@@ -37,6 +37,10 @@ class ImplJTypeParamDef implements JTypeParamDef {
         this.name = name;
     }
 
+    public JTypeParamDef _extends(final String type) {
+        return _extends(JTypes.typeNamed(type));
+    }
+
     public JTypeParamDef _extends(final JType type) {
         if (_super != null) {
             throw new IllegalArgumentException("Cannot mix extends and super bounds");
@@ -48,6 +52,14 @@ class ImplJTypeParamDef implements JTypeParamDef {
         return this;
     }
 
+    public JTypeParamDef _extends(final Class<?> type) {
+        return _extends(JTypes.typeOf(type));
+    }
+
+    public JTypeParamDef _super(final String type) {
+        return _super(JTypes.typeNamed(type));
+    }
+
     public JTypeParamDef _super(final JType type) {
         if (_extends != null) {
             throw new IllegalArgumentException("Cannot mix extends and super bounds");
@@ -57,6 +69,10 @@ class ImplJTypeParamDef implements JTypeParamDef {
         }
         _super.add(type);
         return this;
+    }
+
+    public JTypeParamDef _super(final Class<?> type) {
+        return _super(JTypes.typeOf(type));
     }
 
     String getName() {
