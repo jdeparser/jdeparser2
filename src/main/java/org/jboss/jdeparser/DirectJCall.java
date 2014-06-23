@@ -23,6 +23,10 @@ package org.jboss.jdeparser;
  */
 class DirectJCall extends AbstractMethodJCall {
 
+    public JCall typeArg(final JType type) {
+        throw new UnsupportedOperationException("Adding type arg to direct (unqualified) call");
+    }
+
     DirectJCall(final String name) {
         super(name);
     }

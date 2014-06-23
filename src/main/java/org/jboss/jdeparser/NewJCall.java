@@ -26,16 +26,27 @@ import java.io.IOException;
 class NewJCall extends AbstractJCall {
 
     private final AbstractJType type;
+    private boolean diamond;
 
     NewJCall(final AbstractJType type) {
         super(Prec.NEW);
         this.type = type;
     }
 
+    public JCall diamond() {
+        diamond = true;
+        return this;
+    }
+
     public void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(Tokens.$KW.NEW);
         writer.write(type);
-        super.writeTypeArgs(writer);
+        if (diamond) {
+            writer.write(Tokens.$PUNCT.ANGLE.OPEN);
+            writer.write(Tokens.$PUNCT.ANGLE.CLOSE);
+        } else {
+            super.writeTypeArgs(writer);
+        }
         super.writeDirect(writer);
     }
 }

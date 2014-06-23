@@ -38,7 +38,7 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
     }
 
     public JCall diamond() {
-        return null;
+        throw new UnsupportedOperationException("Adding diamond to method call");
     }
 
     public JCall typeArg(final JType type) {
