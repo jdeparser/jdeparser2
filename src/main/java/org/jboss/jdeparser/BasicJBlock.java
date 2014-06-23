@@ -377,16 +377,8 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return parent != null ? parent.tempName() : "anon$$$" + tmpId++;
     }
 
-    public JClassDef localEnum(final int mods, final String name) {
-        return null;
-    }
-
     public JClassDef localClass(final int mods, final String name) {
-        return null;
-    }
-
-    public JClassDef localInterface(final int mods, final String name) {
-        return null;
+        return add(new PlainJClassDef(mods, (AbstractJClassDef) null, name));
     }
 
     public JComment inlineLineComment() {

@@ -197,11 +197,7 @@ public interface JBlock extends JStatement, JInlineCommentable {
 
     // local classes
 
-    JClassDef localEnum(int mods, String name);
-
     JClassDef localClass(int mods, String name);
-
-    JClassDef localInterface(int mods, String name);
 
     /**
      * Braces mode.
