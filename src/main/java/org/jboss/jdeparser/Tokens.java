@@ -154,6 +154,8 @@ enum Tokens implements Token {
             ASSIGN_SHR(">>=", Space.AROUND_ASSIGN),
             ASSIGN_LSHR(">>>=", Space.AROUND_ASSIGN),
             ASSIGN_SHL("<<=", Space.AROUND_ASSIGN),
+
+            DBL_COLON("::", null),
             ;
 
             private final String str;

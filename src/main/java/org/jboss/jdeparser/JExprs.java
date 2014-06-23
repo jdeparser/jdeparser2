@@ -209,4 +209,8 @@ public final class JExprs {
         }
         return new ArrayJExpr(exprs);
     }
+
+    public static JExpr unqualifiedMethodRef(String name) {
+        return new MethodRefJExpr(null, name);
+    }
 }

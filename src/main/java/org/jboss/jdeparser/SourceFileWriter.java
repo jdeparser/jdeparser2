@@ -166,6 +166,7 @@ class SourceFileWriter implements Flushable, Closeable {
             addIndent();
         }
         writeRaw(rawText);
+        this.state = $WORD;
     }
 
     public void flush() throws IOException {

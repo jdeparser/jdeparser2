@@ -166,5 +166,18 @@ abstract class AbstractJType implements JType {
         throw new IllegalArgumentException("Unsupported element for call: " + method);
     }
 
+    public JExpr methodRef(final String name) {
+        return new MethodRefJExpr(this, name);
+    }
+
+    public JExpr methodRef(final ExecutableElement method) {
+        final ElementKind kind = method.getKind();
+        if (kind == ElementKind.METHOD && ! method.getModifiers().contains(Modifier.STATIC)) {
+            final String name = method.getSimpleName().toString();
+            return methodRef(name);
+        }
+        throw new IllegalArgumentException("Unsupported element for method ref: " + method);
+    }
+
     abstract void writeDirect(SourceFileWriter sourceFileWriter) throws IOException;
 }

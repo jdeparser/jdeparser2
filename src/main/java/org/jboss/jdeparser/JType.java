@@ -237,4 +237,8 @@ public interface JType {
      * @return the method call
      */
     JCall call(ExecutableElement method);
+
+    JExpr methodRef(String name);
+
+    JExpr methodRef(ExecutableElement method);
 }
