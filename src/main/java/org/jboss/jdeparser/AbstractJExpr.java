@@ -176,8 +176,18 @@ abstract class AbstractJExpr implements JExpr {
         return new InnerNewJCall(this, JTypes.typeOf(type));
     }
 
+    private CachingLinkedHashMap<String, JAssignableExpr> fieldCache;
+
     public JAssignableExpr field(final String name) {
-        return new FieldRefJExpr(this, name);
+        CachingLinkedHashMap<String, JAssignableExpr> map = fieldCache;
+        if (map == null) {
+            map = fieldCache = new CachingLinkedHashMap<>();
+        }
+        JAssignableExpr expr = map.get(name);
+        if (expr == null) {
+            map.put(name, expr = new FieldRefJExpr(this, name));
+        }
+        return expr;
     }
 
     public JAssignableExpr $(final String name) {
@@ -192,8 +202,14 @@ abstract class AbstractJExpr implements JExpr {
         return new ArrayLookupJExpr(this, (AbstractJExpr) JExprs.decimal(idx));
     }
 
+    private JExpr length;
+
     public JExpr length() {
-        return new FieldRefJExpr(this, "length");
+        JExpr length = this.length;
+        if (length == null) {
+            length = this.length = new FieldRefJExpr(this, "length");
+        }
+        return length;
     }
 
     public int prec() {

@@ -145,8 +145,18 @@ abstract class AbstractJType implements JType {
         return nestedType(name);
     }
 
+    private CachingLinkedHashMap<String, JAssignableExpr> staticRefs;
+
     public JAssignableExpr field(final String name) {
-        return new StaticRefJExpr(this, name);
+        CachingLinkedHashMap<String, JAssignableExpr> map = staticRefs;
+        if (map == null) {
+            map = staticRefs = new CachingLinkedHashMap<>();
+        }
+        JAssignableExpr expr = map.get(name);
+        if (expr == null) {
+            map.put(name, expr = new StaticRefJExpr(this, name));
+        }
+        return expr;
     }
 
     public JAssignableExpr $(final String name) {

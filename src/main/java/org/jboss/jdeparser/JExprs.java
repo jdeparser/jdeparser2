@@ -18,6 +18,9 @@
 
 package org.jboss.jdeparser;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * The factory for generating simple expressions.
  */
@@ -170,8 +173,15 @@ public final class JExprs {
         return name(varDeclaration.name());
     }
 
+    private static final ThreadLocal<LinkedHashMap<String, JAssignableExpr>> cache = new CachingThreadLocal<>();
+
     public static JAssignableExpr name(String name) {
-        return new NameJExpr(name);
+        final LinkedHashMap<String, JAssignableExpr> map = cache.get();
+        JAssignableExpr ret = map.get(name);
+        if (ret == null) {
+            map.put(name, ret = new NameJExpr(name));
+        }
+        return ret;
     }
 
     public static JAssignableExpr name(JParamDeclaration paramDeclaration) {

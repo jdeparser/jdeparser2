@@ -18,6 +18,7 @@
 
 package org.jboss.jdeparser;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.lang.model.element.TypeElement;
@@ -61,9 +62,16 @@ public final class JTypes {
         }
     }
 
+    private static final ThreadLocal<LinkedHashMap<String, JType>> cache = new CachingThreadLocal<>();
+
     public static JType typeNamed(String name) {
-        final int idx = name.lastIndexOf('.');
-        return new ReferenceJType(idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1));
+        final LinkedHashMap<String, JType> map = cache.get();
+        JType type = map.get(name);
+        if (type == null) {
+            final int idx = name.lastIndexOf('.');
+            map.put(name, type = new ReferenceJType(idx == -1 ? "" : name.substring(0, idx), name.substring(idx + 1)));
+        }
+        return type;
     }
 
     /**
