@@ -104,12 +104,12 @@ class ImplJTry extends BasicJBlock implements JTry {
                     writer.write(FormatPreferences.Space.BEFORE_PAREN_TRY);
                     writer.write($PUNCT.PAREN.OPEN);
                     writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
-                    iterator.next().write(writer);
+                    iterator.next().writeNoSemi(writer);
                     while (iterator.hasNext()) {
                         writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
                         writer.write($PUNCT.SEMI);
                         writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
-                        iterator.next().write(writer);
+                        iterator.next().writeNoSemi(writer);
                     }
                 }
                 writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);

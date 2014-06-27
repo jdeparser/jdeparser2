@@ -108,36 +108,42 @@ class SourceFileWriter implements Flushable, Closeable {
             writer.write(SPACES, 0, total);
         }
         addedNewLine = false;
-        addedSpace = false;
+        addedSpace = true;
     }
 
     void write(FormatPreferences.Space rule) throws IOException {
         if (rule == null) {
             return;
         }
-        if (addedNewLine) {
-            addIndent();
-        }
         if (format.getSpaceType(rule) == FormatPreferences.SpaceType.NEWLINE) {
             if (! addedNewLine) {
                 nl();
             }
-        } else if (format.getSpaceType(rule) == FormatPreferences.SpaceType.SPACE) {
-            if (! addedSpace) {
-                sp();
+        } else {
+            if (addedNewLine) {
+                addIndent();
+            }
+            if (format.getSpaceType(rule) == FormatPreferences.SpaceType.SPACE) {
+                if (!addedSpace) {
+                    sp();
+                }
             }
         }
     }
 
     void writeClass(final String nameToWrite) throws IOException {
+        addWordSpace();
+        writer.write(nameToWrite);
+        this.state = $WORD;
+        addedSpace = addedNewLine = false;
+    }
+
+    void addWordSpace() throws IOException {
         if (addedNewLine) {
             addIndent();
         } else if (state instanceof $KW || state == $WORD || state == $NUMBER) {
             sp();
         }
-        writer.write(nameToWrite);
-        this.state = $WORD;
-        addedSpace = addedNewLine = false;
     }
 
     void write(final Token state) throws IOException {

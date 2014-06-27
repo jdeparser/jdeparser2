@@ -33,6 +33,7 @@ class StringJExpr extends AbstractJExpr {
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.addWordSpace();
         writer.writeRaw('"');
         char c;
         for (int i = 0; i < val.length(); i ++) {

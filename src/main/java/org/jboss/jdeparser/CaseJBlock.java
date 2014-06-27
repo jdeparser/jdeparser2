@@ -41,13 +41,13 @@ class CaseJBlock extends BasicJBlock {
     public void write(final SourceFileWriter writer) throws IOException {
         writer.pushIndent(FormatPreferences.Indentation.CASE_LABELS);
         try {
-            writer.nl();
             writer.write($KW.CASE);
+            writer.write(expr);
             writer.write($PUNCT.COLON);
-            writer.write(FormatPreferences.Space.AFTER_LABEL);
         } finally {
             writer.popIndent(FormatPreferences.Indentation.CASE_LABELS);
         }
+        writer.write(FormatPreferences.Space.AFTER_LABEL);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE);
     }
 }

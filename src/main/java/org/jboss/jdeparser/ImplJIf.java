@@ -29,7 +29,7 @@ class ImplJIf extends ConditionJBlock implements JIf {
     private ElseJBlock _else;
 
     ImplJIf(final BasicJBlock parent, final JExpr cond) {
-        super(parent, Braces.OPTIONAL, cond);
+        super(parent, Braces.IF_MULTILINE, cond);
     }
 
     public JBlock _else() {
@@ -49,12 +49,20 @@ class ImplJIf extends ConditionJBlock implements JIf {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.IF);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_IF);
         writer.write($PUNCT.PAREN.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_IF);
         writer.write(getCondition());
+        writer.write(FormatPreferences.Space.WITHIN_PAREN_IF);
         writer.write($PUNCT.PAREN.CLOSE);
-        super.write(writer);
         if (_else != null) {
-            _else.write(writer);
+            if (hasSingleItemOfType(ImplJIf.class)) {
+                _else.write(writer, null, Braces.REQUIRED);
+            } else {
+                _else.write(writer);
+            }
+        } else {
+            super.write(writer);
         }
     }
 }

@@ -42,6 +42,16 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        write(writer, null);
+    }
+
+    void write(final SourceFileWriter writer, final FormatPreferences.Space beforeSemicolon) throws IOException {
+        writeNoSemi(writer);
+        writer.write(beforeSemicolon);
+        writer.write($PUNCT.SEMI);
+    }
+
+    void writeNoSemi(final SourceFileWriter writer) throws IOException {
         super.writeAnnotations(writer);
         JMod.write(writer, mods);
         writer.write(type);
@@ -68,7 +78,6 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
                 writer.write(value);
             }
         }
-        writer.write($PUNCT.SEMI);
     }
 
     public JType type() {

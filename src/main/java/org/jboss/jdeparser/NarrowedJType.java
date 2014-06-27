@@ -52,6 +52,10 @@ class NarrowedJType extends AbstractJType {
         return erased._super();
     }
 
+    public JCall _new() {
+        return new NewJCall(this);
+    }
+
     public JCall _new(final JExpr dim) {
         final JCall call = erasure()._new();
         for (JType arg : args) {

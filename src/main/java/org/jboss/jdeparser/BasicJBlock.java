@@ -393,6 +393,14 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return parent;
     }
 
+    int size() {
+        return content.size();
+    }
+
+    BlockContent get(int idx) {
+        return content.get(idx);
+    }
+
     void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace) throws IOException {
         write(writer, beforeBrace, braces);
     }
@@ -424,6 +432,9 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
             }
             writer.write($PUNCT.BRACE.CLOSE);
         } else {
+            if (beforeBrace != null && content.size() == 1 && ! (content.get(0) instanceof EmptyJStatement)) {
+                writer.sp();
+            }
             for (BlockContent statement : content) {
                 statement.write(writer);
                 writer.nl();
@@ -433,5 +444,9 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
         write(writer, FormatPreferences.Space.BEFORE_BRACE);
+    }
+
+    boolean hasSingleItemOfType(Class<? extends BlockContent> type) {
+        return size() == 1 && type.isInstance(get(0));
     }
 }

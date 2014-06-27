@@ -132,11 +132,11 @@ public final class JExprs {
     }
 
     public static JExpr binary(int val, String format) {
-        return null;
+        return new IntegerJExpr(val, 2, 0);
     }
 
     public static JExpr binary(long val, String format) {
-        return null;
+        return new LongJExpr(val, 2, 0);
     }
 
     public static JExpr binary(int val, int sepInterval) {

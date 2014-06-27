@@ -28,7 +28,11 @@ import java.io.IOException;
 class ElseJBlock extends BasicJBlock {
 
     ElseJBlock(final ImplJIf _if) {
-        super(_if.getParent(), Braces.REQUIRED);
+        this(_if, Braces.IF_MULTILINE);
+    }
+
+    ElseJBlock(final ImplJIf _if, final Braces braces) {
+        super(_if.getParent(), braces);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

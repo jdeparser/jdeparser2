@@ -62,7 +62,7 @@ class ForJBlock extends BasicJBlock implements JFor {
         writer.write(FormatPreferences.Space.BEFORE_PAREN_FOR);
         writer.write($PUNCT.PAREN.OPEN);
         writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
-        if (init != null) init.write(writer);
+        if (init != null) init.writeNoSemi(writer);
         writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
         writer.write($PUNCT.SEMI);
         writer.write(FormatPreferences.Space.AFTER_SEMICOLON);

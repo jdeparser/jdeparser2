@@ -57,8 +57,8 @@ public final class FormatPreferences {
         ind.put(Indentation.LINE, 4);
         ind.put(Indentation.LINE_CONTINUATION, 4);
         ind.put(Indentation.MEMBERS_TOP_LEVEL, 4);
-        ind.put(Indentation.LABELS, -4);
-        ind.put(Indentation.CASE_LABELS, -4);
+        ind.put(Indentation.LABELS, 0);
+        ind.put(Indentation.CASE_LABELS, 0);
         DEFAULT_INDENTS = ind;
 
         DEFAULT_ABS_INDENTS = EnumSet.noneOf(Indentation.class);
@@ -81,7 +81,21 @@ public final class FormatPreferences {
 
         spaceTypes.put(BEFORE_BRACE, SpaceType.SPACE);
         spaceTypes.put(BEFORE_BRACE_ANNOTATION_ARRAY_INIT, SpaceType.NONE);
+        spaceTypes.put(BEFORE_BRACE_ARRAY_INIT, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_CATCH, SpaceType.SPACE);
         spaceTypes.put(BEFORE_BRACE_CLASS, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_DO, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_ELSE, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_FINALLY, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_FOR, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_IF, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_METHOD, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_SWITCH, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_SYNCHRONIZE, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_TRY, SpaceType.SPACE);
+        spaceTypes.put(BEFORE_BRACE_WHILE, SpaceType.SPACE);
+
+        spaceTypes.put(AFTER_SEMICOLON, SpaceType.SPACE);
 
         spaceTypes.put(BEFORE_KEYWORD_ELSE, SpaceType.SPACE);
         spaceTypes.put(BEFORE_KEYWORD_WHILE, SpaceType.SPACE);
@@ -377,6 +391,9 @@ public final class FormatPreferences {
     public enum Space {
         // default for all parens
         BEFORE_PAREN,
+
+        // single-line statements
+        BEFORE_STATEMENT,
 
         // paren sites
         BEFORE_PAREN_METHOD_CALL,

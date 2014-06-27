@@ -37,7 +37,12 @@ class IntegerJExpr extends AbstractJExpr implements JExpr {
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
+        writer.addWordSpace();
         writer.write(Tokens.$NUMBER);
+        switch (radix) {
+            case 2: writer.writeRaw("0b"); break;
+            case 16: writer.writeRaw("0x"); break;
+        }
         writer.writeRaw(Integer.toString(val, radix));
     }
 }

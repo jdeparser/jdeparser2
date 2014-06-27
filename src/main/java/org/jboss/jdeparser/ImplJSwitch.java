@@ -84,9 +84,19 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
         writer.write($PUNCT.PAREN.CLOSE);
         writer.write(FormatPreferences.Space.BEFORE_BRACE_SWITCH);
         writer.write($PUNCT.BRACE.OPEN);
-        for (CaseJBlock _case : cases) {
-            _case.write(writer);
+        writer.pushIndent(FormatPreferences.Indentation.LINE);
+        try {
+            writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
+            for (CaseJBlock _case : cases) {
+                _case.write(writer);
+            }
+            if (_default != null) {
+                _default.write(writer);
+            }
+        } finally {
+            writer.popIndent(FormatPreferences.Indentation.LINE);
         }
+        writer.write(FormatPreferences.Space.WITHIN_BRACES_CODE);
         writer.write($PUNCT.BRACE.CLOSE);
     }
 }

@@ -65,7 +65,7 @@ class ReferenceJType extends AbstractJType {
         return new StaticRefJExpr(this, "super");
     }
 
-    public JCall _new(final JExpr dim) {
+    public JCall _new() {
         return new NewJCall(this);
     }
 
