@@ -32,53 +32,74 @@ class StringJExpr extends AbstractJExpr {
         this.val = val;
     }
 
+    static final Indent ESC = new Indent() {
+        public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
+            next.addIndent(next, preferences, lineBuffer);
+            lineBuffer.append('"');
+        }
+
+        public void escape(final Indent next, final StringBuilder b, final int idx) {
+            char c;
+            for (int i = idx; i < b.length(); i++) {
+                c = b.charAt(i);
+                switch (c) {
+                    case '"':
+                    case '\\': {
+                        b.insert(i, '\\');
+                        i += 2;
+                        break;
+                    }
+                    case '\n': {
+                        b.replace(i, i + 1, "\\n");
+                        i += 2;
+                        break;
+                    }
+                    case '\r': {
+                        b.replace(i, i + 1, "\\r");
+                        i += 2;
+                        break;
+                    }
+                    case '\t': {
+                        b.replace(i, i + 1, "\\t");
+                        i += 2;
+                        break;
+                    }
+                    case '\b': {
+                        b.replace(i, i + 1, "\\b");
+                        i += 2;
+                        break;
+                    }
+                    case '\f': {
+                        b.replace(i, i + 1, "\\f");
+                        i += 2;
+                        break;
+                    }
+                    case 0: {
+                        b.replace(i, i + 1, "\\0");
+                        i += 2;
+                        break;
+                    }
+                    default: {
+                        i++;
+                    }
+                }
+            }
+        }
+
+        public void unescaped(final Indent next, final StringBuilder b, final int idx) {
+            // next is escaped
+            next.escape(next, b, idx);
+        }
+    };
+
     void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
         writer.writeEscaped('"');
-        char c;
-        for (int i = 0; i < val.length(); i ++) {
-            c = val.charAt(i);
-            switch (c) {
-                case '"':
-                case '\\': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped(c);
-                    break;
-                }
-                case '\n': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('n');
-                    break;
-                }
-                case '\r': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('\r');
-                    break;
-                }
-                case '\t': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('\t');
-                    break;
-                }
-                case '\b': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('\b');
-                    break;
-                }
-                case '\f': {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('\f');
-                    break;
-                }
-                case 0: {
-                    writer.writeEscaped('\\');
-                    writer.writeEscaped('\0');
-                    break;
-                }
-                default: {
-                    writer.writeEscaped(c);
-                }
-            }
+        writer.pushIndent(ESC);
+        try {
+            writer.writeEscaped(val);
+        } finally {
+            writer.popIndent(ESC);
         }
         writer.writeEscaped('"');
     }
