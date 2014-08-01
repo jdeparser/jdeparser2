@@ -76,6 +76,7 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.SWITCH);
         writer.write(FormatPreferences.Space.BEFORE_PAREN_SWITCH);
         writer.write($PUNCT.PAREN.OPEN);

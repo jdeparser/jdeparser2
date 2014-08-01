@@ -21,19 +21,37 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JDocComment extends JComment {
+public interface JDocComment extends JHtmlComment {
 
     JDocComment text(String text);
 
     JDocComment block();
 
-    JDocComment inlineTag(String tag, String body);
+    JDocComment inlineDocTag(String tag, String body);
 
-    JDocComment link(String url, String text);
+    JComment inlineDocTag(String tag);
+
+    JDocComment sp();
+
+    JDocComment nl();
 
     JDocComment p();
 
-    JComment tag(String tag);
+    JDocComment br();
 
-    JComment tag(String tag, String firstWord);
+    JDocComment typeName(JType type);
+
+    JDocComment docRoot();
+
+    JDocComment value(JType type, String fieldName);
+
+    JHtmlComment docTag(String tag);
+
+    JHtmlComment docTag(String tag, String firstWord);
+
+    JHtmlComment _return();
+
+    JHtmlComment _throws(JType exceptionType);
+
+    JHtmlComment param(String name);
 }

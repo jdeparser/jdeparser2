@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -25,5 +27,13 @@ class ConstructorJMethodDef extends AbstractJMethodDef {
 
     ConstructorJMethodDef(final AbstractJClassDef classDef, final int mods) {
         super(classDef, mods);
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writeDocComments(writer);
+        writeComments(writer);
+        JMod.write(writer, mods());
+        writeTypeParams(writer);
+        super.write(writer);
     }
 }

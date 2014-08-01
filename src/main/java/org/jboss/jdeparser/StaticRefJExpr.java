@@ -53,6 +53,10 @@ class StaticRefJExpr extends AbstractJAssignableExpr {
     void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.write(type);
         writer.write($PUNCT.DOT);
-        writer.writeRaw(refName);
+        writer.writeEscaped(refName);
+    }
+
+    String getName() {
+        return refName;
     }
 }

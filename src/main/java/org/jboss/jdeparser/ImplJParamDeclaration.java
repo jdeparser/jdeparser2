@@ -56,10 +56,11 @@ class ImplJParamDeclaration extends BasicJAnnotatable implements JParamDeclarati
     }
 
     void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writeAnnotations(writer);
         JMod.write(writer, mods());
         writer.write(type);
         writer.sp();
-        writer.writeRawWord(name);
+        writer.writeEscapedWord(name);
     }
 }

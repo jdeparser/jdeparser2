@@ -58,6 +58,7 @@ class ForJBlock extends BasicJBlock implements JFor {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.FOR);
         writer.write(FormatPreferences.Space.BEFORE_PAREN_FOR);
         writer.write($PUNCT.PAREN.OPEN);
@@ -73,6 +74,6 @@ class ForJBlock extends BasicJBlock implements JFor {
         writer.write(update);
         writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
         writer.write($PUNCT.PAREN.CLOSE);
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE_FOR);
     }
 }

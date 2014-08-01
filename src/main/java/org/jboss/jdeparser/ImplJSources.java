@@ -69,7 +69,9 @@ class ImplJSources implements JSources {
     public void writeSources() throws IOException {
         for (ImplJClassFile classFile : classFiles) {
             try (Writer writer = filer.openWriter(classFile.getPackageName(), classFile.getFileName())) {
-                classFile.write(new SourceFileWriter(format, writer));
+                try (SourceFileWriter sourceFileWriter = new SourceFileWriter(format, writer)) {
+                    classFile.write(sourceFileWriter);
+                }
             }
         }
     }

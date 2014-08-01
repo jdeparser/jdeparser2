@@ -59,6 +59,7 @@ public final class FormatPreferences {
         ind.put(Indentation.MEMBERS_TOP_LEVEL, 4);
         ind.put(Indentation.LABELS, 0);
         ind.put(Indentation.CASE_LABELS, 0);
+        ind.put(Indentation.HTML_TAG, 2);
         DEFAULT_INDENTS = ind;
 
         DEFAULT_ABS_INDENTS = EnumSet.noneOf(Indentation.class);
@@ -512,7 +513,17 @@ public final class FormatPreferences {
         CASE_LABELS,
         LINE_CONTINUATION,
         LINE,
+        HTML_TAG,
+        ;
+        private final Indent indent;
 
+        Indentation() {
+            indent = new ConfigIndent(this);
+        }
+
+        Indent getIndent() {
+            return indent;
+        }
     }
 
     // ---------------------------------------------------------------------

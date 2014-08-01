@@ -34,52 +34,52 @@ class StringJExpr extends AbstractJExpr {
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
-        writer.writeRaw('"');
+        writer.writeEscaped('"');
         char c;
         for (int i = 0; i < val.length(); i ++) {
             c = val.charAt(i);
             switch (c) {
                 case '"':
                 case '\\': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw(c);
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped(c);
                     break;
                 }
                 case '\n': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('n');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('n');
                     break;
                 }
                 case '\r': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('\r');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('\r');
                     break;
                 }
                 case '\t': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('\t');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('\t');
                     break;
                 }
                 case '\b': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('\b');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('\b');
                     break;
                 }
                 case '\f': {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('\f');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('\f');
                     break;
                 }
                 case 0: {
-                    writer.writeRaw('\\');
-                    writer.writeRaw('\0');
+                    writer.writeEscaped('\\');
+                    writer.writeEscaped('\0');
                     break;
                 }
                 default: {
-                    writer.writeRaw(c);
+                    writer.writeEscaped(c);
                 }
             }
         }
-        writer.writeRaw('"');
+        writer.writeEscaped('"');
     }
 }

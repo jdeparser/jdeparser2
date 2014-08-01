@@ -54,7 +54,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
                 public void write(final SourceFileWriter writer) throws IOException {
                     writer.write($KW.PACKAGE);
                     writer.sp();
-                    writer.writeRaw(packageName);
+                    writer.writeEscaped(packageName);
                     writer.write($PUNCT.SEMI);
                     writer.nl();
                 }
@@ -172,14 +172,6 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
     public JClassDef annotationInterface(final int mods, final String name) {
         checkPackage();
         return add(new AnnotationJClassDef(mods, this, name));
-    }
-
-    public JComment inlineLineComment() {
-        return add(new LineJComment());
-    }
-
-    public JComment inlineBlockComment() {
-        return add(new BlockJComment());
     }
 
     String getPackageName() {

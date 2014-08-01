@@ -64,6 +64,7 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         if (args == null || args.isEmpty()) {
             if (writer.getFormat().hasOption(FormatPreferences.Opt.ENUM_EMPTY_PARENS)) {
                 writer.write($PUNCT.PAREN.OPEN);

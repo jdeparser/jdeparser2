@@ -35,6 +35,7 @@ class AssertMessageJStatement extends KeywordExprJStatement {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.ASSERT);
         writer.write(getExpression());
         writer.write(FormatPreferences.Space.BEFORE_COLON);

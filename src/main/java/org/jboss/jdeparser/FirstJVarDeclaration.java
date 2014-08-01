@@ -52,13 +52,14 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
     }
 
     void writeNoSemi(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         super.writeAnnotations(writer);
         JMod.write(writer, mods);
         writer.write(type);
         writer.sp();
         String name = this.name;
         JExpr value = this.value;
-        writer.writeRawWord(name);
+        writer.writeEscapedWord(name);
         if (value != null) {
             writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());
             writer.write($PUNCT.BINOP.ASSIGN);
@@ -69,7 +70,7 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
             writer.write(FormatPreferences.Space.BEFORE_COMMA);
             writer.write($PUNCT.COMMA);
             writer.write(FormatPreferences.Space.AFTER_COMMA);
-            writer.writeRawWord(successor.name());
+            writer.writeEscapedWord(successor.name());
             value = successor.getValue();
             if (value != null) {
                 writer.write($PUNCT.BINOP.ASSIGN.getSpacingRule());

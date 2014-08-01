@@ -381,14 +381,6 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return add(new PlainJClassDef(mods, (AbstractJClassDef) null, name));
     }
 
-    public JComment inlineLineComment() {
-        return add(new LineJComment());
-    }
-
-    public JComment inlineBlockComment() {
-        return add(new BlockJComment());
-    }
-
     BasicJBlock getParent() {
         return parent;
     }
@@ -443,6 +435,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         write(writer, FormatPreferences.Space.BEFORE_BRACE);
     }
 

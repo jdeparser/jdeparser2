@@ -94,6 +94,7 @@ class ImplJTry extends BasicJBlock implements JTry {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         if ((catches == null || catches.isEmpty()) && (resources == null || resources.isEmpty()) && finallyBlock == null) {
             super.write(writer, null);
         } else {

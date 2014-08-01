@@ -25,42 +25,78 @@ import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class SourceFileWriter implements Flushable, Closeable {
 
-    private static final char[] SPACES;
-
-    static {
-        char[] spaces = new char[128];
-        Arrays.fill(spaces, ' ');
-        SPACES = spaces;
-    }
-
     private final FormatPreferences format;
-    private final CountingWriter writer;
+    private final CountingWriter countingWriter;
+    private final StringBuilder lineBuffer = new StringBuilder();
     private final String lineSep;
     private final ArrayDeque<AbstractJType> thisTypeStack = new ArrayDeque<>();
-    private final ArrayDeque<FormatPreferences.Indentation> indentStack = new ArrayDeque<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") // IDEA bug http://youtrack.jetbrains.com/issue/IDEA-128168
+    private final ArrayList<Indent> indentStack = new ArrayList<>();
+    private final ListIterator<Indent> stackIterator = indentStack.listIterator(0);
+    private final Indent nextIndent = new Indent() {
+
+        public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
+            if (stackIterator.hasPrevious()) {
+                final Indent n = stackIterator.previous();
+                try {
+                    n.addIndent(next, preferences, lineBuffer);
+                } finally {
+                    stackIterator.next();
+                }
+            }
+        }
+
+        public void escape(final Indent next, final StringBuilder b, final int idx) {
+            if (stackIterator.hasPrevious()) {
+                final Indent n = stackIterator.previous();
+                try {
+                    n.escape(this, b, idx);
+                } finally {
+                    stackIterator.next();
+                }
+            }
+        }
+
+        public void unescaped(final Indent next, final StringBuilder b, final int idx) {
+            if (stackIterator.hasPrevious()) {
+                final Indent n = stackIterator.previous();
+                try {
+                    n.unescaped(this, b, idx);
+                } finally {
+                    stackIterator.next();
+                }
+            }
+        }
+    };
     private Token state = $START;
-    private boolean addedSpace;
-    private boolean addedNewLine;
+    private int spaceState;
     private ImplJClassFile classFile;
+
+    private static final int SS_NONE = 0;
+    private static final int SS_NEEDED = 1;
+    private static final int SS_ADDED = 2;
+    private static final int SS_NEEDS_INDENT = 3;
 
     SourceFileWriter(final FormatPreferences format, final Writer writer) {
         this.format = format;
-        this.writer = new CountingWriter(writer);
+        this.countingWriter = new CountingWriter(writer);
         // todo use preferences/config
         lineSep = System.lineSeparator();
     }
 
     void nl() throws IOException {
-        writer.write(lineSep);
-        addedSpace = true;
-        addedNewLine = true;
+        countingWriter.write(lineBuffer);
+        countingWriter.write(lineSep);
+        lineBuffer.setLength(0);
+        spaceState = SS_NEEDS_INDENT;
     }
 
     /**
@@ -69,46 +105,79 @@ class SourceFileWriter implements Flushable, Closeable {
      * @throws IOException etc.
      */
     void sp() throws IOException {
-        if (! addedSpace) {
-            assert ! addedNewLine;
-            addedSpace = true;
-            writer.write(' ');
+        if (spaceState == SS_NEEDS_INDENT) {
+            addIndent();
+        } else if (spaceState != SS_ADDED) {
+            spaceState = SS_ADDED;
+            lineBuffer.append(' ');
         }
+    }
+
+    /**
+     * A non-trailing space.
+     */
+    void ntsp() throws IOException {
+        if (spaceState == SS_NONE) spaceState = SS_NEEDED;
     }
 
     int getLine() {
-        return writer.getLine();
+        return countingWriter.getLine();
     }
 
     int getColumn() {
-        return writer.getColumn();
+        return countingWriter.getColumn();
     }
 
-    private void addIndent() throws IOException {
-        assert addedNewLine;
-        assert addedSpace;
-        int total = 0;
-        for (FormatPreferences.Indentation indentation : indentStack) {
-            if (indentation == null) {
-                // no-indent states
-                continue;
+    void processSpacing() throws IOException {
+        switch (spaceState) {
+            case SS_NEEDS_INDENT: {
+                nextIndent.addIndent(nextIndent, format, lineBuffer);
+                spaceState = SS_ADDED;
+                break;
             }
-            final int i = format.getIndent(indentation);
-            if (format.isIndentAbsolute(indentation)) {
-                total = i;
-            } else {
-                total += i;
+            case SS_NEEDED: {
+                sp();
+                break;
             }
         }
-        if (total > 0) {
-            while (total > 128) {
-                writer.write(SPACES, 0, 128);
-                total -= 128;
-            }
-            writer.write(SPACES, 0, total);
-        }
-        addedNewLine = false;
-        addedSpace = true;
+    }
+
+    void addIndent() throws IOException {
+        assert spaceState == SS_NEEDS_INDENT; // it was a new line
+        nextIndent.addIndent(nextIndent, format, lineBuffer);
+        spaceState = SS_ADDED;
+    }
+
+    void writeEscaped(String item) throws IOException {
+        processSpacing();
+        final int idx = lineBuffer.length();
+        lineBuffer.append(item);
+        nextIndent.escape(nextIndent, lineBuffer, idx);
+        spaceState = SS_NONE;
+    }
+
+    void writeEscaped(final char item) throws IOException {
+        processSpacing();
+        final int idx = lineBuffer.length();
+        lineBuffer.append(item);
+        nextIndent.escape(nextIndent, lineBuffer, idx);
+        spaceState = SS_NONE;
+    }
+
+    void writeUnescaped(String item) throws IOException {
+        processSpacing();
+        final int idx = lineBuffer.length();
+        lineBuffer.append(item);
+        nextIndent.unescaped(nextIndent, lineBuffer, idx);
+        spaceState = SS_NONE;
+    }
+
+    void writeUnescaped(char item) throws IOException {
+        processSpacing();
+        final int idx = lineBuffer.length();
+        lineBuffer.append(item);
+        nextIndent.unescaped(nextIndent, lineBuffer, idx);
+        spaceState = SS_NONE;
     }
 
     void write(FormatPreferences.Space rule) throws IOException {
@@ -116,107 +185,82 @@ class SourceFileWriter implements Flushable, Closeable {
             return;
         }
         if (format.getSpaceType(rule) == FormatPreferences.SpaceType.NEWLINE) {
-            if (! addedNewLine) {
+            if (spaceState != SS_NEEDS_INDENT) {
+                // must not be directly after a newline
                 nl();
             }
         } else {
-            if (addedNewLine) {
-                addIndent();
-            }
             if (format.getSpaceType(rule) == FormatPreferences.SpaceType.SPACE) {
-                if (!addedSpace) {
-                    sp();
-                }
+                ntsp();
             }
         }
     }
 
     void writeClass(final String nameToWrite) throws IOException {
+        processSpacing();
         addWordSpace();
-        writer.write(nameToWrite);
+        writeEscaped(nameToWrite);
         this.state = $WORD;
-        addedSpace = addedNewLine = false;
+        spaceState = SS_NONE;
     }
 
     void addWordSpace() throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        } else if (state instanceof $KW || state == $WORD || state == $NUMBER) {
-            sp();
+        if (state instanceof $KW || state == $WORD || state == $NUMBER) {
+            ntsp();
         }
     }
 
     void write(final Token state) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
+        processSpacing();
         state.write(this);
         this.state = state;
+        spaceState = SS_NONE;
     }
 
-    void writeRaw(final char ch) throws IOException {
-        assert ! Character.isWhitespace(ch);
-        writer.write(ch);
-        addedSpace = addedNewLine = false;
-    }
-
-    void writeRaw(final String rawText) throws IOException {
-        // todo not comprehensive
-        assert rawText.indexOf(' ') == -1 && rawText.indexOf('\r') == -1 && rawText.indexOf('\n') == -1;
-        writer.write(rawText);
-        addedNewLine = addedSpace = false;
-    }
-
-    void writeRawWord(final String rawText) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
-        writeRaw(rawText);
+    void writeEscapedWord(final String rawText) throws IOException {
+        writeEscaped(rawText);
         this.state = $WORD;
     }
 
     public void flush() throws IOException {
-        writer.flush();
+        countingWriter.flush();
     }
 
     public void close() throws IOException {
-        writer.close();
+        countingWriter.close();
     }
 
     void write(final JType type) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
         if (type != null) AbstractJType.of(type).writeDirect(this);
     }
 
     void write(final AbstractJType type) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
         if (type != null) type.writeDirect(this);
     }
 
     void write(final JExpr expr) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
         if (expr != null) AbstractJExpr.of(expr).writeDirect(this);
     }
 
     void write(final AbstractJExpr expr) throws IOException {
-        if (addedNewLine) {
-            addIndent();
-        }
         if (expr != null) expr.writeDirect(this);
     }
 
-    void pushIndent(FormatPreferences.Indentation indent) {
-        indentStack.push(indent);
+    void pushIndent(FormatPreferences.Indentation indentation) {
+        pushIndent(indentation.getIndent());
     }
 
-    void popIndent(FormatPreferences.Indentation indent) {
-        final FormatPreferences.Indentation pop = indentStack.pop();
+    void pushIndent(Indent indent) {
+        stackIterator.add(indent);
+    }
+
+    void popIndent(FormatPreferences.Indentation indentation) {
+        popIndent(indentation.getIndent());
+    }
+
+    void popIndent(Indent indent) {
+        final Indent pop = stackIterator.previous();
+        stackIterator.remove();
         assert pop == indent;
     }
 

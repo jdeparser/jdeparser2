@@ -39,8 +39,9 @@ class GotoJStatement extends KeywordJStatement {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write(getKeyword());
-        writer.writeRaw(label.name());
+        writer.writeEscaped(label.name());
         writer.write($PUNCT.SEMI);
     }
 }

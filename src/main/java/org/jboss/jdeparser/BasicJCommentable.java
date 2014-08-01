@@ -18,22 +18,23 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class BasicJCommentable implements JStatement {
-    private ArrayList<JComment> comments;
+class BasicJCommentable implements JCommentable {
+    private ArrayList<AbstractJComment> comments;
 
-    protected BasicJCommentable() {
+    BasicJCommentable() {
     }
 
     public JComment lineComment() {
         if (comments == null) {
             comments = new ArrayList<>();
         }
-        final JComment comment = new LineJComment();
+        final AbstractJComment comment = new LineJComment();
         comments.add(comment);
         return comment;
     }
@@ -42,8 +43,17 @@ class BasicJCommentable implements JStatement {
         if (comments == null) {
             comments = new ArrayList<>();
         }
-        final JComment comment = new BlockJComment();
+        final AbstractJComment comment = new BlockJComment();
         comments.add(comment);
         return comment;
+    }
+
+    void writeComments(final SourceFileWriter writer) throws IOException {
+        final ArrayList<AbstractJComment> comments = this.comments;
+        if (comments != null) {
+            for (AbstractJComment comment : comments) {
+                comment.write(writer);
+            }
+        }
     }
 }

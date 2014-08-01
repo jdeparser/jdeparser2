@@ -19,13 +19,29 @@
 package org.jboss.jdeparser;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class BlockJComment extends AbstractJComment {
+class BlockJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
-
+        writer.addIndent();
+        writer.writeEscaped("/*");
+        writer.pushIndent(CommentIndentation.BLOCK);
+        try {
+            final List<Writable> contents = getContent();
+            if (contents != null && ! contents.isEmpty()) {
+                writer.nl();
+                super.write(writer);
+            }
+        } finally {
+            writer.popIndent(CommentIndentation.BLOCK);
+        }
+        writer.nl();
+        writer.addIndent();
+        writer.writeEscaped(" */");
+        writer.nl();
     }
 }

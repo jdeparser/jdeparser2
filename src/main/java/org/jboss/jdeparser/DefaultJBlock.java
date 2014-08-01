@@ -32,9 +32,10 @@ class DefaultJBlock extends BasicJBlock {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.DEFAULT);
         writer.write($PUNCT.COLON);
         writer.write(FormatPreferences.Space.AFTER_LABEL);
-        super.write(writer);
+        super.write(writer, FormatPreferences.Space.BEFORE_BRACE);
     }
 }

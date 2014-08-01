@@ -142,14 +142,6 @@ class ImplJAnonymousClassDef extends AbstractJCall implements JAnonymousClassDef
         throw new UnsupportedOperationException("constructor on anonymous class");
     }
 
-    public JComment inlineLineComment() {
-        return classDef.inlineLineComment();
-    }
-
-    public JComment inlineBlockComment() {
-        return classDef.inlineBlockComment();
-    }
-
     public JTypeParamDef[] typeParams() {
         return classDef.typeParams();
     }

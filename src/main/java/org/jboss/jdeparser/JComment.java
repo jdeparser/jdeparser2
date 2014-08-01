@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JComment extends JStatement {
+public interface JComment {
 
     /**
      * Add some text to the end of this comment.  No formatting or line breaks are inserted.
@@ -32,6 +32,24 @@ public interface JComment extends JStatement {
     JComment text(String text);
 
     /**
+     * Add a non-trailing space.  If no content follows, the space will be omitted.
+     *
+     * @return this comment
+     */
+    JComment sp();
+
+    JComment nl();
+
+    /**
+     * Add a type name to the end of this comment.  If the type is imported, it will emit as a simple name, otherwise
+     * it will emit as a qualified name.
+     *
+     * @param type the type name to add
+     * @return this comment
+     */
+    JComment typeName(JType type);
+
+    /**
      * Add a comment sub-block at this location.  The block has no visual representation but allows text to be inserted
      * at the point of the block even after more content was appended after it.
      *
@@ -39,10 +57,46 @@ public interface JComment extends JStatement {
      */
     JComment block();
 
-    JComment inlineTag(String tag, String body);
+    /**
+     * Add an inline doc tag with simple content.
+     *
+     * @param tag the tag name (without the leading {@code @} sign)
+     * @param body the complete tag body
+     * @return this comment
+     */
+    JComment inlineDocTag(String tag, String body);
 
-    JComment link(String url, String text);
+    /**
+     * Add an inline doc tag.
+     *
+     * @param tag the tag name (without the leading {@code @} sign)
+     * @return the body of the doc tag
+     */
+    JComment inlineDocTag(String tag);
 
-    JComment p();
+    /**
+     * Add an inline code tag.
+     *
+     * @return the code tag content
+     */
+    JComment code();
 
+    /**
+     * Add the {@code {&#64;docRoot}} tag at this position.
+     *
+     * @return this comment
+     */
+    JComment docRoot();
+
+    JComment linkType(boolean plain, JType targetType);
+
+    JComment linkField(boolean plain, JType targetType, String targetField);
+
+    JComment linkField(boolean plain, JVarDeclaration fieldDeclaration);
+
+    JComment linkConstructor(boolean plain, JType targetType, JType... targetConstructorArgumentTypes);
+
+    JComment linkMethod(boolean plain, JType targetType, String targetMethod, JType... targetMethodArgumentTypes);
+
+    JComment linkMethod(boolean plain, JMethodDef methodDef);
 }

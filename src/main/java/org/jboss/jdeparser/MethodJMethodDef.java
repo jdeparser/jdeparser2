@@ -39,11 +39,17 @@ class MethodJMethodDef extends AbstractJMethodDef {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeDocComments(writer);
+        writeComments(writer);
         JMod.write(writer, mods());
         writeTypeParams(writer);
         writer.write(returnType);
         writer.sp();
-        writer.writeRawWord(name);
+        writer.writeEscapedWord(name);
         super.write(writer);
+    }
+
+    String getName() {
+        return name;
     }
 }

@@ -32,6 +32,7 @@ class DoJBlock extends ConditionJBlock {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.DO);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE_DO);
         writer.write(FormatPreferences.Space.BEFORE_KEYWORD_WHILE);

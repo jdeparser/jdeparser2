@@ -33,6 +33,7 @@ class ExpressionJStatement extends BasicJCommentable implements JStatement, Bloc
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write(expr);
         writer.write($PUNCT.SEMI);
     }

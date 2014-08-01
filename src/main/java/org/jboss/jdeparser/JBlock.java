@@ -25,7 +25,7 @@ import javax.lang.model.element.ExecutableElement;
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JBlock extends JStatement, JInlineCommentable {
+public interface JBlock extends JStatement, JCommentable {
 
     JBlock blankLine();
 

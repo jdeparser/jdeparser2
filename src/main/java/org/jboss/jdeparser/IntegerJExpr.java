@@ -40,9 +40,13 @@ class IntegerJExpr extends AbstractJExpr implements JExpr {
         writer.addWordSpace();
         writer.write(Tokens.$NUMBER);
         switch (radix) {
-            case 2: writer.writeRaw("0b"); break;
-            case 16: writer.writeRaw("0x"); break;
+            case 2:
+                writer.writeEscaped("0b");
+                break;
+            case 16:
+                writer.writeEscaped("0x");
+                break;
         }
-        writer.writeRaw(Integer.toString(val, radix));
+        writer.writeEscaped(Integer.toString(val, radix));
     }
 }

@@ -39,6 +39,7 @@ class CaseJBlock extends BasicJBlock {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.pushIndent(FormatPreferences.Indentation.CASE_LABELS);
         try {
             writer.write($KW.CASE);

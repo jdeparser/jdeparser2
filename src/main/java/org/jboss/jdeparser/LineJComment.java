@@ -23,9 +23,15 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class LineJComment extends AbstractJComment {
+class LineJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
-
+        writer.writeEscaped("// ");
+        writer.pushIndent(CommentIndentation.LINE);
+        try {
+            super.write(writer);
+        } finally {
+            writer.popIndent(CommentIndentation.LINE);
+        }
     }
 }

@@ -71,7 +71,7 @@ enum Tokens implements Token {
         }
 
         public void write(final SourceFileWriter writer) throws IOException {
-            writer.writeRaw(ch);
+            writer.writeEscaped(ch);
         }
 
         public char getChar() {
@@ -90,7 +90,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(str);
+                writer.writeEscaped(str);
             }
         }
 
@@ -109,7 +109,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(str);
+                writer.writeEscaped(str);
             }
         }
 
@@ -167,7 +167,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(str);
+                writer.writeEscaped(str);
             }
 
             public Space getSpacingRule() {
@@ -186,7 +186,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(ch);
+                writer.writeEscaped(ch);
             }
         }
 
@@ -202,7 +202,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(ch);
+                writer.writeEscaped(ch);
             }
         }
 
@@ -218,7 +218,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(ch);
+                writer.writeEscaped(ch);
             }
         }
 
@@ -233,7 +233,7 @@ enum Tokens implements Token {
             }
 
             public void write(final SourceFileWriter writer) throws IOException {
-                writer.writeRaw(ch);
+                writer.writeEscaped(ch);
             }
         }
     }
@@ -324,7 +324,7 @@ enum Tokens implements Token {
                 writer.sp();
             }
             if (before != null) writer.write(before);
-            writer.writeRawWord(kw);
+            writer.writeEscapedWord(kw);
             if (after != null) writer.write(after);
         }
 

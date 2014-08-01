@@ -32,6 +32,7 @@ class StaticInitJBlock extends BasicJBlock implements ClassContent {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.STATIC);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE_METHOD);
     }

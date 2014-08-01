@@ -39,6 +39,7 @@ class FinallyJBlock extends BasicJBlock {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write(FormatPreferences.Space.BEFORE_KEYWORD_FINALLY);
         writer.write($KW.FINALLY);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE_FINALLY);

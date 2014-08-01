@@ -269,14 +269,6 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(new AnnotationJClassDef(mods, this, name));
     }
 
-    public JComment inlineLineComment() {
-        return add(new LineJComment());
-    }
-
-    public JComment inlineBlockComment() {
-        return add(new BlockJComment());
-    }
-
     Iterable<ClassContent> getContent() {
         return content;
     }
@@ -296,6 +288,8 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeDocComments(writer);
+        writeComments(writer);
         writeAnnotations(writer);
         writer.pushThisType(AbstractJType.of(genericType()));
         try {

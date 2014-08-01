@@ -18,12 +18,20 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JInlineCommentable extends JCommentable {
+class NonTrailingSpaceContent implements CommentContent {
 
-    JComment inlineLineComment();
+    private static final NonTrailingSpaceContent INSTANCE = new NonTrailingSpaceContent();
 
-    JComment inlineBlockComment();
+    static NonTrailingSpaceContent getInstance() {
+        return INSTANCE;
+    }
+
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.ntsp();
+    }
 }

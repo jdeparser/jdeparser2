@@ -42,12 +42,15 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         final JClassFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
         final JClassDef baz = bazFile._class(PUBLIC | FINAL, "Baz");
         final JMethodDef getString = baz.method(PUBLIC | FINAL, String.class, "getString");
+        getString.docComment().text("Hello\nthere!");
+        getString.docComment().htmlTag("ul", true).attribute("class", "banana").htmlTag("li", false).text("A line item");
+        getString.docComment().docTag("author", "Someone");
         getString._throws(IllegalStateException.class);
         getString.typeParam("T")._extends(JTypes.typeOf(String.class));
         final JParamDeclaration theTee = getString.param(PUBLIC | FINAL, "T", "theTee");
         final JBlock body = getString.body();
         body.call(_(System.class).$("out"), "println").arg($(theTee.name()));
-        body.add(_(System.class).$("out").call("println").arg($("theTee")));
+        body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
         final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).add(JExprs.decimal(456)).mul(JExprs.decimal(246)));
         body.var(FINAL, _(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
         body.add(_(System.class).$("out").call("println").arg(tmp1));

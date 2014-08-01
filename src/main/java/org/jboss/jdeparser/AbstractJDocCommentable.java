@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.io.IOException;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -32,6 +34,13 @@ abstract class AbstractJDocCommentable extends BasicJCommentable implements JDoc
     }
 
     public JComment deprecated() {
-        return docComment().tag("deprecated");
+        return docComment().docTag("deprecated");
+    }
+
+    void writeDocComments(SourceFileWriter writer) throws IOException {
+        final ImplJDocComment docComment = this.docComment;
+        if (docComment != null) {
+            docComment.write(writer);
+        }
     }
 }

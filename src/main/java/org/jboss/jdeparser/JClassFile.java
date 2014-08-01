@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JClassFile extends JInlineCommentable {
+public interface JClassFile extends JCommentable {
     JClassFile _import(String type);
 
     JClassFile _import(JType type);

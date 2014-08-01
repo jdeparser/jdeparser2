@@ -25,9 +25,10 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class EmptyJStatement extends BasicJCommentable implements BlockContent {
+class EmptyJStatement extends BasicJStatement implements BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($PUNCT.SEMI);
         writer.nl();
     }

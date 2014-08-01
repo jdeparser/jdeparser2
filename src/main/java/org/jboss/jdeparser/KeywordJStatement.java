@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class KeywordJStatement extends BasicJCommentable implements BlockContent {
+class KeywordJStatement extends BasicJStatement implements BlockContent {
 
     private final $KW keyword;
 
@@ -38,6 +38,7 @@ class KeywordJStatement extends BasicJCommentable implements BlockContent {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write(keyword);
         writer.write($PUNCT.SEMI);
     }

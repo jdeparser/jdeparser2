@@ -39,6 +39,7 @@ class KeywordExprJStatement extends KeywordJStatement {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write(getKeyword());
         writer.write(expr);
         writer.write($PUNCT.SEMI);

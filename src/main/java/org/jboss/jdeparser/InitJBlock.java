@@ -30,6 +30,7 @@ class InitJBlock extends BasicJBlock implements ClassContent {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         super.write(writer, null);
     }
 }

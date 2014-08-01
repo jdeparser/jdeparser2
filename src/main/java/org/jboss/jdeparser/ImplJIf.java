@@ -48,6 +48,7 @@ class ImplJIf extends ConditionJBlock implements JIf {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writeComments(writer);
         writer.write($KW.IF);
         writer.write(FormatPreferences.Space.BEFORE_PAREN_IF);
         writer.write($PUNCT.PAREN.OPEN);

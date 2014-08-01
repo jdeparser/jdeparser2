@@ -38,7 +38,7 @@ abstract class AbstractMethodJCall extends AbstractJCall {
 
     public void writeDirect(final SourceFileWriter writer) throws IOException {
         super.writeTypeArgs(writer);
-        writer.writeRaw(name);
+        writer.writeEscaped(name);
         super.writeDirect(writer);
     }
 }
