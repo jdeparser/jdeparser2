@@ -19,10 +19,23 @@
 package org.jboss.jdeparser;
 
 /**
+ * The main entry point for this library.  Use this class to construct a collection of source files which can be
+ * generated and stored.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public final class JDeparser {
 
+    private JDeparser() {
+    }
+
+    /**
+     * Create a new source generation collection.
+     *
+     * @param filer the filer to use to store generated sources
+     * @param format the formatting preferences to use for these sources
+     * @return the source collection
+     */
     public static JSources createSources(final JFiler filer, final FormatPreferences format) {
         return new ImplJSources(filer, format);
     }
