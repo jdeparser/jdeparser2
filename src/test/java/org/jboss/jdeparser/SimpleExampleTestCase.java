@@ -21,6 +21,7 @@ package org.jboss.jdeparser;
 import static org.jboss.jdeparser.JExprs.$;
 import static org.jboss.jdeparser.JMod.FINAL;
 import static org.jboss.jdeparser.JMod.PUBLIC;
+import static org.jboss.jdeparser.JMod.STATIC;
 import static org.jboss.jdeparser.JTypes._;
 
 import java.io.BufferedReader;
@@ -47,6 +48,9 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         getString.docComment().docTag("author", "Someone");
         getString._throws(IllegalStateException.class);
         getString.typeParam("T")._extends(JTypes.typeOf(String.class));
+        baz.field(PUBLIC | STATIC | FINAL, JType.INT, "_foo", JExpr.ONE);
+        final JVarDeclaration field = baz.field(PUBLIC | FINAL, JType.INT, "localVar");
+        baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
         final JParamDeclaration theTee = getString.param(PUBLIC | FINAL, "T", "theTee");
         final JBlock body = getString.body();
         body.call(_(System.class).$("out"), "println").arg($(theTee.name()));
