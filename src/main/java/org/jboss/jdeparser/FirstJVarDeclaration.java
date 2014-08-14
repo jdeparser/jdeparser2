@@ -89,6 +89,10 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         return name;
     }
 
+    int mods() {
+        return mods;
+    }
+
     public JVarDeclaration add(final String name, final JExpr init) {
         if (successors == null) successors = new ArrayList<>();
         final SuccessorJVarDeclaration s = new SuccessorJVarDeclaration(this, name, init);

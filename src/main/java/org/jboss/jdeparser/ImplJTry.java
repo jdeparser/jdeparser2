@@ -42,7 +42,7 @@ class ImplJTry extends BasicJBlock implements JTry {
     }
 
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
-        return add(new FirstJVarDeclaration(mods, type, var, init));
+        return add(new TryJVarDeclaration(mods, type, var, init, this));
     }
 
     public JVarDeclaration with(final int mods, final Class<? extends AutoCloseable> type, final String var, final JExpr init) {
