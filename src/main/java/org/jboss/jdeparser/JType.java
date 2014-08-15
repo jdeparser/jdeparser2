@@ -111,6 +111,13 @@ public interface JType {
     JExpr _new(int dim);
 
     /**
+     * Create a new array of this type which is inline-initialized.
+     *
+     * @return the array, initially with zero elements
+     */
+    JArrayExpr _newArray();
+
+    /**
      * Construct a new anonymous subclass of this type.
      *
      * @return the anonymous subclass definition

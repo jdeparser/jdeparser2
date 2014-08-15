@@ -53,9 +53,9 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
         final JParamDeclaration theTee = getString.param(PUBLIC | FINAL, "T", "theTee");
         final JBlock body = getString.body();
-        body.call(_(System.class).$("out"), "println").arg($(theTee.name()));
+        body.call(_(System.class).$("out"), "println").arg($(theTee));
         body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
-        final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).add(JExprs.decimal(456)).mul(JExprs.decimal(246)));
+        final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).plus(JExprs.decimal(456)).times(JExprs.decimal(246)));
         body.var(FINAL, _(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
         body.add(_(System.class).$("out").call("println").arg(tmp1));
         final JAnonymousClassDef anon = _(Runnable.class)._newAnon();

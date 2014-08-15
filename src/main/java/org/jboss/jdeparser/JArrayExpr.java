@@ -18,29 +18,25 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
-
-import java.io.IOException;
-
 /**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
+ * An array expression, which can have more values added to it.
  */
-class InstanceJCall extends AbstractMethodJCall {
+public interface JArrayExpr extends JExpr {
 
-    private final JExpr target;
+    // originals
 
-    InstanceJCall(final JExpr target, final String name) {
-        super(name);
-        this.target = target;
-    }
+    /**
+     * Add an element to this array.  Returns this array.
+     *
+     * @param value the value to add
+     * @return this array expression
+     */
+    JArrayExpr add(JExpr value);
 
-    JExpr getTarget() {
-        return target;
-    }
-
-    public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(AbstractJExpr.of(target));
-        writer.write($PUNCT.DOT);
-        super.write(writer);
-    }
+    /**
+     * Get the current number of elements added to this array.
+     *
+     * @return the number of elements
+     */
+    int elementCount();
 }

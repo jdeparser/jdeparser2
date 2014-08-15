@@ -38,7 +38,7 @@ class CondJExpr extends AbstractJExpr {
         this.ifFalse = ifFalse.prec() < Prec.COND ? new ParenJExpr(ifFalse) : ifFalse;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(cond);
         writer.write(FormatPreferences.Space.BEFORE_TERNARY_Q);
         writer.write($PUNCT.Q);

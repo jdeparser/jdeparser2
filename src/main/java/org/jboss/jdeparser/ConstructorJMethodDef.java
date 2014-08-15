@@ -34,6 +34,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef {
         writeComments(writer);
         JMod.write(writer, mods());
         writeTypeParams(writer);
+        writer.write(clazz().erasedType());
         super.write(writer);
     }
 }

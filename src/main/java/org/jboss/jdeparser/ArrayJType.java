@@ -48,7 +48,11 @@ class ArrayJType extends AbstractJType {
     }
 
     public JExpr _new(final JExpr dim) {
-        return new NewArrayJExpr(this, AbstractJExpr.of(dim));
+        return new NewDimJArrayExpr(this, AbstractJExpr.of(dim));
+    }
+
+    public JArrayExpr _newArray() {
+        return new NewUndimJArrayExpr(this);
     }
 
     public String simpleName() {

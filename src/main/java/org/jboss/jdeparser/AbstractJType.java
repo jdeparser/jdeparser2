@@ -79,6 +79,10 @@ abstract class AbstractJType implements JType {
         return _new(JExprs.decimal(dim));
     }
 
+    public JArrayExpr _newArray() {
+        throw new UnsupportedOperationException("Instantiating a " + this + " as an array");
+    }
+
     public JAnonymousClassDef _newAnon() {
         throw new UnsupportedOperationException("Instantiating a " + this + " as a class");
     }

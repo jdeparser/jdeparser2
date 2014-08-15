@@ -18,35 +18,22 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
-
 import java.io.IOException;
 
-/**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
- */
-class NewArrayJExpr extends AbstractJExpr {
+import static org.jboss.jdeparser.FormatPreferences.Space;
+import static org.jboss.jdeparser.Tokens.$KW;
 
+class NewUndimJArrayExpr extends PlainJArrayExpr {
     private final ArrayJType type;
-    private final AbstractJExpr dim;
 
-    NewArrayJExpr(final ArrayJType type, final AbstractJExpr dim) {
-        super(Prec.METHOD_CALL);
+    NewUndimJArrayExpr(final ArrayJType type) {
         this.type = type;
-        this.dim = dim;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.NEW);
         writer.write(type);
-        writer.write($PUNCT.BRACKET.OPEN);
-        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
-        writer.write(dim);
-        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
-        writer.write($PUNCT.BRACKET.CLOSE);
-    }
-
-    public String toString() {
-        return "new " + type + "[" + dim + "]";
+        writer.write(Space.BEFORE_BRACE_ARRAY_INIT);
+        super.write(writer);
     }
 }

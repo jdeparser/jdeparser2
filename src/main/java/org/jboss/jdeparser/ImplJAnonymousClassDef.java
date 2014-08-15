@@ -40,10 +40,10 @@ class ImplJAnonymousClassDef extends AbstractJCall implements JAnonymousClassDef
         return type;
     }
 
-    public void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.NEW);
         writer.write(type);
-        super.writeDirect(writer);
+        super.write(writer);
         writer.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
         classDef.write(writer);
     }

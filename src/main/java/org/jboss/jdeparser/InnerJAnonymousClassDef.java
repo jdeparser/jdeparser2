@@ -18,39 +18,22 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.Tokens.*;
-
 import java.io.IOException;
 
-/**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
- */
-class CastJExpr extends AbstractJExpr {
+import static org.jboss.jdeparser.Tokens.$PUNCT;
+
+class InnerJAnonymousClassDef extends ImplJAnonymousClassDef {
 
     private final AbstractJExpr expr;
-    private final JType type;
 
-    CastJExpr(final AbstractJExpr expr, final JType type) {
-        super(Prec.CAST);
-        this.expr = expr.prec() < Prec.CAST ? new ParenJExpr(expr) : expr;
-        this.type = type;
-    }
-
-    AbstractJExpr getExpression() {
-        return expr;
-    }
-
-    JType getType() {
-        return type;
+    InnerJAnonymousClassDef(final AbstractJExpr expr, final JType type) {
+        super(type);
+        this.expr = expr;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write($PUNCT.PAREN.OPEN);
-        writer.write(FormatPreferences.Space.WITHIN_PAREN_CAST);
-        writer.write(type);
-        writer.write(FormatPreferences.Space.WITHIN_PAREN_CAST);
-        writer.write($PUNCT.PAREN.CLOSE);
-        writer.write(FormatPreferences.Space.AFTER_CAST);
         writer.write(expr);
+        writer.write($PUNCT.DOT);
+        super.write(writer);
     }
 }

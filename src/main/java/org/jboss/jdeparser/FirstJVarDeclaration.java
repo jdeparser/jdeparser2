@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration, BlockContent {
+class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration, BlockContent, ClassContent {
 
     private final int mods;
     private final JType type;

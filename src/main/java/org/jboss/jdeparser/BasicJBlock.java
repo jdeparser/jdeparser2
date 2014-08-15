@@ -254,7 +254,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JBlock _synchronized(final JExpr synchExpr) {
-        return add(new SynchJBlock(this, ArrayJExpr.of(synchExpr)));
+        return add(new SynchJBlock(this, PlainJArrayExpr.of(synchExpr)));
     }
 
     public JStatement assign(final JAssignableExpr target, final JExpr e1) {

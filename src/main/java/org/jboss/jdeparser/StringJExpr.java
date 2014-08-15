@@ -92,7 +92,7 @@ class StringJExpr extends AbstractJExpr {
         }
     };
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
         writer.writeEscaped('"');
         writer.pushIndent(ESC);

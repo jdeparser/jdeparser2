@@ -19,7 +19,6 @@
 package org.jboss.jdeparser;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * The factory for generating simple expressions.
@@ -192,32 +191,36 @@ public final class JExprs {
         return name(varDeclaration.name());
     }
 
-    public static JExpr array(JExpr... members) {
-        return new ArrayJExpr(members);
+    public static JArrayExpr array() {
+        return new PlainJArrayExpr();
     }
 
-    public static JExpr array(String... members) {
+    public static JArrayExpr array(JExpr... members) {
+        return new PlainJArrayExpr(members);
+    }
+
+    public static JArrayExpr array(String... members) {
         final JExpr[] exprs = new JExpr[members.length];
         for (int i = 0; i < members.length; i++) {
             exprs[i] = str(members[i]);
         }
-        return new ArrayJExpr(exprs);
+        return new PlainJArrayExpr(exprs);
     }
 
-    public static JExpr array(int... members) {
+    public static JArrayExpr array(int... members) {
         final JExpr[] exprs = new JExpr[members.length];
         for (int i = 0; i < members.length; i++) {
             exprs[i] = decimal(members[i]);
         }
-        return new ArrayJExpr(exprs);
+        return new PlainJArrayExpr(exprs);
     }
 
-    public static JExpr array(long... members) {
+    public static JArrayExpr array(long... members) {
         final JExpr[] exprs = new JExpr[members.length];
         for (int i = 0; i < members.length; i++) {
             exprs[i] = decimal(members[i]);
         }
-        return new ArrayJExpr(exprs);
+        return new PlainJArrayExpr(exprs);
     }
 
     public static JExpr unqualifiedMethodRef(String name) {

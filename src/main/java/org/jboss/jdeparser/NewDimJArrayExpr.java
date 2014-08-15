@@ -18,7 +18,6 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.FormatPreferences.Space;
 import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
@@ -26,28 +25,28 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ArrayJExpr extends AbstractJExpr implements JExpr {
+class NewDimJArrayExpr extends AbstractJExpr {
 
-    private final JExpr[] members;
+    private final ArrayJType type;
+    private final AbstractJExpr dim;
 
-    ArrayJExpr(final JExpr... members) {
-        super(0);
-        this.members = members;
+    NewDimJArrayExpr(final ArrayJType type, final AbstractJExpr dim) {
+        super(Prec.METHOD_CALL);
+        this.type = type;
+        this.dim = dim;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
-        writer.write($PUNCT.BRACE.OPEN);
-        writer.write(Space.WITHIN_BRACES_ARRAY_INIT);
-        final JExpr[] members = this.members;
-        final int len = members.length;
-        if (len > 0) {
-            writer.write(members[0]);
-            for (int i = 1; i < len; i ++) {
-                writer.write($PUNCT.COMMA);
-                writer.write(members[i]);
-            }
-        }
-        writer.write(Space.WITHIN_BRACES_ARRAY_INIT);
-        writer.write($PUNCT.BRACE.CLOSE);
+    public void write(final SourceFileWriter writer) throws IOException {
+        writer.write($KW.NEW);
+        writer.write(type.elementType());
+        writer.write($PUNCT.BRACKET.OPEN);
+        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
+        writer.write(dim);
+        writer.write(FormatPreferences.Space.WITHIN_BRACKETS);
+        writer.write($PUNCT.BRACKET.CLOSE);
+    }
+
+    public String toString() {
+        return "new " + type.elementType() + "[" + dim + "]";
     }
 }

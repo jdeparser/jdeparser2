@@ -34,9 +34,9 @@ class InnerNewJCall extends NewJCall {
         this.target = target;
     }
 
-    public void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(target);
         writer.write($PUNCT.DOT);
-        super.writeDirect(writer);
+        super.write(writer);
     }
 }

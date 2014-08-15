@@ -36,7 +36,7 @@ class ArrayLookupJExpr extends AbstractJExpr {
         this.idx = idx;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(expr);
         writer.write($PUNCT.BRACKET.OPEN);
         writer.write(idx);

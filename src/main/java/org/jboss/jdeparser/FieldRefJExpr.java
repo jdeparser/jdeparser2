@@ -36,7 +36,7 @@ class FieldRefJExpr extends AbstractJAssignableExpr {
         this.refName = refName;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(expr);
         writer.write($PUNCT.DOT);
         writer.writeEscaped(refName);

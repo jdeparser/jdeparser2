@@ -34,7 +34,7 @@ class MethodRefJExpr extends AbstractJExpr {
         this.name = name;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(type);
         writer.write(Tokens.$PUNCT.BINOP.DBL_COLON);
         writer.writeEscapedWord(name);

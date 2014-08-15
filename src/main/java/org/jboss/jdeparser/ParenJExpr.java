@@ -38,7 +38,7 @@ class ParenJExpr extends AbstractJExpr {
         return expr;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.PAREN.OPEN);
         writer.write(FormatPreferences.Space.WITHIN_PAREN_EXPR);
         writer.write(expr);

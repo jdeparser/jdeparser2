@@ -41,11 +41,11 @@ public interface JExpr {
 
     // arithmetic
 
-    JExpr add(JExpr e1);
+    JExpr plus(JExpr e1);
 
-    JExpr sub(JExpr e1);
+    JExpr minus(JExpr e1);
 
-    JExpr mul(JExpr e1);
+    JExpr times(JExpr e1);
 
     JExpr div(JExpr e1);
 
@@ -129,7 +129,32 @@ public interface JExpr {
 
     JCall _new(Class<?> type);
 
-    // todo construct inner anonymous
+    /**
+     * Construct a new anonymous subclass of the given type, which must be an inner class of the type of this
+     * expression.
+     *
+     * @param type the type of object to construct
+     * @return the anonymous subclass definition
+     */
+    JAnonymousClassDef _newAnon(String type);
+
+    /**
+     * Construct a new anonymous subclass of the given type, which must be an inner class of the type of this
+     * expression.
+     *
+     * @param type the type of object to construct
+     * @return the anonymous subclass definition
+     */
+    JAnonymousClassDef _newAnon(JType type);
+
+    /**
+     * Construct a new anonymous subclass of the given type, which must be an inner class of the type of this
+     * expression.
+     *
+     * @param type the type of object to construct
+     * @return the anonymous subclass definition
+     */
+    JAnonymousClassDef _newAnon(Class<?> type);
 
     // field
 

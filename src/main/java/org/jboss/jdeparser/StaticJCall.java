@@ -38,9 +38,9 @@ class StaticJCall extends AbstractMethodJCall {
         return type;
     }
 
-    public void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(AbstractJType.of(type));
         writer.write($PUNCT.DOT);
-        super.writeDirect(writer);
+        super.write(writer);
     }
 }

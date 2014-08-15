@@ -239,11 +239,11 @@ class SourceFileWriter implements Flushable, Closeable {
     }
 
     void write(final JExpr expr) throws IOException {
-        if (expr != null) AbstractJExpr.of(expr).writeDirect(this);
+        if (expr != null) AbstractJExpr.of(expr).write(this);
     }
 
     void write(final AbstractJExpr expr) throws IOException {
-        if (expr != null) expr.writeDirect(this);
+        if (expr != null) expr.write(this);
     }
 
     void pushIndent(FormatPreferences.Indentation indentation) {

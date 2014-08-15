@@ -38,7 +38,7 @@ class BooleanJExpr extends AbstractJExpr {
         return value;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(value ? $KW.TRUE : $KW.FALSE);
     }
 }

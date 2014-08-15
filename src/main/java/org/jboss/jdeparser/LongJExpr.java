@@ -36,7 +36,7 @@ class LongJExpr extends AbstractJExpr implements JExpr {
         this.sepInterval = sepInterval;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
         writer.write(Tokens.$NUMBER);
         switch (radix) {

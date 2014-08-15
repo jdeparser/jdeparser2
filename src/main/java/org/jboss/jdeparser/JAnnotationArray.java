@@ -19,8 +19,15 @@
 package org.jboss.jdeparser;
 
 /**
+ * An array of annotations.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JAnnotationArray {
 
+    /**
+     * Add an annotation of the array's type to the array.
+     * @return the new annotation
+     */
+    JAnnotation add();
 }

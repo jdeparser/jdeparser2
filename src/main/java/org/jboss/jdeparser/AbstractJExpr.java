@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJExpr implements JExpr {
+abstract class AbstractJExpr implements JExpr, Writable {
 
     private final int prec;
 
@@ -40,15 +40,15 @@ abstract class AbstractJExpr implements JExpr {
         throw new IllegalArgumentException("Expression from different implementation");
     }
 
-    public JExpr add(final JExpr e1) {
+    public JExpr plus(final JExpr e1) {
         return new BinaryJExpr($PUNCT.BINOP.PLUS, this, (AbstractJExpr) e1, Prec.ADDITIVE);
     }
 
-    public JExpr sub(final JExpr e1) {
+    public JExpr minus(final JExpr e1) {
         return new BinaryJExpr($PUNCT.BINOP.MINUS, this, (AbstractJExpr) e1, Prec.ADDITIVE);
     }
 
-    public JExpr mul(final JExpr e1) {
+    public JExpr times(final JExpr e1) {
         return new BinaryJExpr($PUNCT.BINOP.TIMES, this, (AbstractJExpr) e1, Prec.MULTIPLICATIVE);
     }
 
@@ -176,6 +176,18 @@ abstract class AbstractJExpr implements JExpr {
         return new InnerNewJCall(this, JTypes.typeOf(type));
     }
 
+    public JAnonymousClassDef _newAnon(final String type) {
+        return new InnerJAnonymousClassDef(this, JTypes.typeNamed(type));
+    }
+
+    public JAnonymousClassDef _newAnon(final JType type) {
+        return new InnerJAnonymousClassDef(this, type);
+    }
+
+    public JAnonymousClassDef _newAnon(final Class<?> type) {
+        return new InnerJAnonymousClassDef(this, JTypes.typeOf(type));
+    }
+
     private CachingLinkedHashMap<String, JAssignableExpr> fieldCache;
 
     public JAssignableExpr field(final String name) {
@@ -215,6 +227,4 @@ abstract class AbstractJExpr implements JExpr {
     public int prec() {
         return prec;
     }
-
-    abstract void writeDirect(final SourceFileWriter writer) throws IOException;
 }

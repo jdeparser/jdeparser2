@@ -32,7 +32,7 @@ class NameJExpr extends AbstractJAssignableExpr {
         this.name = name;
     }
 
-    void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.writeEscaped(name);
     }
 }

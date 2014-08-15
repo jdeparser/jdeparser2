@@ -38,7 +38,7 @@ class NewJCall extends AbstractJCall {
         return this;
     }
 
-    public void writeDirect(final SourceFileWriter writer) throws IOException {
+    public void write(final SourceFileWriter writer) throws IOException {
         writer.write(Tokens.$KW.NEW);
         writer.write(type);
         if (diamond) {
@@ -47,6 +47,6 @@ class NewJCall extends AbstractJCall {
         } else {
             super.writeTypeArgs(writer);
         }
-        super.writeDirect(writer);
+        super.write(writer);
     }
 }

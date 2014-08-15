@@ -25,9 +25,7 @@ import static org.jboss.jdeparser.JMod.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -40,7 +38,6 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private final ImplJClassFile classFile;
 
     private final ArrayList<ClassContent> content = new ArrayList<>();
-    private final Map<String, FirstJVarDeclaration> fields = new HashMap<>();
     private JType _extends;
     private ArrayList<JType> _implements;
     private JType erased;
@@ -182,12 +179,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
         }
-        if (fields.containsKey(name)) {
-            throw new IllegalArgumentException("A field named '" + name + "' already exists");
-        }
-        final FirstJVarDeclaration field = new FirstJVarDeclaration(mods, type, name, init);
-        fields.put(name, field);
-        return field;
+        return add(new FirstJVarDeclaration(mods, type, name, init));
     }
 
     public JVarDeclaration field(final int mods, final Class<?> type, final String name) {
@@ -304,14 +296,11 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         sourceFileWriter.write($PUNCT.BRACE.OPEN);
         final boolean hasOption = sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.COMPACT_INIT_ONLY_CLASS);
         if (supportsCompactInitOnly() && hasOption && content.size() == 1 && content.get(0) instanceof InitJBlock) {
-            writeGlobalFields(sourceFileWriter, false);
             writeContent(sourceFileWriter);
             sourceFileWriter.write($PUNCT.BRACE.CLOSE);
         } else {
             sourceFileWriter.pushIndent(getMemberIndentation());
             try {
-                sourceFileWriter.nl();
-                writeGlobalFields(sourceFileWriter, true);
                 sourceFileWriter.nl();
                 writeContent(sourceFileWriter);
             } finally {
@@ -345,18 +334,14 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         }
     }
 
-    void writeGlobalFields(final SourceFileWriter sourceFileWriter, final boolean writeFormatted) throws IOException {
-        for (FirstJVarDeclaration var : fields.values()) {
-            var.write(sourceFileWriter);
-            if (writeFormatted) {
-                sourceFileWriter.nl();
-            }
-        }
-    }
-
     void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {
-        for (ClassContent classContent : content) {
-            classContent.write(sourceFileWriter);
+        Iterator<ClassContent> iterator = content.iterator();
+        if (iterator.hasNext()) {
+            iterator.next().write(sourceFileWriter);
+            while (iterator.hasNext()) {
+                sourceFileWriter.nl();
+                iterator.next().write(sourceFileWriter);
+            }
         }
     }
 }

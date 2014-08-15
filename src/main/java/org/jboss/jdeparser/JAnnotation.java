@@ -21,30 +21,139 @@ package org.jboss.jdeparser;
 import java.lang.annotation.Annotation;
 
 /**
+ * An annotation.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JAnnotation {
+
+    /**
+     * Set the "value" property of this annotation.  To set an array of values, see {@link JExprs#array(JExpr...)}.
+     *
+     * @param expr the annotation value
+     * @return this annotation
+     */
     JAnnotation value(JExpr expr);
 
+    /**
+     * Set the "value" property of this annotation to a string.
+     *
+     * @param literal the annotation value string
+     * @return this annotation
+     */
     JAnnotation value(String literal);
 
+    /**
+     * Set the "value" property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
     JAnnotation annotationValue(String type);
 
+    /**
+     * Set the "value" property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
     JAnnotation annotationValue(JType type);
 
+    /**
+     * Set the "value" property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
     JAnnotation annotationValue(Class<? extends Annotation> type);
 
+    /**
+     * Set the "value" property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(String type);
 
+    /**
+     * Set the "value" property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(JType type);
 
+    /**
+     * Set the "value" property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(Class<? extends Annotation> type);
 
+    /**
+     * Set the named property of this annotation.  To set an array of values, see {@link JExprs#array(JExpr...)}.
+     *
+     * @param name the annotation property name
+     * @param expr the annotation value
+     * @return this annotation
+     */
     JAnnotation value(String name, JExpr expr);
 
+    /**
+     * Set the named property of this annotation to a string.
+     *
+     * @param name the annotation property name
+     * @param literal the annotation value string
+     * @return this annotation
+     */
+    JAnnotation value(String name, String literal);
+
+    /**
+     * Set the named property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
+    JAnnotation annotationValue(String name, String type);
+
+    /**
+     * Set the named property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
+    JAnnotation annotationValue(String name, JType type);
+
+    /**
+     * Set the named property of this annotation to a nested annotation of the given type.
+     *
+     * @param type the annotation type
+     * @return the nested annotation
+     */
+    JAnnotation annotationValue(String name, Class<? extends Annotation> type);
+
+    /**
+     * Set the named property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(String name, String type);
 
+    /**
+     * Set the named property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(String name, JType type);
 
+    /**
+     * Set the named property of this annotation to an array of nested annotations of the given type.
+     *
+     * @param type the annotation array element type
+     * @return the nested annotation
+     */
     JAnnotationArray annotationArrayValue(String name, Class<? extends Annotation> type);
 }
