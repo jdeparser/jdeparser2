@@ -19,6 +19,7 @@
 package org.jboss.jdeparser;
 
 import static org.jboss.jdeparser.JExprs.$;
+import static org.jboss.jdeparser.JExprs.str;
 import static org.jboss.jdeparser.JMod.FINAL;
 import static org.jboss.jdeparser.JMod.PUBLIC;
 import static org.jboss.jdeparser.JMod.STATIC;
@@ -55,6 +56,11 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
         final JParamDeclaration theTee = getString.param(PUBLIC | FINAL, "T", "theTee");
         final JBlock body = getString.body();
+        JVarDeclaration t = body.var(0, String.class, "test", JExpr.NULL);
+        JIf jIf = body._if($(t).eq(JExpr.NULL));
+        jIf.assign($(t), str("new Value"));
+        jIf._else().assign($(t), str("other value"));
+
         body.call(_(System.class).$("out"), "println").arg($(theTee));
         body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
         final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).plus(JExprs.decimal(456)).times(JExprs.decimal(246)));

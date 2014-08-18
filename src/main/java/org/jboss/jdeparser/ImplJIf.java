@@ -56,14 +56,13 @@ class ImplJIf extends ConditionJBlock implements JIf {
         writer.write(getCondition());
         writer.write(FormatPreferences.Space.WITHIN_PAREN_IF);
         writer.write($PUNCT.PAREN.CLOSE);
+        super.write(writer);
         if (_else != null) {
             if (hasSingleItemOfType(ImplJIf.class)) {
                 _else.write(writer, null, Braces.REQUIRED);
             } else {
                 _else.write(writer);
             }
-        } else {
-            super.write(writer);
         }
     }
 }
