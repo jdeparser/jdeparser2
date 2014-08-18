@@ -19,28 +19,24 @@
 package org.jboss.jdeparser;
 
 /**
+ * A generic type or method definition.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JClassFile extends JCommentable {
-    JClassFile _import(String type);
+public interface JGenericDef {
 
-    JClassFile _import(JType type);
+    /**
+     * Define a type parameter.
+     *
+     * @param name the type parameter name
+     * @return the type parameter definition
+     */
+    JTypeParamDef typeParam(String name);
 
-    JClassFile _import(Class<?> type);
-
-    JClassFile importStatic(String type, String member);
-
-    JClassFile importStatic(JType type, String member);
-
-    JClassFile importStatic(Class<?> type, String member);
-
-    JClassFile blankLine();
-
-    JClassDef _class(int mods, String name);
-
-    JClassDef _enum(int mods, String name);
-
-    JClassDef _interface(int mods, String name);
-
-    JClassDef annotationInterface(int mods, String name);
+    /**
+     * Get all the type parameters defined at the time of invocation.
+     *
+     * @return the type parameters
+     */
+    JTypeParamDef[] typeParams();
 }

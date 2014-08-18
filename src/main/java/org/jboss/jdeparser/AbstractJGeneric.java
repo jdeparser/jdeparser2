@@ -27,7 +27,7 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJGeneric extends BasicJAnnotatable implements JGeneric {
+abstract class AbstractJGeneric extends BasicJAnnotatable implements JGenericDef {
     private ArrayList<ImplJTypeParamDef> typeParamDefs;
 
     private ImplJTypeParamDef add(ImplJTypeParamDef item) {

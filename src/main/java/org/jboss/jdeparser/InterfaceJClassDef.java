@@ -23,7 +23,7 @@ package org.jboss.jdeparser;
  */
 class InterfaceJClassDef extends AbstractJClassDef {
 
-    InterfaceJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    InterfaceJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
     }
 

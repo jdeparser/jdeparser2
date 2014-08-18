@@ -19,6 +19,8 @@
 package org.jboss.jdeparser;
 
 /**
+ * A source comment or tag body.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JComment {
@@ -38,6 +40,11 @@ public interface JComment {
      */
     JComment sp();
 
+    /**
+     * Add a newline.
+     *
+     * @return this comment
+     */
     JComment nl();
 
     /**
@@ -88,15 +95,52 @@ public interface JComment {
      */
     JComment docRoot();
 
+    /**
+     * Add an inline {@code @link} to a type.
+     *
+     * @param plain {@code true} to render in plain font, {@code false} to render in {@code monospace} font
+     * @param targetType the target type to link to
+     * @return the body of the link tag
+     */
     JComment linkType(boolean plain, JType targetType);
 
+    /**
+     * Add an inline {@code @link} to a field of a type.
+     *
+     * @param plain {@code true} to render in plain font, {@code false} to render in {@code monospace} font
+     * @param targetType the target type to link to
+     * @param targetField the target field to link to
+     * @return the body of the link tag
+     */
     JComment linkField(boolean plain, JType targetType, String targetField);
 
-    JComment linkField(boolean plain, JVarDeclaration fieldDeclaration);
-
+    /**
+     * Add an inline {@code @link} to a constructor.
+     *
+     * @param plain {@code true} to render in plain font, {@code false} to render in {@code monospace} font
+     * @param targetType the target type to link to
+     * @param targetConstructorArgumentTypes the argument types of the constructor to link to
+     * @return the body of the link tag
+     */
     JComment linkConstructor(boolean plain, JType targetType, JType... targetConstructorArgumentTypes);
 
+    /**
+     * Add an inline {@code @link} to a method.
+     *
+     * @param plain {@code true} to render in plain font, {@code false} to render in {@code monospace} font
+     * @param targetType the target type to link to
+     * @param targetMethod the name of the method to link to
+     * @param targetMethodArgumentTypes the argument types of the method to link to
+     * @return the body of the link tag
+     */
     JComment linkMethod(boolean plain, JType targetType, String targetMethod, JType... targetMethodArgumentTypes);
 
+    /**
+     * Add an inline {@code @link} to a method.
+     *
+     * @param plain {@code true} to render in plain font, {@code false} to render in {@code monospace} font
+     * @param methodDef the method to link to
+     * @return the body of the link tag
+     */
     JComment linkMethod(boolean plain, JMethodDef methodDef);
 }

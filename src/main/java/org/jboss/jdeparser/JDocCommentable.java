@@ -19,10 +19,23 @@
 package org.jboss.jdeparser;
 
 /**
+ * A program element which can have a documentation tag associated with it.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JDocCommentable extends JCommentable {
+
+    /**
+     * Get or create the doc comment for this element.
+     *
+     * @return the doc comment body
+     */
     JDocComment docComment();
 
+    /**
+     * Mark this program element as deprecated.
+     *
+     * @return the deprecation tag body
+     */
     JComment deprecated();
 }

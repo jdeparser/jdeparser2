@@ -26,7 +26,7 @@ import java.io.IOException;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JSources {
-    JClassFile createSourceFile(String packageName, String fileName);
+    JSourceFile createSourceFile(String packageName, String fileName);
 
     JDocCommentable createPackageInfoFile(String packageName);
 

@@ -20,8 +20,6 @@ package org.jboss.jdeparser;
 
 import static org.jboss.jdeparser.Tokens.*;
 
-import java.io.IOException;
-
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -206,7 +204,7 @@ abstract class AbstractJExpr implements JExpr, Writable {
         return field(name);
     }
 
-    public JExpr idx(final JExpr idx) {
+    public JAssignableExpr idx(final JExpr idx) {
         return new ArrayLookupJExpr(this, (AbstractJExpr) idx);
     }
 

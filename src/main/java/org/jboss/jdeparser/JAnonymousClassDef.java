@@ -19,6 +19,9 @@
 package org.jboss.jdeparser;
 
 /**
+ * An anonymous class definition.  Anonymous classes have characteristics of both constructor calls and class
+ * definitions.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JAnonymousClassDef extends JCall, JClassDef {

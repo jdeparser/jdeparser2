@@ -43,7 +43,7 @@ class ImplJIf extends ConditionJBlock implements JIf {
         throw new IllegalStateException("else block already added");
     }
 
-    public JBlock elseIf(final JExpr cond) {
+    public JIf elseIf(final JExpr cond) {
         return _else()._if(cond);
     }
 

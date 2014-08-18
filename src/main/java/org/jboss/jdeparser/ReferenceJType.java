@@ -78,7 +78,7 @@ class ReferenceJType extends AbstractJType {
     }
 
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
-        final ImplJClassFile cf = sourceFileWriter.getClassFile();
+        final ImplJSourceFile cf = sourceFileWriter.getClassFile();
         final String currentPackageName = cf.getPackageName();
         final boolean packageMatches = currentPackageName.equals(packageName);
         if (packageMatches && cf.hasImport(simpleName())) {

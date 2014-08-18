@@ -19,11 +19,19 @@
 package org.jboss.jdeparser;
 
 /**
+ * An enum constant definition.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JEnumConstant extends JSimpleArgs, JAnnotatable, JDocCommentable {
 
+    /** {@inheritDoc} */
     JEnumConstant arg(JExpr expr);
 
+    /**
+     * Add an implementation body to this enum constant.
+     *
+     * @return the implementation class definition
+     */
     JClassDef body();
 }

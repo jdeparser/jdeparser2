@@ -29,7 +29,7 @@ import java.util.Map;
 class EnumJClassDef extends AbstractJClassDef {
     private final Map<String, ImplJEnumConstant> constants = new LinkedHashMap<>();
 
-    EnumJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    EnumJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
     }
 

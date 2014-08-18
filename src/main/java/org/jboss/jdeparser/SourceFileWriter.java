@@ -78,7 +78,7 @@ class SourceFileWriter implements Flushable, Closeable {
     };
     private Token state = $START;
     private int spaceState;
-    private ImplJClassFile classFile;
+    private ImplJSourceFile classFile;
 
     private static final int SS_NONE = 0;
     private static final int SS_NEEDED = 1;
@@ -277,7 +277,7 @@ class SourceFileWriter implements Flushable, Closeable {
         assert pop == thisType;
     }
 
-    void setClassFile(final ImplJClassFile classFile) {
+    void setClassFile(final ImplJSourceFile classFile) {
         this.classFile = classFile;
     }
 
@@ -285,7 +285,7 @@ class SourceFileWriter implements Flushable, Closeable {
         return state;
     }
 
-    ImplJClassFile getClassFile() {
+    ImplJSourceFile getClassFile() {
         return classFile;
     }
 

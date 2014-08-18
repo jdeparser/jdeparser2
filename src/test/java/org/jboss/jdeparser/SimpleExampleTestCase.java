@@ -40,7 +40,7 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
     @Test
     public void testSimple() throws IOException {
         final JSources sources = JDeparser.createSources(getFiler(), new FormatPreferences(new Properties()));
-        final JClassFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
+        final JSourceFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
         final JClassDef baz = bazFile._class(PUBLIC | FINAL, "Baz");
         final JMethodDef getString = baz.method(PUBLIC | FINAL, String.class, "getString");
         getString.docComment().text("Hello\nthere!");

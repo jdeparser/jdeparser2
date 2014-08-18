@@ -19,6 +19,8 @@
 package org.jboss.jdeparser;
 
 /**
+ * A {@code package-info.java} file definition.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JPackageInfoFile extends JDocCommentable, JAnnotatable {

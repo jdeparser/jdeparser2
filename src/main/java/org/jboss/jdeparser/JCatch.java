@@ -19,13 +19,34 @@
 package org.jboss.jdeparser;
 
 /**
+ * A {@code catch} branch for a {@code try} block.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JCatch extends JTry {
+
+    /**
+     * Add another type option to this catch branch.
+     *
+     * @param orType the alternative type
+     * @return this catch block
+     */
     JCatch or(JType orType);
 
+    /**
+     * Add another type option to this catch branch.
+     *
+     * @param orType the alternative type
+     * @return this catch block
+     */
     JCatch or(String orType);
 
+    /**
+     * Add another type option to this catch branch.
+     *
+     * @param orType the alternative type
+     * @return this catch block
+     */
     JCatch or(Class<? extends Throwable> orType);
 
 }

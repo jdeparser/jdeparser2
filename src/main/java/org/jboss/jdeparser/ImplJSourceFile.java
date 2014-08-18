@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ImplJClassFile extends BasicJCommentable implements JClassFile {
+class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     private final ImplJSources sources;
     private final Map<String, ReferenceJType> imports = new HashMap<>();
     private final Map<String, StaticRefJExpr> staticImports = new HashMap<>();
@@ -37,7 +37,7 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
     private final String fileName;
     private boolean packageWritten;
 
-    ImplJClassFile(final ImplJSources sources, final String packageName, final String fileName) {
+    ImplJSourceFile(final ImplJSources sources, final String packageName, final String fileName) {
         this.sources = sources;
         this.packageName = packageName;
         this.fileName = fileName;
@@ -89,11 +89,11 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName(writer).equals(staticRefJExpr.getType().qualifiedName(writer));
     }
 
-    public JClassFile _import(final String type) {
+    public JSourceFile _import(final String type) {
         return _import(JTypes.typeNamed(type));
     }
 
-    public JClassFile _import(final JType type) {
+    public JSourceFile _import(final JType type) {
         checkPackage();
         if (imports.isEmpty()) {
             content.add(new ClassFileContent() {
@@ -117,15 +117,15 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         return this;
     }
 
-    public JClassFile _import(final Class<?> type) {
+    public JSourceFile _import(final Class<?> type) {
         return _import(JTypes.typeOf(type));
     }
 
-    public JClassFile importStatic(final String type, final String member) {
+    public JSourceFile importStatic(final String type, final String member) {
         return importStatic(JTypes.typeNamed(type), member);
     }
 
-    public JClassFile importStatic(final JType type, final String member) {
+    public JSourceFile importStatic(final JType type, final String member) {
         checkPackage();
         if (staticImports.isEmpty()) {
             content.add(new ClassFileContent() {
@@ -144,11 +144,11 @@ class ImplJClassFile extends BasicJCommentable implements JClassFile {
         return this;
     }
 
-    public JClassFile importStatic(final Class<?> type, final String member) {
+    public JSourceFile importStatic(final Class<?> type, final String member) {
         return importStatic(JTypes.typeOf(type), member);
     }
 
-    public JClassFile blankLine() {
+    public JSourceFile blankLine() {
         checkPackage();
         add(BlankLine.getInstance());
         return this;

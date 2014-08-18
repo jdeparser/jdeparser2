@@ -19,10 +19,24 @@
 package org.jboss.jdeparser;
 
 /**
+ * An {@code if} statement.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JIf extends JBlock {
+
+    /**
+     * Get the {@code else} condition block.
+     *
+     * @return the {@code else} block
+     */
     JBlock _else();
 
-    JBlock elseIf(JExpr cond);
+    /**
+     * Add an {@code if} statement to the {@code else} block.
+     *
+     * @param cond the subsequent {@code if} condition
+     * @return the subsequent {@code if} statement
+     */
+    JIf elseIf(JExpr cond);
 }

@@ -19,11 +19,24 @@
 package org.jboss.jdeparser;
 
 /**
+ * A program element which supports simple arguments.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JSimpleArgs {
 
+    /**
+     * Add an argument.
+     *
+     * @param expr the argument expression
+     * @return this program element
+     */
     JSimpleArgs arg(JExpr expr);
 
+    /**
+     * Get the arguments defined thus far.
+     *
+     * @return the arguments
+     */
     JExpr[] arguments();
 }

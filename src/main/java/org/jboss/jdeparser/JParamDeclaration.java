@@ -19,16 +19,44 @@
 package org.jboss.jdeparser;
 
 /**
+ * A parameter declaration.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JParamDeclaration extends JAnnotatable {
+
+    /**
+     * Get the parameter type.
+     *
+     * @return the parameter type
+     */
     JType type();
 
+    /**
+     * Get the parameter name.
+     *
+     * @return the parameter name
+     */
     String name();
 
+    /**
+     * Get the parameter modifiers.
+     *
+     * @return the parameter modifiers
+     */
     int mods();
 
+    /**
+     * Determine whether the parameter is a vararg parameter.
+     *
+     * @return {@code true} if the parameter is vararg, {@code false} otherwise
+     */
     boolean varargs();
 
+    /**
+     * Get the {@code @param} JavaDoc block for this parameter.
+     *
+     * @return the comment block
+     */
     JComment doc();
 }

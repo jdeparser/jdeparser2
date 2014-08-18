@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ArrayLookupJExpr extends AbstractJExpr {
+class ArrayLookupJExpr extends AbstractJAssignableExpr {
 
     private final AbstractJExpr expr;
     private final AbstractJExpr idx;

@@ -20,6 +20,9 @@ package org.jboss.jdeparser;
 
 import java.util.LinkedHashMap;
 
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
+
 /**
  * The factory for generating simple expressions.
  */
@@ -152,6 +155,29 @@ public final class JExprs {
 
     public static JExpr ch(int val) {
         return null;
+    }
+
+    public static JCall call(final ExecutableElement element) {
+        final ElementKind kind = element.getKind();
+        if (kind == ElementKind.METHOD) {
+            final String name = element.getSimpleName().toString();
+            return call(name);
+        }
+        throw new IllegalArgumentException("Unsupported element for call: " + element);
+    }
+
+    public static JCall call(String name) { return new DirectJCall(name); }
+
+    public static JCall callStatic(final String type, final String name) {
+        return callStatic(JTypes.typeNamed(type), name);
+    }
+
+    public static JCall callStatic(final JType type, final String name) {
+        return new StaticJCall(type, name);
+    }
+
+    public static JCall callStatic(final Class<?> type, final String name) {
+        return callStatic(JTypes.typeOf(type), name);
     }
 
     /**

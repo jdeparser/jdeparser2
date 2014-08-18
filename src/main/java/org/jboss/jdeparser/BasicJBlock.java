@@ -91,7 +91,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return new ImplJLabel();
     }
 
-    public JStatement label(final JLabel label, final String name) {
+    public JLabel label(final JLabel label, final String name) {
         ImplJLabel label1 = (ImplJLabel) label;
         if (label1.isResolved()) {
             throw new IllegalStateException("Label " + label + " is already resolved");
@@ -100,7 +100,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
         return add(label1);
     }
 
-    public JStatement anonLabel(final JLabel label) {
+    public JLabel anonLabel(final JLabel label) {
         ImplJLabel label1 = (ImplJLabel) label;
         if (label1.isResolved()) {
             throw new IllegalStateException("Label " + label + " is already resolved");
@@ -179,7 +179,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
 
     public JCall call(final ExecutableElement element) {
         final ElementKind kind = element.getKind();
-        if (kind == ElementKind.METHOD && ! element.getModifiers().contains(Modifier.STATIC)) {
+        if (kind == ElementKind.METHOD) {
             final String name = element.getSimpleName().toString();
             return call(name);
         }
@@ -188,7 +188,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
 
     public JCall call(final JExpr obj, final ExecutableElement element) {
         final ElementKind kind = element.getKind();
-        if (kind == ElementKind.METHOD && ! element.getModifiers().contains(Modifier.STATIC)) {
+        if (kind == ElementKind.METHOD) {
             final String name = element.getSimpleName().toString();
             return call(obj, name);
         }
@@ -250,7 +250,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JClassDef _class(final int mods, final String name) {
-        return add(new PlainJClassDef(mods, (ImplJClassFile) null, name));
+        return add(new PlainJClassDef(mods, (ImplJSourceFile) null, name));
     }
 
     public JBlock _synchronized(final JExpr synchExpr) {
@@ -375,10 +375,6 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     public String tempName() {
         final BasicJBlock parent = getParent();
         return parent != null ? parent.tempName() : "anon$$$" + tmpId++;
-    }
-
-    public JClassDef localClass(final int mods, final String name) {
-        return add(new PlainJClassDef(mods, (AbstractJClassDef) null, name));
     }
 
     BasicJBlock getParent() {

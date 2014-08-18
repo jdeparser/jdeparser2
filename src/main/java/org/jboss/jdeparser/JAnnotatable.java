@@ -21,12 +21,33 @@ package org.jboss.jdeparser;
 import java.lang.annotation.Annotation;
 
 /**
+ * A program element which can be annotated.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JAnnotatable {
+
+    /**
+     * Add an annotation.
+     *
+     * @param type the type of the annotation to add
+     * @return the new annotation
+     */
     JAnnotation annotate(String type);
 
+    /**
+     * Add an annotation.
+     *
+     * @param type the type of the annotation to add
+     * @return the new annotation
+     */
     JAnnotation annotate(JType type);
 
+    /**
+     * Add an annotation.
+     *
+     * @param type the type of the annotation to add
+     * @return the new annotation
+     */
     JAnnotation annotate(Class<? extends Annotation> type);
 }

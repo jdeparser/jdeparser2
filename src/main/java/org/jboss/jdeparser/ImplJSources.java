@@ -34,7 +34,7 @@ class ImplJSources implements JSources {
     private final JFiler filer;
     private final FormatPreferences format;
 
-    private final List<ImplJClassFile> classFiles = new ArrayList<>();
+    private final List<ImplJSourceFile> classFiles = new ArrayList<>();
     private final Map<String, AbstractJClassDef> classes = new HashMap<>();
     private final Map<AbstractJClassDef, String> qualifiedNames = new IdentityHashMap<>();
 
@@ -56,8 +56,8 @@ class ImplJSources implements JSources {
         return qualifiedNames.get(classDef);
     }
 
-    public JClassFile createSourceFile(final String packageName, final String fileName) {
-        final ImplJClassFile classFile = new ImplJClassFile(this, packageName, fileName);
+    public JSourceFile createSourceFile(final String packageName, final String fileName) {
+        final ImplJSourceFile classFile = new ImplJSourceFile(this, packageName, fileName);
         classFiles.add(classFile);
         return classFile;
     }
@@ -67,7 +67,7 @@ class ImplJSources implements JSources {
     }
 
     public void writeSources() throws IOException {
-        for (ImplJClassFile classFile : classFiles) {
+        for (ImplJSourceFile classFile : classFiles) {
             try (Writer writer = filer.openWriter(classFile.getPackageName(), classFile.getFileName())) {
                 try (SourceFileWriter sourceFileWriter = new SourceFileWriter(format, writer)) {
                     classFile.write(sourceFileWriter);

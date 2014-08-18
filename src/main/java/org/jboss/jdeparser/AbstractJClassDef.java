@@ -35,7 +35,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     private final int mods;
     private final String name;
     private final AbstractJClassDef enclosingClass;
-    private final ImplJClassFile classFile;
+    private final ImplJSourceFile classFile;
 
     private final ArrayList<ClassContent> content = new ArrayList<>();
     private JType _extends;
@@ -57,7 +57,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         this.classFile = enclosingClass.classFile;
     }
 
-    AbstractJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    AbstractJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         this.mods = mods;
         this.name = name;
         this.enclosingClass = null;
@@ -68,7 +68,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return enclosingClass;
     }
 
-    ImplJClassFile getClassFile() {
+    ImplJSourceFile getClassFile() {
         return classFile;
     }
 

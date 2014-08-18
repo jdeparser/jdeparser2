@@ -25,7 +25,7 @@ import static org.jboss.jdeparser.Tokens.*;
  */
 class PlainJClassDef extends AbstractJClassDef implements BlockContent {
 
-    PlainJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    PlainJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
     }
 

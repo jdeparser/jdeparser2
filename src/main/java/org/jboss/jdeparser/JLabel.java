@@ -19,6 +19,8 @@
 package org.jboss.jdeparser;
 
 /**
+ * A source label.  Labels may be defined when created, or defined later on.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JLabel {

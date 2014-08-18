@@ -19,10 +19,23 @@
 package org.jboss.jdeparser;
 
 /**
+ * A program element which can have comments attached to it.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JCommentable {
+
+    /**
+     * Add a line comment.
+     *
+     * @return the line comment body
+     */
     JComment lineComment();
 
+    /**
+     * Add a block comment.
+     *
+     * @return the block comment body
+     */
     JComment blockComment();
 }

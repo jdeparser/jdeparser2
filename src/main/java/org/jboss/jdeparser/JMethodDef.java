@@ -19,11 +19,11 @@
 package org.jboss.jdeparser;
 
 /**
- * A method definition.
+ * A method or constructor definition.
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JMethodDef extends JGeneric, JAnnotatable, JDocCommentable {
+public interface JMethodDef extends JGenericDef, JAnnotatable, JDocCommentable {
 
     /**
      * A default method body for a JDK 8+ interface method.
@@ -40,39 +40,162 @@ public interface JMethodDef extends JGeneric, JAnnotatable, JDocCommentable {
      */
     JMethodDef _default(JExpr expr);
 
+    /**
+     * Get the method body.
+     *
+     * @return the method body
+     */
     JBlock body();
 
+    /**
+     * Get the {@code @return} doc comment block.
+     *
+     * @return the comment block
+     */
     JComment returnsDoc();
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(int mods, JType type, String name);
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(JType type, String name);
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(int mods, String type, String name);
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(String type, String name);
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(int mods, Class<?> type, String name);
 
+    /**
+     * Add a parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration param(Class<?> type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(int mods, JType type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(JType type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(int mods, String type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(String type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param mods the parameter modifiers
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(int mods, Class<?> type, String name);
 
+    /**
+     * Add a vararg parameter to this method.
+     *
+     * @param type the parameter type
+     * @param name the parameter name
+     * @return the parameter declaration
+     */
     JParamDeclaration varargParam(Class<?> type, String name);
 
+    /**
+     * Get the list of parameters defined thus far.
+     *
+     * @return the parameter list
+     */
     JParamDeclaration[] params();
 
+    /**
+     * Get a {@code @throws} doc comment block.
+     *
+     * @param type the exception type
+     * @return the doc comment block
+     */
     JComment _throws(String type);
 
+    /**
+     * Get a {@code @throws} doc comment block.
+     *
+     * @param type the exception type
+     * @return the doc comment block
+     */
     JComment _throws(JType type);
 
+    /**
+     * Get a {@code @throws} doc comment block.
+     *
+     * @param type the exception type
+     * @return the doc comment block
+     */
     JComment _throws(Class<? extends Throwable> type);
 }

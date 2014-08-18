@@ -121,10 +121,6 @@ abstract class AbstractJComment implements JComment, Writable {
         return add(item);
     }
 
-    public JComment linkField(boolean plain, final JVarDeclaration fieldDeclaration) {
-        return linkField(plain, fieldDeclaration.type(), fieldDeclaration.name());
-    }
-
     public JComment linkConstructor(boolean plain, final JType targetType, final JType... params) {
         InlineDocTagCommentContent item = new InlineDocTagCommentContent(plain ? "linkplain" : "link");
         item.typeName(targetType);

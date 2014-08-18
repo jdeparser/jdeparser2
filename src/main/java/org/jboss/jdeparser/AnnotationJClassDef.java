@@ -23,7 +23,7 @@ package org.jboss.jdeparser;
  */
 class AnnotationJClassDef extends AbstractJClassDef {
 
-    AnnotationJClassDef(final int mods, final ImplJClassFile classFile, final String name) {
+    AnnotationJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
     }
 

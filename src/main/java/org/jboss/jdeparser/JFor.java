@@ -19,17 +19,58 @@
 package org.jboss.jdeparser;
 
 /**
+ * A {@code for} loop.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JFor extends JBlock {
 
+    /**
+     * Add a loop initializer.
+     *
+     * @param mods the modifiers for the initializer variable declaration
+     * @param type the type of the initializer variables
+     * @param name the name of the first initializer variable
+     * @param value the initial value for the first initializer variable
+     * @return the initializer variable declaration
+     */
     JVarDeclaration init(int mods, String type, String name, JExpr value);
 
+    /**
+     * Add a loop initializer.
+     *
+     * @param mods the modifiers for the initializer variable declaration
+     * @param type the type of the initializer variables
+     * @param name the name of the first initializer variable
+     * @param value the initial value for the first initializer variable
+     * @return the initializer variable declaration
+     */
     JVarDeclaration init(int mods, JType type, String name, JExpr value);
 
+    /**
+     * Add a loop initializer.
+     *
+     * @param mods the modifiers for the initializer variable declaration
+     * @param type the type of the initializer variables
+     * @param name the name of the first initializer variable
+     * @param value the initial value for the first initializer variable
+     * @return the initializer variable declaration
+     */
     JVarDeclaration init(int mods, Class<?> type, String name, JExpr value);
 
+    /**
+     * Add a test expression.
+     *
+     * @param expr the test expression
+     * @return this {@code for} loop
+     */
     JFor test(JExpr expr);
 
+    /**
+     * Add an update expression.
+     *
+     * @param updateExpr the update expression
+     * @return this {@code for} loop
+     */
     JFor update(JExpr updateExpr);
 }
