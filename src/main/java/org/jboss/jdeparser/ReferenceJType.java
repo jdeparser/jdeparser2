@@ -49,6 +49,14 @@ class ReferenceJType extends AbstractJType {
         throw new IllegalArgumentException("Expected a reference type");
     }
 
+    @Override
+    String qualifiedName(final SourceFileWriter writer) {
+        if (packageName.isEmpty()) {
+            return simpleName;
+        }
+        return packageName + "." + simpleName;
+    }
+
     public String simpleName() {
         return simpleName;
     }

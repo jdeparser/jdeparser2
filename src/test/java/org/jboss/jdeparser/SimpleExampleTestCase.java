@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.junit.Test;
@@ -41,6 +42,7 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
     public void testSimple() throws IOException {
         final JSources sources = JDeparser.createSources(getFiler(), new FormatPreferences(new Properties()));
         final JSourceFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
+        bazFile._import(BigDecimal.class);
         final JClassDef baz = bazFile._class(PUBLIC | FINAL, "Baz");
         final JMethodDef getString = baz.method(PUBLIC | FINAL, String.class, "getString");
         getString.docComment().text("Hello\nthere!");
