@@ -35,7 +35,13 @@ public abstract class JFiler {
     public static JFiler newInstance(final Filer filer) {
         return new JFiler() {
             public OutputStream openStream(final String packageName, final String fileName) throws IOException {
-                return filer.createSourceFile(packageName.replace('.', File.separatorChar).concat(File.separator).concat(fileName)).openOutputStream();
+                // Create the FQCN
+                final StringBuilder sb = new StringBuilder(packageName);
+                if (sb.charAt(sb.length() -1) != '.') {
+                    sb.append('.');
+                }
+                sb.append(fileName);
+                return filer.createSourceFile(sb).openOutputStream();
             }
         };
     }
