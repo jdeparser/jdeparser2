@@ -56,8 +56,8 @@ class ImplJAnnotationArray implements JAnnotationArray, Writable {
                 writer.popIndent(Indentation.LINE);
             }
             writer.write(Space.WITHIN_BRACES_ARRAY_INIT);
-            writer.write($PUNCT.BRACE.CLOSE);
         }
+        writer.write($PUNCT.BRACE.CLOSE);
     }
 
     int size() {
