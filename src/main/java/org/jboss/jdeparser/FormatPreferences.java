@@ -378,20 +378,43 @@ public final class FormatPreferences {
 
     // ---------------------------------------------------------------------
 
+    /**
+     * Determine whether the indentation for the given context is absolute or relative.
+     *
+     * @param indentation the indentation context
+     * @return {@code true} if absolute, {@code false} if relative
+     */
     public boolean isIndentAbsolute(Indentation indentation) {
         return absoluteIndents.contains(indentation);
     }
 
+    /**
+     * Set absolute indentation for the given context.
+     *
+     * @param indentation the indentation context
+     */
     public void setIndentAbsolute(Indentation indentation) {
         absoluteIndents.add(indentation);
     }
     
+    /**
+     * Clear absolute indentation for the given context.
+     *
+     * @param indentation the indentation context
+     */
     public void clearIndentAbsolute(Indentation indentation) {
         absoluteIndents.remove(indentation);
     }
     
     // ---------------------------------------------------------------------
 
+    /**
+     * Set the spacing type for the given space context.
+     *
+     * @param space the space context
+     * @param spaceType the space type
+     * @return the previous space type
+     */
     public SpaceType setSpaceType(Space space, SpaceType spaceType) {
         if (space == null) {
             throw new IllegalArgumentException("space is null");
@@ -402,6 +425,12 @@ public final class FormatPreferences {
         return def(spaceTypes.put(space, spaceType), SpaceType.NONE);
     }
 
+    /**
+     * Set several space contexts to the same spacing type.
+     *
+     * @param toType the type to set to
+     * @param spaces the space contexts
+     */
     public void setAllSpaceTypes(SpaceType toType, Space... spaces) {
         if (toType == null) {
             throw new IllegalArgumentException("toType is null");
@@ -411,6 +440,12 @@ public final class FormatPreferences {
         }
     }
 
+    /**
+     * Get the spacing type for a given space context.
+     *
+     * @param space the space context
+     * @return the spacing type
+     */
     public SpaceType getSpaceType(Space space) {
         if (space == null) {
             throw new IllegalArgumentException("space is null");
@@ -420,26 +455,55 @@ public final class FormatPreferences {
 
     // ---------------------------------------------------------------------
 
+    /**
+     * Get the wrapping mode for the given wrapping context.
+     *
+     * @param wrapping the wrapping context
+     * @return the current wrapping mode
+     */
     public WrappingMode getWrapMode(Wrapping wrapping) {
         return def(this.wrapping.get(wrapping), WrappingMode.WRAP_ONLY_IF_LONG);
     }
 
+    /**
+     * Set the wrapping mode for the given wrapping context.
+     *
+     * @param wrapping the wrapping context
+     * @param mode the wrapping mode
+     * @return the previous wrapping mode
+     */
     public WrappingMode setWrapMode(Wrapping wrapping, WrappingMode mode) {
         return def(this.wrapping.put(wrapping, mode), WrappingMode.WRAP_ONLY_IF_LONG);
     }
 
     // ---------------------------------------------------------------------
 
+    /**
+     * Add option flags to these preferences.
+     *
+     * @param opts the flags to add
+     */
     public void addOption(Opt... opts) {
         Collections.addAll(this.options, opts);
     }
 
+    /**
+     * Remove option flags from these preferences.
+     *
+     * @param opts the flags to remove
+     */
     public void removeOption(Opt... opts) {
         for (Opt opt : opts) {
             this.options.remove(opt);
         }
     }
 
+    /**
+     * Determine whether the given option flag is set on these preferences.
+     *
+     * @param opt the flag to check
+     * @return {@code true} if the flag is present, {@code false} if it is absent
+     */
     public boolean hasOption(Opt opt) {
         return options.contains(opt);
     }
