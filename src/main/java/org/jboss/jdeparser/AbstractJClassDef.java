@@ -292,13 +292,13 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     void writeContentBlock(final SourceFileWriter sourceFileWriter) throws IOException {
+        sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
+        sourceFileWriter.write($PUNCT.BRACE.OPEN);
         final boolean hasOption = sourceFileWriter.getFormat().hasOption(FormatPreferences.Opt.COMPACT_INIT_ONLY_CLASS);
-        // InitJBlock writes its own brackets
         if (supportsCompactInitOnly() && hasOption && content.size() == 1 && content.get(0) instanceof InitJBlock) {
             writeContent(sourceFileWriter);
+            sourceFileWriter.write($PUNCT.BRACE.CLOSE);
         } else {
-            sourceFileWriter.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
-            sourceFileWriter.write($PUNCT.BRACE.OPEN);
             sourceFileWriter.pushIndent(getMemberIndentation());
             try {
                 sourceFileWriter.nl();
