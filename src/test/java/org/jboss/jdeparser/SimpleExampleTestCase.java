@@ -23,6 +23,7 @@ import static org.jboss.jdeparser.JExprs.str;
 import static org.jboss.jdeparser.JMod.FINAL;
 import static org.jboss.jdeparser.JMod.PUBLIC;
 import static org.jboss.jdeparser.JMod.STATIC;
+import static org.jboss.jdeparser.JMod.VARARGS;
 import static org.jboss.jdeparser.JTypes._;
 
 import java.io.BufferedReader;
@@ -56,6 +57,7 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         final JVarDeclaration field = baz.field(PUBLIC | FINAL, JType.INT, "localVar");
         baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
         final JParamDeclaration theTee = getString.param(FINAL, "T", "theTee");
+        JParamDeclaration vap = getString.param(FINAL | VARARGS, Object.class, "whatever");
         final JBlock body = getString.body();
         JVarDeclaration t = body.var(0, String.class, "test", JExpr.NULL);
         JIf jIf = body._if($(t).eq(JExpr.NULL));

@@ -71,7 +71,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public JParamDeclaration param(final int mods, final JType type, final String name) {
-        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+        if (JMod.anyAreSet(this.mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
         return add(new ImplJParamDeclaration(mods, type, name));
@@ -98,7 +98,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     public JParamDeclaration varargParam(final int mods, final JType type, final String name) {
-        if (JMod.anyAreSet(mods, JMod.VARARGS)) {
+        if (JMod.anyAreSet(this.mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
         }
         this.mods |= JMod.VARARGS;
@@ -163,7 +163,9 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
             if (iterator.hasNext()) {
                 iterator.next().write(writer);
                 while (iterator.hasNext()) {
+                    writer.write(FormatPreferences.Space.BEFORE_COMMA);
                     writer.write($PUNCT.COMMA);
+                    writer.write(FormatPreferences.Space.AFTER_COMMA);
                     iterator.next().write(writer);
                 }
             }
@@ -178,7 +180,9 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
                 writer.write($KW.THROWS);
                 writer.write(iterator.next());
                 while (iterator.hasNext()) {
+                    writer.write(FormatPreferences.Space.BEFORE_COMMA);
                     writer.write($PUNCT.COMMA);
+                    writer.write(FormatPreferences.Space.AFTER_COMMA);
                     writer.write(iterator.next());
                 }
             }

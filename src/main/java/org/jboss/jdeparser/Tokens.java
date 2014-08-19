@@ -41,18 +41,6 @@ enum Tokens implements Token {
         // n/a
     }
 
-    class $STRING implements Token {
-        private final String content;
-
-        $STRING(final String content) {
-            this.content = content;
-        }
-
-        public void write(final SourceFileWriter writer) throws IOException {
-
-        }
-    }
-
     enum $PUNCT implements Token {
         SEMI(';'),
 

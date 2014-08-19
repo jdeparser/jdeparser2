@@ -60,6 +60,12 @@ class ImplJParamDeclaration extends BasicJAnnotatable implements JParamDeclarati
         writeAnnotations(writer);
         JMod.write(writer, mods());
         writer.write(type);
+        if (varargs()) {
+            // todo maybe a separate token type
+            writer.write(Tokens.$PUNCT.DOT);
+            writer.write(Tokens.$PUNCT.DOT);
+            writer.write(Tokens.$PUNCT.DOT);
+        }
         writer.sp();
         writer.writeEscapedWord(name);
     }
