@@ -55,7 +55,7 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         baz.field(PUBLIC | STATIC | FINAL, JType.INT, "_foo", JExpr.ONE);
         final JVarDeclaration field = baz.field(PUBLIC | FINAL, JType.INT, "localVar");
         baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
-        final JParamDeclaration theTee = getString.param(PUBLIC | FINAL, "T", "theTee");
+        final JParamDeclaration theTee = getString.param(FINAL, "T", "theTee");
         final JBlock body = getString.body();
         JVarDeclaration t = body.var(0, String.class, "test", JExpr.NULL);
         JIf jIf = body._if($(t).eq(JExpr.NULL));
