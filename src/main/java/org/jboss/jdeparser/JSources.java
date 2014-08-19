@@ -26,9 +26,28 @@ import java.io.IOException;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JSources {
+
+    /**
+     * Create a source file.
+     *
+     * @param packageName the package name of the source file
+     * @param fileName the source file name (including {@code .java} suffix)
+     * @return the source file
+     */
     JSourceFile createSourceFile(String packageName, String fileName);
 
+    /**
+     * Create a {@code package-info.java} file.
+     *
+     * @param packageName the package name
+     * @return the source file
+     */
     JDocCommentable createPackageInfoFile(String packageName);
 
+    /**
+     * Write the source files.
+     *
+     * @throws IOException if a write operation fails
+     */
     void writeSources() throws IOException;
 }

@@ -19,6 +19,8 @@
 package org.jboss.jdeparser;
 
 /**
+ * A statement in a program.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JStatement extends JCommentable {

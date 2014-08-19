@@ -21,6 +21,8 @@ package org.jboss.jdeparser;
 import javax.lang.model.element.ExecutableElement;
 
 /**
+ * A type specification.  See also {@link JTypes}.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JType {
@@ -35,28 +37,66 @@ public interface JType {
      */
     JType THIS = new ThisJType();
 
+    /**
+     * The {@code void} type.
+     */
     JType VOID = new PrimitiveJType("void", "Void");
 
+    /**
+     * The {@code boolean} primitive type.
+     */
     JType BOOLEAN = new PrimitiveJType("boolean", "Boolean");
 
+    /**
+     * The {@code float} primitive type.
+     */
     JType FLOAT = new PrimitiveJType("float", "Float");
 
+    /**
+     * The {@code double} primitive type.
+     */
     JType DOUBLE = new PrimitiveJType("double", "Double");
 
+    /**
+     * The {@code char} primitive type.
+     */
     JType CHAR = new PrimitiveJType("char", "Char");
 
+    /**
+     * The {@code byte} primitive type.
+     */
     JType BYTE = new PrimitiveJType("byte", "Byte");
 
+    /**
+     * The {@code short} primitive type.
+     */
     JType SHORT = new PrimitiveJType("short", "Short");
 
+    /**
+     * The {@code int} primitive type.
+     */
     JType INT = new PrimitiveJType("int", "Integer");
 
+    /**
+     * The {@code long} primitive type.
+     */
     JType LONG = new PrimitiveJType("long", "Long");
 
+    /**
+     * The type of {@code java.lang.Object}.
+     */
     JType OBJECT = new ReferenceJType("java.lang", "Object");
 
+    /**
+     * The wildcard type of {@code <? extends Object>}, also known as {@code <?>}.
+     */
     JType WILDCARD = OBJECT.wildcardExtends();
 
+    /**
+     * Get the simple name of this type.
+     *
+     * @return the type's simple name
+     */
     String simpleName();
 
     /**
@@ -245,7 +285,19 @@ public interface JType {
      */
     JCall call(ExecutableElement method);
 
+    /**
+     * Get a method reference of this type.
+     *
+     * @param name the method name
+     * @return the method reference expression
+     */
     JExpr methodRef(String name);
 
+    /**
+     * Get a method reference of this type.
+     *
+     * @param method the method element
+     * @return the method reference expression
+     */
     JExpr methodRef(ExecutableElement method);
 }

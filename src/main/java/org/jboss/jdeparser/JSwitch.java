@@ -19,12 +19,32 @@
 package org.jboss.jdeparser;
 
 /**
+ * A {@code switch} statement.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JSwitch extends JStatement {
+
+    /**
+     * Add a switch case.
+     *
+     * @param expr the case expression
+     * @return a sub-block for the case logic
+     */
     JBlock _case(JExpr expr);
 
+    /**
+     * Add a switch case for an {@code enum} constant.
+     *
+     * @param constName the constant name
+     * @return a sub-block for the case logic
+     */
     JBlock _case(String constName);
 
+    /**
+     * Add the default block.
+     *
+     * @return the default sub-block
+     */
     JBlock _default();
 }

@@ -19,15 +19,40 @@
 package org.jboss.jdeparser;
 
 /**
+ * A variable declaration.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JVarDeclaration extends JAnnotatable, JDocCommentable {
 
+    /**
+     * Get the variable type.
+     *
+     * @return the variable type
+     */
     JType type();
 
+    /**
+     * Get the variable name.
+     *
+     * @return the variable name
+     */
     String name();
 
+    /**
+     * Add another item to this declaration.  Subsequent items always have the same type as this item.
+     *
+     * @param name the variable name
+     * @param init the variable initializer
+     * @return the subsequent declaration
+     */
     JVarDeclaration add(String name, JExpr init);
 
+    /**
+     * Add another item to this declaration.  Subsequent items always have the same type as this item.
+     *
+     * @param name the variable name
+     * @return the subsequent declaration
+     */
     JVarDeclaration add(String name);
 }

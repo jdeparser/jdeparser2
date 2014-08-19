@@ -143,6 +143,9 @@ public final class FormatPreferences {
 
     // =====================================================================
 
+    /**
+     * Construct a new instance using default values.
+     */
     public FormatPreferences() {
         indents = new EnumIntMap<>(DEFAULT_INDENTS);
         absoluteIndents = EnumSet.copyOf(DEFAULT_ABS_INDENTS);
@@ -151,6 +154,11 @@ public final class FormatPreferences {
         wrapping = new EnumMap<>(DEFAULT_WRAPPING);
     }
 
+    /**
+     * Construct a new instance, mapping the given properties to the formatter configurations.
+     *
+     * @param properties the properties to map
+     */
     public FormatPreferences(final Properties properties) {
         // initialize
         this();
@@ -235,26 +243,63 @@ public final class FormatPreferences {
         }
     }
 
+    /**
+     * Construct a new instance using a properties file loaded from the given class loader.
+     *
+     * @param classLoader the class loader
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final ClassLoader classLoader) throws IOException {
         this(fnf(classLoader.getResourceAsStream(PROPERTIES_FILE_NAME)));
     }
 
+    /**
+     * Construct a new instance using a properties file loaded from the given annotation processing filer.
+     *
+     * @param filer the filer to read from
+     * @param name the name of the properties file to read
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final Filer filer, final String name) throws IOException {
         this(filer.getResource(StandardLocation.ANNOTATION_PROCESSOR_PATH, "", name).openInputStream());
     }
 
+    /**
+     * Construct a new instance using a properties file loaded from the given annotation processing filer.
+     *
+     * @param filer the filer to read from
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final Filer filer) throws IOException {
         this(filer, PROPERTIES_FILE_NAME);
     }
 
+    /**
+     * Construct a new instance using a properties file loaded from the given file name.
+     *
+     * @param file the name of the properties file to read
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final File file) throws IOException {
         this(new FileInputStream(file));
     }
 
+    /**
+     * Construct a new instance using a properties read from the given stream.
+     *
+     * @param inputStream the stream to read properties from
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final InputStream inputStream) throws IOException {
         this(new InputStreamReader(inputStream, "utf-8"));
     }
 
+    /**
+     * Construct a new instance using a properties read from the given stream.
+     *
+     * @param reader the stream to read properties from
+     * @throws IOException if an error occurs while reading the properties
+     */
     public FormatPreferences(final Reader reader) throws IOException {
         this(load(reader));
     }
@@ -299,16 +344,34 @@ public final class FormatPreferences {
 
     // =====================================================================
 
+    /**
+     * Get the configured line length.
+     *
+     * @return the configured line length
+     */
     public int getLineLength() {
         return lineLength;
     }
 
     // ---------------------------------------------------------------------
 
+    /**
+     * Get the configured indentation for the given context.
+     *
+     * @param indentation the indentation context
+     * @return the indentation
+     */
     public int getIndent(Indentation indentation) {
         return indents.get(indentation);
     }
 
+    /**
+     * Set the configured indentation for the given context.
+     *
+     * @param indentation the indentation context
+     * @param value the indentation
+     * @return the previous indentation
+     */
     public int setIndent(Indentation indentation, int value) {
         return indents.put(indentation, value);
     }

@@ -63,7 +63,7 @@ class ImplJSources implements JSources {
     }
 
     public JPackageInfoFile createPackageInfoFile(final String packageName) {
-        return null;
+        throw new UnsupportedOperationException("package-info.java");
     }
 
     public void writeSources() throws IOException {

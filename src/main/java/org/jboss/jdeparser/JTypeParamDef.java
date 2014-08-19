@@ -19,18 +19,57 @@
 package org.jboss.jdeparser;
 
 /**
+ * A type parameter definition.
+ *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 public interface JTypeParamDef {
+
+    /**
+     * Add an {@code extends} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _extends(String type);
 
+    /**
+     * Add an {@code extends} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _extends(JType type);
 
+    /**
+     * Add an {@code extends} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _extends(Class<?> type);
 
+    /**
+     * Add a {@code super} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _super(String type);
 
+    /**
+     * Add a {@code super} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _super(JType type);
 
+    /**
+     * Add a {@code super} bound to this parameter.
+     *
+     * @param type the bound type
+     * @return this type parameter definition
+     */
     JTypeParamDef _super(Class<?> type);
 }
