@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Properties;
 
 import org.junit.Test;
@@ -60,6 +61,9 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         JIf jIf = body._if($(t).eq(JExpr.NULL));
         jIf.assign($(t), str("new Value"));
         jIf._else().assign($(t), str("other value"));
+
+        // Reference an enclosing class
+        body.var(0, Map.Entry.class, "mapEntry", JExpr.NULL);
 
         body.call(_(System.class).$("out"), "println").arg($(theTee));
         body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
