@@ -28,6 +28,7 @@ import java.io.IOException;
 class ArrayJType extends AbstractJType {
 
     private final AbstractJType elementType;
+    private StaticRefJExpr classExpr;
 
     ArrayJType(final AbstractJType elementType) {
         this.elementType = elementType;
@@ -61,5 +62,13 @@ class ArrayJType extends AbstractJType {
 
     public String toString() {
         return elementType.toString() + "[]";
+    }
+
+    public JExpr _class() {
+        StaticRefJExpr expr = classExpr;
+        if (expr == null) {
+            expr = classExpr = new StaticRefJExpr(this, "class");
+        }
+        return expr;
     }
 }

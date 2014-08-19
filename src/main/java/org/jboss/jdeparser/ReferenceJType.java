@@ -28,6 +28,9 @@ class ReferenceJType extends AbstractJType {
     private final PrimitiveJType unboxed;
     private final String packageName;
     private final String simpleName;
+    private StaticRefJExpr classExpr;
+    private StaticRefJExpr thisExpr;
+    private StaticRefJExpr superExpr;
 
     ReferenceJType(final String packageName, final String simpleName) {
         this.packageName = packageName;
@@ -62,15 +65,27 @@ class ReferenceJType extends AbstractJType {
     }
 
     public JExpr _class() {
-        return new StaticRefJExpr(this, "class");
+        StaticRefJExpr expr = classExpr;
+        if (expr == null) {
+            expr = classExpr = new StaticRefJExpr(this, "class");
+        }
+        return expr;
     }
 
     public JExpr _this() {
-        return new StaticRefJExpr(this, "this");
+        StaticRefJExpr expr = thisExpr;
+        if (expr == null) {
+            expr = thisExpr = new StaticRefJExpr(this, "this");
+        }
+        return expr;
     }
 
     public JExpr _super() {
-        return new StaticRefJExpr(this, "super");
+        StaticRefJExpr expr = superExpr;
+        if (expr == null) {
+            expr = superExpr = new StaticRefJExpr(this, "super");
+        }
+        return expr;
     }
 
     public JCall _new() {

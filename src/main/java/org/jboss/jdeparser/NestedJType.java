@@ -29,6 +29,9 @@ class NestedJType extends AbstractJType {
 
     private final AbstractJType enclosingType;
     private final String name;
+    private StaticRefJExpr classExpr;
+    private StaticRefJExpr thisExpr;
+    private StaticRefJExpr superExpr;
 
     NestedJType(final AbstractJType enclosingType, final String name) {
         this.enclosingType = enclosingType;
@@ -36,15 +39,27 @@ class NestedJType extends AbstractJType {
     }
 
     public JExpr _class() {
-        return new StaticRefJExpr(this, "class");
+        StaticRefJExpr expr = classExpr;
+        if (expr == null) {
+            expr = classExpr = new StaticRefJExpr(this, "class");
+        }
+        return expr;
     }
 
     public JExpr _this() {
-        return new StaticRefJExpr(this, "this");
+        StaticRefJExpr expr = thisExpr;
+        if (expr == null) {
+            expr = thisExpr = new StaticRefJExpr(this, "this");
+        }
+        return expr;
     }
 
     public JExpr _super() {
-        return new StaticRefJExpr(this, "super");
+        StaticRefJExpr expr = superExpr;
+        if (expr == null) {
+            expr = superExpr = new StaticRefJExpr(this, "super");
+        }
+        return expr;
     }
 
     public JCall _new(final JExpr dim) {

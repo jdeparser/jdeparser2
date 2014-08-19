@@ -28,6 +28,7 @@ import java.io.IOException;
 class PrimitiveJType extends AbstractJType {
     private final String simpleName;
     private final ReferenceJType boxed;
+    private StaticRefJExpr classExpr;
 
     PrimitiveJType(final String simpleName, final String boxed) {
         this.simpleName = simpleName;
@@ -54,7 +55,11 @@ class PrimitiveJType extends AbstractJType {
     }
 
     public JExpr _class() {
-        return new StaticRefJExpr(this, "class");
+        StaticRefJExpr expr = classExpr;
+        if (expr == null) {
+            expr = classExpr = new StaticRefJExpr(this, "class");
+        }
+        return expr;
     }
 
     public String simpleName() {
