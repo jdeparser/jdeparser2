@@ -65,7 +65,8 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         jIf._else().assign($(t), str("other value"));
 
         // Reference an enclosing class
-        body.var(0, Map.Entry.class, "mapEntry", JExpr.NULL);
+        body.var(0, _(Map.Entry.class).typeArg(String.class, Object.class), "mapEntry", JExpr.NULL);
+        bazFile._import(Map.class);
 
         body.call(_(System.class).$("out"), "println").arg($(theTee));
         body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
