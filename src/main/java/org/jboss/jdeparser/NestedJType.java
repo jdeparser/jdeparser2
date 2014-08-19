@@ -32,6 +32,7 @@ class NestedJType extends AbstractJType {
     private StaticRefJExpr classExpr;
     private StaticRefJExpr thisExpr;
     private StaticRefJExpr superExpr;
+    private CachingLinkedHashMap<String, NestedJType> nestedTypes;
 
     NestedJType(final AbstractJType enclosingType, final String name) {
         this.enclosingType = enclosingType;
@@ -79,7 +80,15 @@ class NestedJType extends AbstractJType {
     }
 
     public JType nestedType(final String name) {
-        return new NestedJType(this, name);
+        CachingLinkedHashMap<String, NestedJType> nestedTypes = this.nestedTypes;
+        if (nestedTypes == null) {
+            nestedTypes = this.nestedTypes = new CachingLinkedHashMap<>();
+        }
+        NestedJType nestedType = nestedTypes.get(name);
+        if (nestedType == null) {
+            nestedTypes.put(name, nestedType = new NestedJType(this, name));
+        }
+        return nestedType;
     }
 
     public String toString() {

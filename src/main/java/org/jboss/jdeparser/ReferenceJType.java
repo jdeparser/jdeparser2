@@ -31,6 +31,7 @@ class ReferenceJType extends AbstractJType {
     private StaticRefJExpr classExpr;
     private StaticRefJExpr thisExpr;
     private StaticRefJExpr superExpr;
+    private CachingLinkedHashMap<String, NestedJType> nestedTypes;
 
     ReferenceJType(final String packageName, final String simpleName) {
         this.packageName = packageName;
@@ -121,7 +122,15 @@ class ReferenceJType extends AbstractJType {
     }
 
     public JType nestedType(final String name) {
-        return new NestedJType(this, name);
+        CachingLinkedHashMap<String, NestedJType> nestedTypes = this.nestedTypes;
+        if (nestedTypes == null) {
+            nestedTypes = this.nestedTypes = new CachingLinkedHashMap<>();
+        }
+        NestedJType nestedType = nestedTypes.get(name);
+        if (nestedType == null) {
+            nestedTypes.put(name, nestedType = new NestedJType(this, name));
+        }
+        return nestedType;
     }
 
     public String toString() {

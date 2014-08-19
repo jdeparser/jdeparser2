@@ -50,7 +50,7 @@ public final class JTypes {
     }
 
     public static JType typeOf(JClassDef classDef) {
-        return new ClassDefJType(classDef);
+        return classDef.erasedType();
     }
 
     public static JType typeOf(Class<?> clazz) {
