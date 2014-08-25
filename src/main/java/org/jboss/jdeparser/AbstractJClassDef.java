@@ -308,6 +308,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             }
             sourceFileWriter.nl();
             sourceFileWriter.write($PUNCT.BRACE.CLOSE);
+            sourceFileWriter.nl();
         }
     }
 
