@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 
+import org.jboss.jdeparser.FormatPreferences.Space;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -48,9 +50,10 @@ class BasicJAnnotatable extends AbstractJDocCommentable implements JAnnotatable 
         return annotate(JTypes.typeOf(type));
     }
 
-    void writeAnnotations(final SourceFileWriter writer) throws IOException {
+    void writeAnnotations(final SourceFileWriter writer, final Space space) throws IOException {
         if (annotations != null) for (ImplJAnnotation annotation : annotations) {
             annotation.write(writer);
+            writer.write(space);
         }
     }
 }

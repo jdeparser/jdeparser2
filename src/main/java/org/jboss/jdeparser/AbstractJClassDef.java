@@ -281,7 +281,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     public void write(final SourceFileWriter writer) throws IOException {
         writeDocComments(writer);
         writeComments(writer);
-        writeAnnotations(writer);
+        writeAnnotations(writer, FormatPreferences.Space.AFTER_ANNOTATION);
         writer.pushThisType(AbstractJType.of(genericType()));
         try {
             writeClassHeader(writer);

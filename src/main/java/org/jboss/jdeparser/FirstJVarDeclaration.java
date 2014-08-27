@@ -53,7 +53,7 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
 
     void writeNoSemi(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
-        super.writeAnnotations(writer);
+        super.writeAnnotations(writer, FormatPreferences.Space.AFTER_ANNOTATION);
         JMod.write(writer, mods);
         writer.write(type);
         writer.sp();

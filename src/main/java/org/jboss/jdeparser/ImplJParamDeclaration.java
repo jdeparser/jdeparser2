@@ -20,6 +20,8 @@ package org.jboss.jdeparser;
 
 import java.io.IOException;
 
+import org.jboss.jdeparser.FormatPreferences.Space;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -57,7 +59,7 @@ class ImplJParamDeclaration extends BasicJAnnotatable implements JParamDeclarati
 
     void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
-        writeAnnotations(writer);
+        writeAnnotations(writer, Space.AFTER_PARAM_ANNOTATION);
         JMod.write(writer, mods());
         writer.write(type);
         if (varargs()) {

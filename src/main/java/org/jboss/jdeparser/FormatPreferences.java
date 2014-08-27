@@ -124,6 +124,9 @@ public final class FormatPreferences {
         spaceTypes.put(BEFORE_COLON, SpaceType.SPACE);
         spaceTypes.put(AFTER_COLON, SpaceType.SPACE);
 
+        spaceTypes.put(AFTER_ANNOTATION, SpaceType.NEWLINE);
+        spaceTypes.put(AFTER_PARAM_ANNOTATION, SpaceType.SPACE);
+
         DEFAULT_SPACE_TYPES = spaceTypes;
 
         DEFAULT_OPTS = EnumSet.of(Opt.COMPACT_INIT_ONLY_CLASS);
@@ -396,7 +399,7 @@ public final class FormatPreferences {
     public void setIndentAbsolute(Indentation indentation) {
         absoluteIndents.add(indentation);
     }
-    
+
     /**
      * Clear absolute indentation for the given context.
      *
@@ -405,7 +408,7 @@ public final class FormatPreferences {
     public void clearIndentAbsolute(Indentation indentation) {
         absoluteIndents.remove(indentation);
     }
-    
+
     // ---------------------------------------------------------------------
 
     /**
@@ -629,6 +632,10 @@ public final class FormatPreferences {
 
         // colon (label, case, default)
         AFTER_LABEL,
+
+        // annotations
+        AFTER_ANNOTATION,
+        AFTER_PARAM_ANNOTATION,
         ;
     }
 

@@ -20,6 +20,8 @@ package org.jboss.jdeparser;
 
 import java.io.IOException;
 
+import org.jboss.jdeparser.FormatPreferences.Space;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -41,6 +43,7 @@ class MethodJMethodDef extends AbstractJMethodDef {
     public void write(final SourceFileWriter writer) throws IOException {
         writeDocComments(writer);
         writeComments(writer);
+        writeAnnotations(writer, Space.AFTER_ANNOTATION);
         JMod.write(writer, mods());
         writeTypeParams(writer);
         writer.write(returnType);
