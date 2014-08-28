@@ -23,6 +23,7 @@ import static org.jboss.jdeparser.Tokens.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -57,6 +58,37 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
                     writer.writeEscaped(packageName);
                     writer.write($PUNCT.SEMI);
                     writer.nl();
+                    final Map<String, ReferenceJType> imports = ImplJSourceFile.this.imports;
+                    if (imports != null) {
+                        final Iterator<ReferenceJType> iterator = imports.values().iterator();
+                        if (iterator.hasNext()) {
+                            writer.nl();
+                            do {
+                                final ReferenceJType _import = iterator.next();
+                                writer.write($KW.IMPORT);
+                                writer.writeClass(_import.qualifiedName(writer));
+                                writer.write($PUNCT.SEMI);
+                                writer.nl();
+                            } while (iterator.hasNext());
+                            writer.nl();
+                        }
+                    }
+                    final Map<String, StaticRefJExpr> staticImports = ImplJSourceFile.this.staticImports;
+                    if (staticImports != null) {
+                        final Iterator<StaticRefJExpr> iterator = staticImports.values().iterator();
+                        if (iterator.hasNext()) {
+                            writer.nl();
+                            do {
+                                final StaticRefJExpr staticImport = iterator.next();
+                                writer.write($KW.IMPORT);
+                                writer.write($KW.STATIC);
+                                writer.write(staticImport);
+                                writer.write($PUNCT.SEMI);
+                                writer.nl();
+                            } while (iterator.hasNext());
+                            writer.nl();
+                        }
+                    }
                 }
             });
             packageWritten = true;
@@ -95,18 +127,6 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
 
     public JSourceFile _import(final JType type) {
         checkPackage();
-        if (imports.isEmpty()) {
-            content.add(new ClassFileContent() {
-                public void write(final SourceFileWriter writer) throws IOException {
-                    for (ReferenceJType _import : imports.values()) {
-                        writer.write($KW.IMPORT);
-                        writer.writeClass(_import.qualifiedName(writer));
-                        writer.write($PUNCT.SEMI);
-                        writer.nl();
-                    }
-                }
-            });
-        }
         if (! (type instanceof ReferenceJType)) {
             return this;
         }
@@ -127,19 +147,6 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
 
     public JSourceFile importStatic(final JType type, final String member) {
         checkPackage();
-        if (staticImports.isEmpty()) {
-            content.add(new ClassFileContent() {
-                public void write(final SourceFileWriter writer) throws IOException {
-                    for (StaticRefJExpr staticImport : staticImports.values()) {
-                        writer.write($KW.IMPORT);
-                        writer.write($KW.STATIC);
-                        writer.write(staticImport);
-                        writer.write($PUNCT.SEMI);
-                        writer.nl();
-                    }
-                }
-            });
-        }
         staticImports.put(member, new StaticRefJExpr(AbstractJType.of(type), member));
         return this;
     }
