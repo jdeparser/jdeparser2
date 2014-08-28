@@ -31,7 +31,7 @@ public interface JSources {
      * Create a source file.
      *
      * @param packageName the package name of the source file
-     * @param fileName the source file name (including {@code .java} suffix)
+     * @param fileName the source file name (excluding {@code .java} suffix)
      * @return the source file
      */
     JSourceFile createSourceFile(String packageName, String fileName);

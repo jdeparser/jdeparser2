@@ -34,7 +34,7 @@ public abstract class AbstractGeneratingTestCase {
 
     private final JFiler filer = new JFiler() {
         public OutputStream openStream(final String packageName, final String fileName) throws IOException {
-            final Key key = new Key(packageName, fileName);
+            final Key key = new Key(packageName, fileName + ".java");
             if (! sourceFiles.containsKey(key)) {
                 final ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 if (sourceFiles.putIfAbsent(key, stream) == null) {

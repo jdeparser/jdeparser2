@@ -65,7 +65,7 @@ public abstract class JFiler {
             public OutputStream openStream(final String packageName, final String fileName) throws IOException {
                 final File dir = new File(target, packageName.replace('.', File.separatorChar));
                 dir.mkdirs();
-                return new FileOutputStream(new File(dir, fileName));
+                return new FileOutputStream(new File(dir, fileName + ".java"));
             }
         };
     }

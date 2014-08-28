@@ -44,7 +44,7 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
     @Test
     public void testSimple() throws IOException {
         final JSources sources = JDeparser.createSources(getFiler(), new FormatPreferences(new Properties()));
-        final JSourceFile bazFile = sources.createSourceFile("org.foo.bar", "Baz.java");
+        final JSourceFile bazFile = sources.createSourceFile("org.foo.bar", "Baz");
         bazFile._import(BigDecimal.class);
         final JClassDef baz = bazFile._class(PUBLIC | FINAL, "Baz");
         final JMethodDef getString = baz.method(PUBLIC | FINAL, String.class, "getString");
