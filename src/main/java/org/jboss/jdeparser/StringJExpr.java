@@ -40,7 +40,8 @@ class StringJExpr extends AbstractJExpr {
 
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             char c;
-            for (int i = idx; i < b.length(); i++) {
+            int i = idx;
+            while (i < b.length()) {
                 c = b.charAt(i);
                 switch (c) {
                     case '"':
