@@ -22,6 +22,9 @@ import static java.lang.Integer.bitCount;
 import static org.jboss.jdeparser.Tokens.*;
 
 import java.io.IOException;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -62,6 +65,69 @@ public final class JMod {
 
     public static boolean anyAreClear(int set, int test) {
         return (set & test) != test;
+    }
+
+    /**
+     * Returns an integer which results in the appropriate modifier based on the element.
+     *
+     * @param element the element to check the modifiers on
+     *
+     * @return an integer representing the modifiers
+     */
+    public static int of(final Element element) {
+        int result = 0;
+        for (Modifier modifier : element.getModifiers()) {
+            switch (modifier) {
+                case ABSTRACT: {
+                    result = result | ABSTRACT;
+                    break;
+                }
+                case FINAL: {
+                    result = result | FINAL;
+                    break;
+                }
+                case NATIVE: {
+                    result = result | NATIVE;
+                    break;
+                }
+                case PRIVATE: {
+                    result = result | PRIVATE;
+                    break;
+                }
+                case PROTECTED: {
+                    result = result | PROTECTED;
+                    break;
+                }
+                case PUBLIC: {
+                    result = result | PUBLIC;
+                    break;
+                }
+                case STATIC: {
+                    result = result | STATIC;
+                    break;
+                }
+                case STRICTFP: {
+                    result = result | STRICTFP;
+                    break;
+                }
+                case SYNCHRONIZED: {
+                    result = result | SYNCHRONIZED;
+                    break;
+                }
+                case TRANSIENT: {
+                    result = result | TRANSIENT;
+                    break;
+                }
+                case VOLATILE: {
+                    result = result | VOLATILE;
+                    break;
+                }
+            }
+        }
+        if (element instanceof ExecutableElement && ((ExecutableElement) element).isVarArgs()) {
+            result = result | VARARGS;
+        }
+        return result;
     }
 
     static void write(final SourceFileWriter writer, final int mods) throws IOException {
