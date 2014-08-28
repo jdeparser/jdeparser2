@@ -151,7 +151,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
     }
 
     boolean writeBody() {
-        return JMod.allAreClear(mods, JMod.ABSTRACT | JMod.NATIVE);
+        return clazz.methodCanHaveBody(mods);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
