@@ -111,6 +111,9 @@ class ReferenceJType extends AbstractJType {
         } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().getSources().hasClass(currentPackageName + "." + simpleName()) || packageMatches) {
             // implicit import
             sourceFileWriter.writeClass(simpleName());
+        } else if (cf.hasImport(simpleName())) {
+            // explicit import
+            sourceFileWriter.writeClass(simpleName());
         } else {
             sourceFileWriter.writeClass(qualifiedName(sourceFileWriter));
         }
