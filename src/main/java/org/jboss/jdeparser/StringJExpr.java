@@ -79,9 +79,6 @@ class StringJExpr extends AbstractJExpr {
                         i += 2;
                         break;
                     }
-                    default: {
-                        i++;
-                    }
                 }
             }
         }
