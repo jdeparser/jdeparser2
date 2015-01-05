@@ -65,6 +65,9 @@ public final class JTypes {
     private static final ThreadLocal<LinkedHashMap<String, JType>> cache = new CachingThreadLocal<>();
 
     public static JType typeNamed(String name) {
+        if (name.endsWith("[]")) {
+            return typeNamed(name.substring(0, name.length() - 2)).array();
+        }
         final LinkedHashMap<String, JType> map = cache.get();
         JType type = map.get(name);
         if (type == null) {
