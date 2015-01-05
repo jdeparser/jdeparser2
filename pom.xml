@@ -28,7 +28,7 @@
 
     <groupId>org.jboss.jdeparser</groupId>
     <artifactId>jdeparser</artifactId>
-    <version>2.0.0.Beta2</version>
+    <version>2.0.0.Beta3-SNAPSHOT</version>
 
     <parent>
         <groupId>org.jboss</groupId>
