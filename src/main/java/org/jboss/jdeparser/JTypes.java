@@ -37,15 +37,15 @@ import javax.lang.model.type.WildcardType;
 public final class JTypes {
     private JTypes() {}
 
-    public static JType _(JClassDef classDef) {
+    public static JType $t(JClassDef classDef) {
         return typeOf(classDef);
     }
 
-    public static JType _(Class<?> clazz) {
+    public static JType $t(Class<?> clazz) {
         return typeOf(clazz);
     }
 
-    public static JType _(String name) {
+    public static JType $t(String name) {
         return typeNamed(name);
     }
 
@@ -56,9 +56,9 @@ public final class JTypes {
     public static JType typeOf(Class<?> clazz) {
         final Class<?> enclosingClass = clazz.getEnclosingClass();
         if (enclosingClass != null) {
-            return _(enclosingClass)._(clazz.getSimpleName());
+            return $t(enclosingClass).$t(clazz.getSimpleName());
         } else {
-            return _(clazz.getName());
+            return $t(clazz.getName());
         }
     }
 

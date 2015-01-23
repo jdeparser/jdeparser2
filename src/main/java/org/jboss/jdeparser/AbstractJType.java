@@ -145,7 +145,7 @@ abstract class AbstractJType implements JType {
         throw new UnsupportedOperationException("Lookup of nested type on " + this);
     }
 
-    public JType _(final String name) {
+    public JType $t(final String name) {
         return nestedType(name);
     }
 
@@ -163,7 +163,7 @@ abstract class AbstractJType implements JType {
         return expr;
     }
 
-    public JAssignableExpr $(final String name) {
+    public JAssignableExpr $v(final String name) {
         return field(name);
     }
 

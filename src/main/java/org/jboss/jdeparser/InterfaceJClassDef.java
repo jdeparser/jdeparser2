@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class InterfaceJClassDef extends AbstractJClassDef {
+class InterfaceJClassDef extends AbstractJClassDef implements JClassItem {
 
     InterfaceJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
@@ -65,5 +65,13 @@ class InterfaceJClassDef extends AbstractJClassDef {
 
     boolean methodCanHaveBody(final int mods) {
         return false;
+    }
+
+    public Kind getItemKind() {
+        return Kind.INTERFACE;
+    }
+
+    public String getName() {
+        return super.getName();
     }
 }

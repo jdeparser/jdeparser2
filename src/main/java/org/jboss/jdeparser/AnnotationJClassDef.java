@@ -21,7 +21,7 @@ package org.jboss.jdeparser;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class AnnotationJClassDef extends AbstractJClassDef {
+class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
 
     AnnotationJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
@@ -77,5 +77,13 @@ class AnnotationJClassDef extends AbstractJClassDef {
 
     public JMethodDef method(final int mods, final JType returnType, final String name) {
         return add(new AnnotationJMethodDef(this, mods, returnType, name));
+    }
+
+    public Kind getItemKind() {
+        return Kind.ANNOTATION_INTERFACE;
+    }
+
+    public String getName() {
+        return super.getName();
     }
 }

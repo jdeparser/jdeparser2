@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class EnumJClassDef extends AbstractJClassDef {
+class EnumJClassDef extends AbstractJClassDef implements JClassItem {
     private final Map<String, ImplJEnumConstant> constants = new LinkedHashMap<>();
 
     EnumJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
@@ -76,5 +76,13 @@ class EnumJClassDef extends AbstractJClassDef {
         sourceFileWriter.write(Tokens.$PUNCT.SEMI);
         sourceFileWriter.write(FormatPreferences.Space.AFTER_SEMICOLON);
         super.writeContent(sourceFileWriter);
+    }
+
+    public Kind getItemKind() {
+        return Kind.ENUM;
+    }
+
+    public String getName() {
+        return super.getName();
     }
 }

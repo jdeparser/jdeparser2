@@ -200,7 +200,7 @@ abstract class AbstractJExpr implements JExpr, Writable {
         return expr;
     }
 
-    public JAssignableExpr $(final String name) {
+    public JAssignableExpr $v(final String name) {
         return field(name);
     }
 

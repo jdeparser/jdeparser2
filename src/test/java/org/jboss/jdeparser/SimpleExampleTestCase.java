@@ -18,13 +18,12 @@
 
 package org.jboss.jdeparser;
 
-import static org.jboss.jdeparser.JExprs.$;
+import static org.jboss.jdeparser.JExprs.$v;
 import static org.jboss.jdeparser.JExprs.str;
 import static org.jboss.jdeparser.JMod.FINAL;
 import static org.jboss.jdeparser.JMod.PUBLIC;
 import static org.jboss.jdeparser.JMod.STATIC;
 import static org.jboss.jdeparser.JMod.VARARGS;
-import static org.jboss.jdeparser.JTypes._;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -55,26 +54,26 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         getString.typeParam("T")._extends(JTypes.typeOf(String.class));
         baz.field(PUBLIC | STATIC | FINAL, JType.INT, "_foo", JExpr.ONE);
         final JVarDeclaration field = baz.field(PUBLIC | FINAL, JType.INT, "localVar");
-        baz.constructor(JMod.PUBLIC).body().assign(JExprs.$(field), JExpr.ONE);
+        baz.constructor(JMod.PUBLIC).body().assign(JExprs.$v(field), JExpr.ONE);
         final JParamDeclaration theTee = getString.param(FINAL, "T", "theTee");
         JParamDeclaration vap = getString.param(FINAL | VARARGS, Object.class, "whatever");
         final JBlock body = getString.body();
         JVarDeclaration t = body.var(0, String.class, "test", JExpr.NULL);
-        JIf jIf = body._if($(t).eq(JExpr.NULL));
-        jIf.assign($(t), str("new Value"));
-        jIf._else().assign($(t), str("other value"));
+        JIf jIf = body._if(JExprs.$v(t).eq(JExpr.NULL));
+        jIf.assign(JExprs.$v(t), str("new Value"));
+        jIf._else().assign(JExprs.$v(t), str("other value"));
 
         // Reference an enclosing class
-        body.var(0, _(Map.Entry.class).typeArg(String.class, Object.class), "mapEntry", JExpr.NULL);
+        body.var(0, JTypes.$t(Map.Entry.class).typeArg(String.class, Object.class), "mapEntry", JExpr.NULL);
         bazFile._import(Map.class);
 
-        body.call(_(System.class).$("out"), "println").arg($(theTee));
-        body.add(_(System.class).$("out").call("println").arg($("theTee"))).blockComment().text("Hello\nagain!");
-        final JExpr tmp1 = body.tempVar(_(int.class), JExprs.decimal(123).plus(JExprs.decimal(456)).times(JExprs.decimal(246)));
-        body.var(FINAL, _(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
-        body.add(_(System.class).$("out").call("println").arg(tmp1));
-        final JAnonymousClassDef anon = _(Runnable.class)._newAnon();
-        anon.init().add(_(System.class).$("out").call("println").arg(JExprs.str("Bananas!")));
+        body.call(JTypes.$t(System.class).$v("out"), "println").arg(JExprs.$v(theTee));
+        body.add(JTypes.$t(System.class).$v("out").call("println").arg($v("theTee"))).blockComment().text("Hello\nagain!");
+        final JExpr tmp1 = body.tempVar(JTypes.$t(int.class), JExprs.decimal(123).plus(JExprs.decimal(456)).times(JExprs.decimal(246)));
+        body.var(FINAL, JTypes.$t(String.class), "foo", JExprs.str("boo")).add("bar", JExprs.str("zoo")). add("baz");
+        body.add(JTypes.$t(System.class).$v("out").call("println").arg(tmp1));
+        final JAnonymousClassDef anon = JTypes.$t(Runnable.class)._newAnon();
+        anon.init().add(JTypes.$t(System.class).$v("out").call("println").arg(JExprs.str("Bananas!")));
         body.add(anon);
         sources.writeSources();
         final ByteArrayInputStream inputStream = openFile("org.foo.bar", "Baz.java");

@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class BlankLine implements ClassFileContent, ClassContent, BlockContent {
+class BlankLine implements ClassFileContent, ClassContent, BlockContent, JClassItem {
 
     private static final BlankLine INSTANCE = new BlankLine();
 
@@ -36,5 +36,25 @@ class BlankLine implements ClassFileContent, ClassContent, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.nl();
+    }
+
+    public Kind getItemKind() {
+        return Kind.BLANK_LINE;
+    }
+
+    public int getModifiers() {
+        return 0;
+    }
+
+    public boolean hasAllModifiers(final int mods) {
+        return false;
+    }
+
+    public boolean hasAnyModifier(final int mods) {
+        return false;
+    }
+
+    public String getName() {
+        return null;
     }
 }

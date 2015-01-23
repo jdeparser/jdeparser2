@@ -146,7 +146,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return _throws(JTypes.typeOf(type));
     }
 
-    int mods() {
+    int getModifiers() {
         return mods;
     }
 

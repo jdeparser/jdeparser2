@@ -393,7 +393,7 @@ public interface JExpr {
      * @param name the field name
      * @return the expression
      */
-    JAssignableExpr $(String name);
+    JAssignableExpr $v(String name);
 
     // array
 

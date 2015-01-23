@@ -23,7 +23,7 @@ import static org.jboss.jdeparser.Tokens.*;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class PlainJClassDef extends AbstractJClassDef implements BlockContent {
+class PlainJClassDef extends AbstractJClassDef implements BlockContent, JClassItem {
 
     PlainJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
@@ -35,5 +35,13 @@ class PlainJClassDef extends AbstractJClassDef implements BlockContent {
 
     $KW designation() {
         return $KW.CLASS;
+    }
+
+    public Kind getItemKind() {
+        return Kind.CLASS;
+    }
+
+    public String getName() {
+        return super.getName();
     }
 }

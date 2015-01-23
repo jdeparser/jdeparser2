@@ -186,15 +186,15 @@ public final class JExprs {
      * @param name the name
      * @return the expression
      */
-    public static JAssignableExpr $(String name) {
+    public static JAssignableExpr $v(String name) {
         return name(name);
     }
 
-    public static JAssignableExpr $(JParamDeclaration paramDeclaration) {
+    public static JAssignableExpr $v(JParamDeclaration paramDeclaration) {
         return name(paramDeclaration.name());
     }
 
-    public static JAssignableExpr $(JVarDeclaration varDeclaration) {
+    public static JAssignableExpr $v(JVarDeclaration varDeclaration) {
         return name(varDeclaration.name());
     }
 

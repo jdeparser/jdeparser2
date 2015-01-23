@@ -25,7 +25,7 @@ import org.jboss.jdeparser.FormatPreferences.Space;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class MethodJMethodDef extends AbstractJMethodDef {
+class MethodJMethodDef extends AbstractJMethodDef implements JClassItem {
 
     private final JType returnType;
     private final String name;
@@ -44,7 +44,7 @@ class MethodJMethodDef extends AbstractJMethodDef {
         writeDocComments(writer);
         writeComments(writer);
         writeAnnotations(writer, Space.AFTER_ANNOTATION);
-        JMod.write(writer, mods());
+        JMod.write(writer, getModifiers());
         writeTypeParams(writer);
         writer.write(returnType);
         writer.sp();
@@ -52,7 +52,23 @@ class MethodJMethodDef extends AbstractJMethodDef {
         super.write(writer);
     }
 
-    String getName() {
+    public String getName() {
         return name;
+    }
+
+    public int getModifiers() {
+        return super.getModifiers();
+    }
+
+    public Kind getItemKind() {
+        return Kind.METHOD;
+    }
+
+    public boolean hasAllModifiers(final int mods) {
+        return (getModifiers() & mods) == mods;
+    }
+
+    public boolean hasAnyModifier(final int mods) {
+        return (getModifiers() & mods) != 0;
     }
 }

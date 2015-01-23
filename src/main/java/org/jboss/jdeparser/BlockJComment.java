@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class BlockJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
+class BlockJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent, JClassItem {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.addIndent();
@@ -43,5 +43,25 @@ class BlockJComment extends AbstractJComment implements ClassContent, ClassFileC
         writer.addIndent();
         writer.writeEscaped(" */");
         writer.nl();
+    }
+
+    public Kind getItemKind() {
+        return Kind.BLOCK_COMMENT;
+    }
+
+    public int getModifiers() {
+        return 0;
+    }
+
+    public boolean hasAllModifiers(final int mods) {
+        return false;
+    }
+
+    public boolean hasAnyModifier(final int mods) {
+        return false;
+    }
+
+    public String getName() {
+        return null;
     }
 }

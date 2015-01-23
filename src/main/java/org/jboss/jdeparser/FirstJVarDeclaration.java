@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration, BlockContent, ClassContent {
+class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration, BlockContent, ClassContent, JClassItem {
 
     private final int mods;
     private final JType type;
@@ -105,5 +105,25 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         final SuccessorJVarDeclaration s = new SuccessorJVarDeclaration(this, name, null);
         successors.add(s);
         return s;
+    }
+
+    public Kind getItemKind() {
+        return Kind.FIELD;
+    }
+
+    public int getModifiers() {
+        return mods;
+    }
+
+    public boolean hasAllModifiers(final int mods) {
+        return (this.mods & mods) == mods;
+    }
+
+    public boolean hasAnyModifier(final int mods) {
+        return (this.mods & mods) != 0;
+    }
+
+    public String getName() {
+        return name;
     }
 }
