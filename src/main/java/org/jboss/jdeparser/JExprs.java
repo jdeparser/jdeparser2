@@ -198,7 +198,7 @@ public final class JExprs {
         return name(varDeclaration.name());
     }
 
-    private static final ThreadLocal<LinkedHashMap<String, JAssignableExpr>> cache = new CachingThreadLocal<>();
+    static final ThreadLocal<LinkedHashMap<String, JAssignableExpr>> cache = new CachingThreadLocal<>();
 
     public static JAssignableExpr name(String name) {
         final LinkedHashMap<String, JAssignableExpr> map = cache.get();

@@ -62,7 +62,7 @@ public final class JTypes {
         }
     }
 
-    private static final ThreadLocal<LinkedHashMap<String, JType>> cache = new CachingThreadLocal<>();
+    static final ThreadLocal<LinkedHashMap<String, JType>> cache = new CachingThreadLocal<>();
 
     public static JType typeNamed(String name) {
         if (name.endsWith("[]")) {

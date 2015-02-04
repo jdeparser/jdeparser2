@@ -39,4 +39,14 @@ public final class JDeparser {
     public static JSources createSources(final JFiler filer, final FormatPreferences format) {
         return new ImplJSources(filer, format);
     }
+
+    /**
+     * Drop all thread-local caches.  This can be done to save memory or avoid GC problems after source generation
+     * has been completed.  Call within a {@code finally} block to ensure that resources are released regardless of
+     * the outcome of intervening operations.
+     */
+    public static void dropCaches() {
+        JExprs.cache.remove();
+        JTypes.cache.remove();
+    }
 }
