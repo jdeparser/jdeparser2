@@ -252,4 +252,8 @@ public final class JExprs {
     public static JExpr unqualifiedMethodRef(String name) {
         return new MethodRefJExpr(null, name);
     }
+
+    public static JLambda lambda() {
+        return new JLambdaImpl();
+    }
 }

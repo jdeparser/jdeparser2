@@ -75,6 +75,12 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         final JAnonymousClassDef anon = JTypes.$t(Runnable.class)._newAnon();
         anon.init().add(JTypes.$t(System.class).$v("out").call("println").arg(JExprs.str("Bananas!")));
         body.add(anon);
+        body.add(JTypes.$t(System.class).$v("out").call("println").arg(JExprs.lambda().param("foo").param("bar").body(JExprs.str("Super bananas!"))));
+        body.add(JTypes.$t(System.class).$v("out").call("println").arg(JExprs.lambda().param(int.class, "foo").param(int.class, "bar").body(JExprs.str("Super duper bananas!"))));
+        final JLambda lambda = JExprs.lambda().param(int.class, "foo").param(int.class, "bar");
+        final JBlock lambdaBody = lambda.body();
+        lambdaBody.add(JTypes.$t(System.class).$v("out").call("println").arg(JExprs.str("Bananamus Maximus!")));
+        body.add(JTypes.$t(System.class).$v("out").call("println").arg(lambda));
         sources.writeSources();
         final ByteArrayInputStream inputStream = openFile("org.foo.bar", "Baz.java");
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
