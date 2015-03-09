@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source.
- * Copyright 2014 Red Hat, Inc., and individual contributors
+ * Copyright 2015 Red Hat, Inc., and individual contributors
  * as indicated by the @author tags.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,31 +20,16 @@ package org.jboss.jdeparser;
 
 import java.io.IOException;
 
-/**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
- */
-class LongJExpr extends AbstractJExpr implements JExpr {
+final class HexFloatJExpr extends AbstractJExpr {
 
-    private final long val;
-    private final int radix;
+    private final float val;
 
-    LongJExpr(final long val, final int radix) {
+    HexFloatJExpr(final float val) {
         super(0);
         this.val = val;
-        this.radix = radix;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.addWordSpace();
-        writer.write(Tokens.$NUMBER);
-        switch (radix) {
-            case 2:
-                writer.writeEscaped("0b");
-                break;
-            case 16:
-                writer.writeEscaped("0x");
-                break;
-        }
-        writer.writeEscaped(Long.toString(val, radix) + "L");
+        writer.writeUnescaped(String.format("%af", Float.valueOf(val)));
     }
 }

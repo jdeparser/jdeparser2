@@ -30,123 +30,43 @@ public final class JExprs {
     private JExprs() {}
 
     public static JExpr decimal(int val) {
-        return new IntegerJExpr(val, 10, 0);
+        return new IntegerJExpr(val, 10);
     }
 
     public static JExpr decimal(long val) {
-        return new LongJExpr(val, 10, 0);
+        return new LongJExpr(val, 10);
     }
 
     public static JExpr decimal(float val) {
-        return null;
+        return new DecimalFloatJExpr(val);
     }
 
     public static JExpr decimal(double val) {
-        return null;
-    }
-
-    public static JExpr decimal(int val, String format) {
-        return null;
-    }
-
-    public static JExpr decimal(long val, String format) {
-        return null;
-    }
-
-    public static JExpr decimal(float val, String format) {
-        return null;
-    }
-
-    public static JExpr decimal(double val, String format) {
-        return null;
-    }
-
-    public static JExpr decimal(int val, int sepInterval) {
-        return new IntegerJExpr(val, 10, sepInterval);
-    }
-
-    public static JExpr decimal(long val, int sepInterval) {
-        return new LongJExpr(val, 10, sepInterval);
-    }
-
-    public static JExpr decimal(float val, int sepInterval) {
-        return null;
-    }
-
-    public static JExpr decimal(double val, int sepInterval) {
-        return null;
+        return new DecimalDoubleJExpr(val);
     }
 
     public static JExpr hex(int val) {
-        return new IntegerJExpr(val, 16, 0);
+        return new IntegerJExpr(val, 16);
     }
 
     public static JExpr hex(long val) {
-        return new LongJExpr(val, 16, 0);
+        return new LongJExpr(val, 16);
     }
 
     public static JExpr hex(float val) {
-        return null;
+        return new HexFloatJExpr(val);
     }
 
     public static JExpr hex(double val) {
-        return null;
-    }
-
-    public static JExpr hex(int val, String format) {
-        return null;
-    }
-
-    public static JExpr hex(long val, String format) {
-        return null;
-    }
-
-    public static JExpr hex(float val, String format) {
-        return null;
-    }
-
-    public static JExpr hex(double val, String format) {
-        return null;
-    }
-
-    public static JExpr hex(int val, int sepInterval) {
-        return new IntegerJExpr(val, 16, sepInterval);
-    }
-
-    public static JExpr hex(long val, int sepInterval) {
-        return new LongJExpr(val, 16, sepInterval);
-    }
-
-    public static JExpr hex(float val, int sepInterval) {
-        return null;
-    }
-
-    public static JExpr hex(double val, int sepInterval) {
-        return null;
+        return new HexDoubleJExpr(val);
     }
 
     public static JExpr binary(int val) {
-        return new IntegerJExpr(val, 2, 0);
+        return new IntegerJExpr(val, 2);
     }
 
     public static JExpr binary(long val) {
-        return new LongJExpr(val, 2, 0);
-    }
-
-    public static JExpr binary(int val, String format) {
-        return new IntegerJExpr(val, 2, 0);
-    }
-
-    public static JExpr binary(long val, String format) {
-        return new LongJExpr(val, 2, 0);
-    }
-
-    public static JExpr binary(int val, int sepInterval) {
-        return new IntegerJExpr(val, 2, sepInterval);
-    }
-
-    public static JExpr binary(long val, int sepInterval) {
-        return new LongJExpr(val, 2, sepInterval);
+        return new LongJExpr(val, 2);
     }
 
     public static JExpr str(String string) {
@@ -154,7 +74,7 @@ public final class JExprs {
     }
 
     public static JExpr ch(int val) {
-        return null;
+        return new CharJExpr(val);
     }
 
     public static JCall call(final ExecutableElement element) {
@@ -166,7 +86,9 @@ public final class JExprs {
         throw new IllegalArgumentException("Unsupported element for call: " + element);
     }
 
-    public static JCall call(String name) { return new DirectJCall(name); }
+    public static JCall call(String name) {
+        return new DirectJCall(name);
+    }
 
     public static JCall callStatic(final String type, final String name) {
         return callStatic(JTypes.typeNamed(type), name);

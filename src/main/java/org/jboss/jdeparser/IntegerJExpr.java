@@ -27,13 +27,11 @@ class IntegerJExpr extends AbstractJExpr implements JExpr {
 
     private final int val;
     private final int radix;
-    private final int sepInterval; // todo
 
-    IntegerJExpr(final int val, final int radix, final int sepInterval) {
+    IntegerJExpr(final int val, final int radix) {
         super(0);
         this.val = val;
         this.radix = radix;
-        this.sepInterval = sepInterval;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

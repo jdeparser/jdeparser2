@@ -52,12 +52,12 @@ public interface JExpr {
     /**
      * The constant expression for the integer zero.
      */
-    JExpr ZERO = new IntegerJExpr(0, 10, 0);
+    JExpr ZERO = new IntegerJExpr(0, 10);
 
     /**
      * The constant expression for the integer one.
      */
-    JExpr ONE = new IntegerJExpr(1, 10, 0);
+    JExpr ONE = new IntegerJExpr(1, 10);
 
     // arithmetic
 
