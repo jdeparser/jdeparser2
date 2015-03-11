@@ -27,20 +27,57 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 
 /**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
+ * The set of modifiers for types and members.
  */
 public final class JMod {
+
+    /**
+     * The {@code abstract} modifier.
+     */
     public static final int ABSTRACT    = 1 << 0;
+    /**
+     * The {@code final} modifier.
+     */
     public static final int FINAL       = 1 << 1;
+    /**
+     * The {@code native} modifier.
+     */
     public static final int NATIVE      = 1 << 2;
+    /**
+     * The {@code private} modifier.
+     */
     public static final int PRIVATE     = 1 << 3;
+    /**
+     * The {@code protected} modifier.
+     */
     public static final int PROTECTED   = 1 << 4;
+    /**
+     * The {@code public} modifier.
+     */
     public static final int PUBLIC      = 1 << 5;
+    /**
+     * The {@code static} modifier.
+     */
     public static final int STATIC      = 1 << 6;
+    /**
+     * The {@code strictfp} modifier.
+     */
     public static final int STRICTFP    = 1 << 7;
+    /**
+     * The {@code synchronized} modifier.
+     */
     public static final int SYNCHRONIZED= 1 << 8;
+    /**
+     * The {@code transient} modifier.
+     */
     public static final int TRANSIENT   = 1 << 9;
+    /**
+     * The {@code volatile} modifier.
+     */
     public static final int VOLATILE    = 1 << 10;
+    /**
+     * The {@code default} modifier found in Java 8 and later.
+     */
     public static final int DEFAULT     = 1 << 11;
 
     static final int PRIVATE_BITS       = ~((1 << 12) - 1);
@@ -48,22 +85,57 @@ public final class JMod {
     static final int INNER              = 1 << 30;
     static final int VARARGS            = 1 << 31;
 
+    /**
+     * Test to see if exactly one modifier of the given set is present in the test value.
+     *
+     * @param set the set of modifiers to test against
+     * @param test the modifier set to test
+     * @return {@code true} if exactly one of {@code set} is present in {@code test}, {@code false} otherwise
+     */
     public static boolean oneIsSet(int set, int test) {
         return bitCount(set & test) == 1;
     }
 
+    /**
+     * Test to see if all modifiers in the given set are present in the test value.
+     *
+     * @param set the set of modifiers to test against
+     * @param test the modifier set to test
+     * @return {@code true} if all the modifiers in {@code set} are present in {@code test}, {@code false} otherwise
+     */
     public static boolean allAreSet(int set, int test) {
         return (set & test) == test;
     }
 
+    /**
+     * Test to see if all modifiers in the given set are absent in the test value.
+     *
+     * @param set the set of modifiers to test against
+     * @param test the modifier set to test
+     * @return {@code true} if all the modifiers in {@code set} are absent in {@code test}, {@code false} otherwise
+     */
     public static boolean allAreClear(int set, int test) {
         return (set & test) == 0;
     }
 
+    /**
+     * Test to see if any of the modifiers in the given set are present in the test value.
+     *
+     * @param set the set of modifiers to test against
+     * @param test the modifier set to test
+     * @return {@code true} if any of the modifiers in {@code set} are present in {@code test}, {@code false} otherwise
+     */
     public static boolean anyAreSet(int set, int test) {
         return (set & test) != 0;
     }
 
+    /**
+     * Test to see if any of the modifiers in the given set are absent in the test value.
+     *
+     * @param set the set of modifiers to test against
+     * @param test the modifier set to test
+     * @return {@code true} if any of the modifiers in {@code set} are absent in {@code test}, {@code false} otherwise
+     */
     public static boolean anyAreClear(int set, int test) {
         return (set & test) != test;
     }
