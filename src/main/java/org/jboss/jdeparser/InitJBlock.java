@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class InitJBlock extends BasicJBlock implements ClassContent, JClassItem {
+class InitJBlock extends BasicJBlock implements ClassContent {
 
     InitJBlock() {
         super(null, Braces.REQUIRED);
@@ -32,25 +32,5 @@ class InitJBlock extends BasicJBlock implements ClassContent, JClassItem {
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         super.write(writer, null);
-    }
-
-    public Kind getItemKind() {
-        return Kind.INIT_BLOCK;
-    }
-
-    public int getModifiers() {
-        return 0;
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return false;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return false;
-    }
-
-    public String getName() {
-        return null;
     }
 }

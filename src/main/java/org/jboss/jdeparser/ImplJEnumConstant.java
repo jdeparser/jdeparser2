@@ -27,7 +27,7 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant, JClassItem {
+class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
 
     private final EnumJClassDef classDef;
     private final String name;
@@ -90,21 +90,5 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant, JCla
             writer.write(FormatPreferences.Space.BEFORE_BRACE_CLASS);
             body.write(writer);
         }
-    }
-
-    public Kind getItemKind() {
-        return Kind.ENUM_CONSTANT;
-    }
-
-    public int getModifiers() {
-        return 0;
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return false;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return false;
     }
 }

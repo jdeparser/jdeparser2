@@ -25,7 +25,7 @@ import org.jboss.jdeparser.FormatPreferences.Space;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class ConstructorJMethodDef extends AbstractJMethodDef implements JClassItem {
+class ConstructorJMethodDef extends AbstractJMethodDef {
 
     ConstructorJMethodDef(final AbstractJClassDef classDef, final int mods) {
         super(classDef, mods);
@@ -41,23 +41,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef implements JClassItem {
         super.write(writer);
     }
 
-    public Kind getItemKind() {
-        return Kind.METHOD;
-    }
-
-    public int getModifiers() {
+    private int getModifiers() {
         return super.getModifiers();
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return (getModifiers() & mods) == mods;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return (getModifiers() & mods) != 0;
-    }
-
-    public String getName() {
-        return null;
     }
 }

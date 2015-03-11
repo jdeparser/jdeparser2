@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class StaticInitJBlock extends BasicJBlock implements ClassContent, JClassItem {
+class StaticInitJBlock extends BasicJBlock implements ClassContent {
 
     StaticInitJBlock() {
         super(null, Braces.REQUIRED);
@@ -35,25 +35,5 @@ class StaticInitJBlock extends BasicJBlock implements ClassContent, JClassItem {
         writeComments(writer);
         writer.write($KW.STATIC);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE_METHOD);
-    }
-
-    public Kind getItemKind() {
-        return Kind.INIT_BLOCK;
-    }
-
-    public int getModifiers() {
-        return JMod.STATIC;
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return (mods & JMod.STATIC) == mods;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return (mods & JMod.STATIC) != 0;
-    }
-
-    public String getName() {
-        return null;
     }
 }

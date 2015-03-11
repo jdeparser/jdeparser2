@@ -389,16 +389,4 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
             }
         }
     }
-
-    public int getModifiers() {
-        return mods;
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return (this.mods & mods) == mods;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return (this.mods & mods) != 0;
-    }
 }

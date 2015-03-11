@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
+class AnnotationJClassDef extends AbstractJClassDef {
 
     AnnotationJClassDef(final int mods, final ImplJSourceFile classFile, final String name) {
         super(mods, classFile, name);
@@ -79,10 +79,6 @@ class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
 
     public JMethodDef method(final ArrayList<ClassContent> content, final int mods, final JType returnType, final String name) {
         return add(content, new AnnotationJMethodDef(this, mods, returnType, name));
-    }
-
-    public Kind getItemKind() {
-        return Kind.ANNOTATION_INTERFACE;
     }
 
     public String getName() {

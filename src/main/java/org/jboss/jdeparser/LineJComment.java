@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-class LineJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent, JClassItem {
+class LineJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
 
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeEscaped("// ");
@@ -33,25 +33,5 @@ class LineJComment extends AbstractJComment implements ClassContent, ClassFileCo
         } finally {
             writer.popIndent(CommentIndentation.LINE);
         }
-    }
-
-    public Kind getItemKind() {
-        return Kind.LINE_COMMENT;
-    }
-
-    public int getModifiers() {
-        return 0;
-    }
-
-    public boolean hasAllModifiers(final int mods) {
-        return false;
-    }
-
-    public boolean hasAnyModifier(final int mods) {
-        return false;
-    }
-
-    public String getName() {
-        return null;
     }
 }
