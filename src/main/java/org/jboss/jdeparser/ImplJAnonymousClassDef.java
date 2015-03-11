@@ -50,6 +50,10 @@ class ImplJAnonymousClassDef extends AbstractJCall implements JAnonymousClassDef
 
     // delegation
 
+    public JClassDefSection section() {
+        return classDef.section();
+    }
+
     public JClassDef _extends(final String name) {
         return classDef._extends(name);
     }
