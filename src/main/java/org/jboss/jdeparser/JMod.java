@@ -78,55 +78,54 @@ public final class JMod {
     public static int of(final Element element) {
         int result = 0;
         for (Modifier modifier : element.getModifiers()) {
-            switch (modifier) {
-                case ABSTRACT: {
+            switch (modifier.name()) {
+                case "ABSTRACT": {
                     result = result | ABSTRACT;
                     break;
                 }
-                case FINAL: {
+                case "FINAL": {
                     result = result | FINAL;
                     break;
                 }
-                case NATIVE: {
+                case "NATIVE": {
                     result = result | NATIVE;
                     break;
                 }
-                case PRIVATE: {
+                case "PRIVATE": {
                     result = result | PRIVATE;
                     break;
                 }
-                case PROTECTED: {
+                case "PROTECTED": {
                     result = result | PROTECTED;
                     break;
                 }
-                case PUBLIC: {
+                case "PUBLIC": {
                     result = result | PUBLIC;
                     break;
                 }
-                case STATIC: {
+                case "STATIC": {
                     result = result | STATIC;
                     break;
                 }
-                case STRICTFP: {
+                case "STRICTFP": {
                     result = result | STRICTFP;
                     break;
                 }
-                case SYNCHRONIZED: {
+                case "SYNCHRONIZED": {
                     result = result | SYNCHRONIZED;
                     break;
                 }
-                case TRANSIENT: {
+                case "TRANSIENT": {
                     result = result | TRANSIENT;
                     break;
                 }
-                case VOLATILE: {
+                case "VOLATILE": {
                     result = result | VOLATILE;
                     break;
                 }
-                default: {
-                    if (modifier.toString().equals("DEFAULT")) {
-                        result = result | DEFAULT;
-                    }
+                case "DEFAULT": {
+                    result = result | DEFAULT;
+                    break;
                 }
             }
         }
