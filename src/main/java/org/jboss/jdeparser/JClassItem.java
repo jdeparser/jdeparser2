@@ -28,6 +28,7 @@ import java.util.EnumSet;
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
+@Deprecated
 public interface JClassItem {
 
     /**
@@ -35,6 +36,7 @@ public interface JClassItem {
      *
      * @return the item kind
      */
+    @Deprecated
     Kind getItemKind();
 
     /**
@@ -43,6 +45,7 @@ public interface JClassItem {
      * @return the modifiers
      * @see JMod
      */
+    @Deprecated
     int getModifiers();
 
     /**
@@ -51,6 +54,7 @@ public interface JClassItem {
      * @param mods the modifier(s)
      * @return {@code true} if all of the modifiers are present, {@code false} otherwise
      */
+    @Deprecated
     boolean hasAllModifiers(int mods);
 
     /**
@@ -59,6 +63,7 @@ public interface JClassItem {
      * @param mods the modifier(s)
      * @return {@code true} if any if the modifiers are present, {@code false} otherwise
      */
+    @Deprecated
     boolean hasAnyModifier(int mods);
 
     /**
@@ -66,8 +71,10 @@ public interface JClassItem {
      *
      * @return the name, or {@code null} if there is none
      */
+    @Deprecated
     String getName();
 
+    @Deprecated
     Comparator<JClassItem> SMART_NAME_SORT = new Comparator<JClassItem>() {
         private int rankOf(JClassItem item) {
             return item.getItemKind().ordinal();
@@ -138,6 +145,7 @@ public interface JClassItem {
     /**
      * The kind of class item.
      */
+    @Deprecated
     enum Kind {
         /**
          * A line comment.  The item will implement {@link JComment}.
