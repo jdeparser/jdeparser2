@@ -32,27 +32,57 @@ import javax.lang.model.type.TypeVariable;
 import javax.lang.model.type.WildcardType;
 
 /**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
+ * The factory for generating simple types.
  */
 public final class JTypes {
     private JTypes() {}
 
+    /**
+     * Return the erased type of a class definition.
+     *
+     * @param classDef the class definition
+     * @return the type
+     */
     public static JType $t(JClassDef classDef) {
         return typeOf(classDef);
     }
 
+    /**
+     * Return the type corresponding to the given class.
+     *
+     * @param clazz the class
+     * @return the type
+     */
     public static JType $t(Class<?> clazz) {
         return typeOf(clazz);
     }
 
+    /**
+     * Return a type corresponding to a class with the given name.
+     *
+     * @param name the class name
+     * @return the type
+     */
     public static JType $t(String name) {
         return typeNamed(name);
     }
 
+    /**
+     * Return the erased type of a class definition.
+     *
+     * @param classDef the class definition
+     * @return the type
+     */
     public static JType typeOf(JClassDef classDef) {
         return classDef.erasedType();
     }
 
+    /**
+     * Return the type corresponding to the given class.
+     *
+     * @param clazz the class
+     * @return the type
+     */
     public static JType typeOf(Class<?> clazz) {
         final Class<?> enclosingClass = clazz.getEnclosingClass();
         if (enclosingClass != null) {
@@ -64,6 +94,12 @@ public final class JTypes {
 
     static final ThreadLocal<LinkedHashMap<String, JType>> cache = new CachingThreadLocal<>();
 
+    /**
+     * Return a type corresponding to a class with the given name.
+     *
+     * @param name the class name
+     * @return the type
+     */
     public static JType typeNamed(String name) {
         if (name.endsWith("[]")) {
             return typeNamed(name.substring(0, name.length() - 2)).array();
