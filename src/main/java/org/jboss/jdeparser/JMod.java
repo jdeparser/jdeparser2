@@ -41,8 +41,9 @@ public final class JMod {
     public static final int SYNCHRONIZED= 1 << 8;
     public static final int TRANSIENT   = 1 << 9;
     public static final int VOLATILE    = 1 << 10;
+    public static final int DEFAULT     = 1 << 11;
 
-    static final int PRIVATE_BITS       = ~((1 << 11) - 1);
+    static final int PRIVATE_BITS       = ~((1 << 12) - 1);
 
     static final int INNER              = 1 << 30;
     static final int VARARGS            = 1 << 31;
@@ -122,6 +123,11 @@ public final class JMod {
                     result = result | VOLATILE;
                     break;
                 }
+                default: {
+                    if (modifier.toString().equals("DEFAULT")) {
+                        result = result | DEFAULT;
+                    }
+                }
             }
         }
         if (element instanceof ExecutableElement && ((ExecutableElement) element).isVarArgs()) {
@@ -163,6 +169,9 @@ public final class JMod {
         }
         if (allAreSet(mods, STRICTFP)) {
             writer.write($KW.STRICTFP);
+        }
+        if (allAreSet(mods, DEFAULT)) {
+            writer.write($KW.DEFAULT);
         }
     }
 }

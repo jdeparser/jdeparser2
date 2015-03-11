@@ -30,7 +30,7 @@ import java.util.Iterator;
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent, ClassContent {
+abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, ClassFileContent, ClassContent, Sectionable {
 
     private final int mods;
     private final String name;
@@ -81,8 +81,16 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     <C extends ClassContent> C add(C item) {
+        return add(content, item);
+    }
+
+    <C extends ClassContent> C add(ArrayList<ClassContent> content, C item) {
         content.add(item);
         return item;
+    }
+
+    public JClassDefSection section() {
+        return add(new JClassDefSectionImpl(this));
     }
 
     public JClassDef _extends(final String name) {
@@ -150,26 +158,30 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return super.typeParam(name);
     }
 
-    public JBlock init() {
-        return add(new InitJBlock());
+    public final JBlock init() {
+        return init(content);
     }
 
-    public JBlock staticInit() {
+    public JBlock init(final ArrayList<ClassContent> content) {
+        return add(content, new InitJBlock());
+    }
+
+    public final JBlock staticInit() {
+        return staticInit(content);
+    }
+
+    public JBlock staticInit(final ArrayList<ClassContent> content) {
         if (allAreSet(mods, JMod.INNER)) {
             throw new UnsupportedOperationException("Inner classes cannot have static init blocks");
         }
-        return add(new StaticInitJBlock());
+        return add(content, new StaticInitJBlock());
     }
 
     public JEnumConstant _enum(final String name) {
         throw new UnsupportedOperationException("Enum constants may only be added to enums");
     }
 
-    public JVarDeclaration field(final int mods, final JType type, final String name) {
-        return field(mods, type, name, null);
-    }
-
-    public JVarDeclaration field(final int mods, final JType type, final String name, final JExpr init) {
+    public JVarDeclaration field(final ArrayList<ClassContent> content, final int mods, final JType type, final String name, final JExpr init) {
         if (allAreSet(this.mods, JMod.INNER) && allAreSet(mods, JMod.STATIC)) {
             throw new UnsupportedOperationException("Inner classes cannot have static members");
         }
@@ -179,26 +191,34 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
         }
-        return add(new FirstJVarDeclaration(mods, type, name, init));
+        return add(content, new FirstJVarDeclaration(mods, type, name, init));
     }
 
-    public JVarDeclaration field(final int mods, final Class<?> type, final String name) {
+    public final JVarDeclaration field(final int mods, final JType type, final String name) {
+        return field(mods, type, name, null);
+    }
+
+    public final JVarDeclaration field(final int mods, final JType type, final String name, final JExpr init) {
+        return field(content, mods, type, name, init);
+    }
+
+    public final JVarDeclaration field(final int mods, final Class<?> type, final String name) {
         return field(mods, JTypes.typeOf(type), name);
     }
 
-    public JVarDeclaration field(final int mods, final Class<?> type, final String name, final JExpr init) {
+    public final JVarDeclaration field(final int mods, final Class<?> type, final String name, final JExpr init) {
         return field(mods, JTypes.typeOf(type), name, init);
     }
 
-    public JVarDeclaration field(final int mods, final String type, final String name) {
+    public final JVarDeclaration field(final int mods, final String type, final String name) {
         return field(mods, JTypes.typeNamed(type), name);
     }
 
-    public JVarDeclaration field(final int mods, final String type, final String name, final JExpr init) {
+    public final JVarDeclaration field(final int mods, final String type, final String name, final JExpr init) {
         return field(mods, JTypes.typeNamed(type), name, init);
     }
 
-    public JMethodDef method(final int mods, final JType returnType, final String name) {
+    public JMethodDef method(final ArrayList<ClassContent> content, final int mods, final JType returnType, final String name) {
         if (allAreSet(this.mods, JMod.INNER) && allAreSet(mods, JMod.STATIC)) {
             throw new UnsupportedOperationException("Inner classes cannot have static members");
         }
@@ -211,14 +231,18 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         if (anyAreSet(mods, TRANSIENT | VOLATILE | PRIVATE_BITS)) {
             throw new IllegalArgumentException("Invalid method modifier(s) given");
         }
-        return add(new MethodJMethodDef(this, mods, returnType, name));
+        return add(content, new MethodJMethodDef(this, mods, returnType, name));
     }
 
-    public JMethodDef method(final int mods, final Class<?> returnType, final String name) {
+    public final JMethodDef method(final int mods, final JType returnType, final String name) {
+        return method(content, mods, returnType, name);
+    }
+
+    public final JMethodDef method(final int mods, final Class<?> returnType, final String name) {
         return method(mods, JTypes.typeOf(returnType), name);
     }
 
-    public JMethodDef method(final int mods, final String returnType, final String name) {
+    public final JMethodDef method(final int mods, final String returnType, final String name) {
         return method(mods, JTypes.typeNamed(returnType), name);
     }
 
@@ -234,30 +258,50 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return true;
     }
 
-    public JMethodDef constructor(final int mods) {
+    public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
         }
         if (anyAreSet(mods, TRANSIENT | VOLATILE | ABSTRACT | FINAL | PRIVATE_BITS)) {
             throw new IllegalArgumentException("Invalid constructor modifier(s) given");
         }
-        return add(new ConstructorJMethodDef(this, mods));
+        return add(content, new ConstructorJMethodDef(this, mods));
     }
 
-    public JClassDef _class(final int mods, final String name) {
-        return add(new PlainJClassDef(mods, this, name));
+    public final JMethodDef constructor(final int mods) {
+        return constructor(content, mods);
     }
 
-    public JClassDef _enum(final int mods, final String name) {
-        return add(new EnumJClassDef(mods, this, name));
+    public JClassDef _class(final ArrayList<ClassContent> content, final int mods, final String name) {
+        return add(content, new PlainJClassDef(mods, this, name));
     }
 
-    public JClassDef _interface(final int mods, final String name) {
-        return add(new InterfaceJClassDef(mods, this, name));
+    public JClassDef _enum(final ArrayList<ClassContent> content, final int mods, final String name) {
+        return add(content, new EnumJClassDef(mods, this, name));
     }
 
-    public JClassDef annotationInterface(final int mods, final String name) {
-        return add(new AnnotationJClassDef(mods, this, name));
+    public JClassDef _interface(final ArrayList<ClassContent> content, final int mods, final String name) {
+        return add(content, new InterfaceJClassDef(mods, this, name));
+    }
+
+    public JClassDef annotationInterface(final ArrayList<ClassContent> content, final int mods, final String name) {
+        return add(content, new AnnotationJClassDef(mods, this, name));
+    }
+
+    public final JClassDef _class(final int mods, final String name) {
+        return _class(content, mods, name);
+    }
+
+    public final JClassDef _enum(final int mods, final String name) {
+        return _enum(content, mods, name);
+    }
+
+    public final JClassDef _interface(final int mods, final String name) {
+        return _interface(content, mods, name);
+    }
+
+    public final JClassDef annotationInterface(final int mods, final String name) {
+        return annotationInterface(content, mods, name);
     }
 
     Iterable<ClassContent> getContent() {

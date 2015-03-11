@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.util.ArrayList;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -59,7 +61,7 @@ class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
         throw new UnsupportedOperationException("implements on @interface");
     }
 
-    public JBlock init() {
+    public JBlock init(final ArrayList<ClassContent> content) {
         throw new UnsupportedOperationException("init block on @interface");
     }
 
@@ -67,7 +69,7 @@ class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
         return false;
     }
 
-    public JMethodDef constructor(final int mods) {
+    public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         throw new UnsupportedOperationException("constructor on @interface");
     }
 
@@ -75,8 +77,8 @@ class AnnotationJClassDef extends AbstractJClassDef implements JClassItem {
         throw new UnsupportedOperationException("type parameters on @interface");
     }
 
-    public JMethodDef method(final int mods, final JType returnType, final String name) {
-        return add(new AnnotationJMethodDef(this, mods, returnType, name));
+    public JMethodDef method(final ArrayList<ClassContent> content, final int mods, final JType returnType, final String name) {
+        return add(content, new AnnotationJMethodDef(this, mods, returnType, name));
     }
 
     public Kind getItemKind() {

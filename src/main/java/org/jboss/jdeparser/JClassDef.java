@@ -23,7 +23,14 @@ package org.jboss.jdeparser;
  *
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
-public interface JClassDef extends JAnnotatable, JDocCommentable, JGenericDef {
+public interface JClassDef extends JAnnotatable, JDocCommentable, JGenericDef, JClassDefSection {
+
+    /**
+     * Add a blank line at this point of the type.
+     *
+     * @return this type definition
+     */
+    JClassDef blankLine();
 
     /**
      * Add an {@code extends} type to this type.
@@ -74,13 +81,6 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JGenericDef {
     JClassDef _implements(Class<?>... clazz);
 
     /**
-     * Add a blank line at this point of the type.  Blank lines are lost if members are sorted.
-     *
-     * @return this type definition
-     */
-    JClassDef blankLine();
-
-    /**
      * Get the erased type corresponding to this type definition.
      *
      * @return the erased type
@@ -96,161 +96,10 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JGenericDef {
     JType genericType();
 
     /**
-     * Add a "raw" initialization block to this type definition.
-     *
-     * @return the initialization block
-     */
-    JBlock init();
-
-    /**
-     * Add a static initialization block to this type definition.
-     *
-     * @return the static initialization block
-     */
-    JBlock staticInit();
-
-    /**
      * Add an enum constant.  If the class being defined is not an enum, an exception is thrown.
      *
      * @param name the constant name
      * @return the call for enum construction
      */
     JEnumConstant _enum(String name);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, JType type, String name);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @param init the field assigned value
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, JType type, String name, JExpr init);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, Class<?> type, String name);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @param init the field assigned value
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, Class<?> type, String name, JExpr init);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, String type, String name);
-
-    /**
-     * Add a field to this type.
-     *
-     * @param mods the modifiers
-     * @param type the field type
-     * @param name the field name
-     * @param init the field assigned value
-     * @return the field declaration
-     */
-    JVarDeclaration field(int mods, String type, String name, JExpr init);
-
-    /**
-     * Add a method to this type.
-     *
-     * @param mods the modifiers
-     * @param returnType the method return type
-     * @param name the method name
-     * @return the method definition
-     */
-    JMethodDef method(int mods, JType returnType, String name);
-
-    /**
-     * Add a method to this type.
-     *
-     * @param mods the modifiers
-     * @param returnType the method return type
-     * @param name the method name
-     * @return the method definition
-     */
-    JMethodDef method(int mods, Class<?> returnType, String name);
-
-    /**
-     * Add a method to this type.
-     *
-     * @param mods the modifiers
-     * @param returnType the method return type
-     * @param name the method name
-     * @return the method definition
-     */
-    JMethodDef method(int mods, String returnType, String name);
-
-    /**
-     * Add a constructor to this type.
-     *
-     * @param mods the modifiers
-     * @return the constructor definition
-     */
-    JMethodDef constructor(int mods);
-
-    /**
-     * Add a nested class to this type.
-     *
-     * @param mods the class modifiers
-     * @param name the class name
-     * @return the nested class
-     */
-    JClassDef _class(int mods, String name);
-
-    /**
-     * Add a nested enum to this type.
-     *
-     * @param mods the enum modifiers
-     * @param name the enum name
-     * @return the nested enum
-     */
-    JClassDef _enum(int mods, String name);
-
-    /**
-     * Add a nested interface to this type.
-     *
-     * @param mods the interface modifiers
-     * @param name the interface name
-     * @return the nested interface
-     */
-    JClassDef _interface(int mods, String name);
-
-    /**
-     * Add a nested annotation interface to this type.
-     *
-     * @param mods the annotation interface modifiers
-     * @param name the annotation interface name
-     * @return the nested annotation interface
-     */
-    JClassDef annotationInterface(int mods, String name);
 }

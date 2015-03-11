@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.util.ArrayList;
+
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
@@ -51,11 +53,11 @@ class InterfaceJClassDef extends AbstractJClassDef implements JClassItem {
         return true;
     }
 
-    public JBlock init() {
+    public JBlock init(final ArrayList<ClassContent> content) {
         throw new UnsupportedOperationException("Interfaces cannot have init blocks");
     }
 
-    public JMethodDef constructor(final int mods) {
+    public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         throw new UnsupportedOperationException("Interfaces cannot have constructors");
     }
 
