@@ -26,6 +26,14 @@ package org.jboss.jdeparser;
 public interface JTry extends JBlock {
 
     /**
+     * Add a Java 9-style final variable resource for {@code try}-with-resources constructs.
+     *
+     * @param var the resource variable expression
+     * @return this {@code try} block
+     */
+    JTry with(JExpr var);
+
+    /**
      * Add a resource for {@code try}-with-resources constructs.
      *
      * @param mods the resource variable modifiers

@@ -30,11 +30,16 @@ import java.util.Iterator;
 class ImplJTry extends BasicJBlock implements JTry {
 
     private ArrayList<ImplJCatch> catches;
-    private ArrayList<FirstJVarDeclaration> resources;
+    private ArrayList<Writable> resources;
     private FinallyJBlock finallyBlock;
 
     ImplJTry(final BasicJBlock parent) {
         super(parent, Braces.REQUIRED);
+    }
+
+    public JTry with(final JExpr var) {
+        add(AbstractJExpr.of(var));
+        return this;
     }
 
     public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
@@ -50,6 +55,12 @@ class ImplJTry extends BasicJBlock implements JTry {
     }
 
     private <T extends FirstJVarDeclaration> T add(T item) {
+        if (resources == null) resources = new ArrayList<>();
+        resources.add(item);
+        return item;
+    }
+
+    private <T extends AbstractJExpr> T add(T item) {
         if (resources == null) resources = new ArrayList<>();
         resources.add(item);
         return item;
@@ -100,17 +111,27 @@ class ImplJTry extends BasicJBlock implements JTry {
         } else {
             writer.write($KW.TRY);
             if (resources != null) {
-                final Iterator<FirstJVarDeclaration> iterator = resources.iterator();
+                final Iterator<Writable> iterator = resources.iterator();
                 if (iterator.hasNext()) {
                     writer.write(FormatPreferences.Space.BEFORE_PAREN_TRY);
                     writer.write($PUNCT.PAREN.OPEN);
                     writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
-                    iterator.next().writeNoSemi(writer);
+                    Writable next = iterator.next();
+                    if (next instanceof FirstJVarDeclaration) {
+                        ((FirstJVarDeclaration) next).writeNoSemi(writer);
+                    } else {
+                        next.write(writer);
+                    }
                     while (iterator.hasNext()) {
                         writer.write(FormatPreferences.Space.BEFORE_SEMICOLON);
                         writer.write($PUNCT.SEMI);
                         writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
-                        iterator.next().writeNoSemi(writer);
+                        next = iterator.next();
+                        if (next instanceof FirstJVarDeclaration) {
+                            ((FirstJVarDeclaration) next).writeNoSemi(writer);
+                        } else {
+                            next.write(writer);
+                        }
                     }
                 }
                 writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);

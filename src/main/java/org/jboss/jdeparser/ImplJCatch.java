@@ -56,6 +56,11 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         return or(JTypes.typeOf(orType));
     }
 
+    public JCatch with(final JExpr var) {
+        _try.with(var);
+        return this;
+    }
+
     public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
         return _try.with(mods, type, var, init);
     }
@@ -80,17 +85,17 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         return _try._catch(mods, type, var);
     }
 
-    public JTry ignore(final String type) {
+    public JCatch ignore(final String type) {
         _try.ignore(type);
         return this;
     }
 
-    public JTry ignore(final Class<? extends Throwable> type) {
+    public JCatch ignore(final Class<? extends Throwable> type) {
         _try.ignore(type);
         return this;
     }
 
-    public JTry ignore(final JType type) {
+    public JCatch ignore(final JType type) {
         _try.ignore(type);
         return this;
     }
