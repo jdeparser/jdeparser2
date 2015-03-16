@@ -48,6 +48,7 @@ class ForEachJBlock extends BasicJBlock {
         writer.write(FormatPreferences.Space.WITHIN_PAREN_FOR);
         JMod.write(writer, mods);
         writer.write(type);
+        writer.sp();
         writer.writeEscaped(name);
         writer.write(FormatPreferences.Space.BEFORE_COLON);
         writer.write($PUNCT.COLON);
