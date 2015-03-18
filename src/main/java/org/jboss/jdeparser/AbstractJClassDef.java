@@ -89,6 +89,14 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return item;
     }
 
+    public JComment lineComment() {
+        return add(new LineJComment());
+    }
+
+    public JComment blockComment() {
+        return add(new BlockJComment());
+    }
+
     public JClassDefSection section() {
         return add(new JClassDefSectionImpl(this));
     }
