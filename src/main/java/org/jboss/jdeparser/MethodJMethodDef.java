@@ -56,7 +56,7 @@ class MethodJMethodDef extends AbstractJMethodDef {
         return name;
     }
 
-    private int getModifiers() {
+    int getModifiers() {
         return super.getModifiers();
     }
 }

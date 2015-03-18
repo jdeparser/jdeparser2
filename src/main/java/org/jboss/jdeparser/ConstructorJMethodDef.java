@@ -41,7 +41,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef {
         super.write(writer);
     }
 
-    private int getModifiers() {
+    int getModifiers() {
         return super.getModifiers();
     }
 }
