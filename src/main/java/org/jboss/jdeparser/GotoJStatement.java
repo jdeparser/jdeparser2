@@ -32,6 +32,7 @@ class GotoJStatement extends KeywordJStatement {
     GotoJStatement($KW keyword, JLabel label) {
         super(keyword);
         this.label = label;
+        ((ImplJLabel)label).setReferenced();
     }
 
     JLabel getLabel() {

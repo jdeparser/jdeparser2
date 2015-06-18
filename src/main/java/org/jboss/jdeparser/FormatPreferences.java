@@ -129,7 +129,7 @@ public final class FormatPreferences {
 
         DEFAULT_SPACE_TYPES = spaceTypes;
 
-        DEFAULT_OPTS = EnumSet.of(Opt.COMPACT_INIT_ONLY_CLASS);
+        DEFAULT_OPTS = EnumSet.of(Opt.COMPACT_INIT_ONLY_CLASS, Opt.DROP_UNUSED_LABELS);
 
         EnumMap<Wrapping, WrappingMode> wm = new EnumMap<>(Wrapping.class);
         wm.put(Wrapping.EXCEPTION_LIST, WrappingMode.WRAP_ONLY_IF_LONG);
@@ -712,6 +712,7 @@ public final class FormatPreferences {
         ENUM_TRAILING_COMMA,
         ENUM_EMPTY_PARENS,
         COMPACT_INIT_ONLY_CLASS,
+        DROP_UNUSED_LABELS,
     }
 
 

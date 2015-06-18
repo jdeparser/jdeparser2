@@ -28,6 +28,7 @@ import java.io.IOException;
 class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockContent {
 
     private String name;
+    private boolean referenced;
 
     ImplJLabel(final String name) {
         this.name = name;
@@ -49,14 +50,20 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockC
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writeComments(writer);
-        writer.pushIndent(FormatPreferences.Indentation.LABELS);
-        try {
-            writer.writeEscaped(name);
-            writer.write($PUNCT.COLON);
-        } finally {
-            writer.popIndent(FormatPreferences.Indentation.LABELS);
+        if (referenced || ! writer.getFormat().hasOption(FormatPreferences.Opt.DROP_UNUSED_LABELS)) {
+            writeComments(writer);
+            writer.pushIndent(FormatPreferences.Indentation.LABELS);
+            try {
+                writer.writeEscaped(name);
+                writer.write($PUNCT.COLON);
+            } finally {
+                writer.popIndent(FormatPreferences.Indentation.LABELS);
+            }
+            writer.write(FormatPreferences.Space.AFTER_LABEL);
         }
-        writer.write(FormatPreferences.Space.AFTER_LABEL);
+    }
+
+    void setReferenced() {
+        referenced = true;
     }
 }
