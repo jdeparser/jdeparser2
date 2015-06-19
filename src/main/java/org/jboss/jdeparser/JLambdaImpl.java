@@ -75,11 +75,16 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(Tokens.$PUNCT.PAREN.OPEN);
         if (params == null) {
+            writer.write(Tokens.$PUNCT.PAREN.OPEN);
             writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL_EMPTY);
+            writer.write(Tokens.$PUNCT.PAREN.CLOSE);
         } else {
-            writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL);
+            final boolean singleParam = params.size() == 1;
+            if (! singleParam) {
+                writer.write(Tokens.$PUNCT.PAREN.OPEN);
+                writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL);
+            }
             final Iterator<Param> iterator = params.iterator();
             while (iterator.hasNext()) {
                 final Param param = iterator.next();
@@ -93,9 +98,11 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
                     writer.write(FormatPreferences.Space.AFTER_COMMA);
                 }
             }
-            writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL);
+            if (! singleParam) {
+                writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL);
+                writer.write(Tokens.$PUNCT.PAREN.CLOSE);
+            }
         }
-        writer.write(Tokens.$PUNCT.PAREN.CLOSE);
         writer.write(FormatPreferences.Space.AROUND_ARROW);
         writer.write(Tokens.$PUNCT.BINOP.ARROW);
         writer.write(FormatPreferences.Space.AROUND_ARROW);
