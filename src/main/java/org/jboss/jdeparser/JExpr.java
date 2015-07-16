@@ -45,6 +45,12 @@ public interface JExpr {
     JExpr THIS = new KeywordJExpr($KW.THIS);
 
     /**
+     * The constant expression for {@code super}, which generally must be qualified with a {@link #field(String)} or
+     * {@link #call(String)} to be useful.
+     */
+    JExpr SUPER = new KeywordJExpr($KW.SUPER);
+
+    /**
      * The constant expression for {@code null}.
      */
     JExpr NULL = new KeywordJExpr($KW.NULL);
