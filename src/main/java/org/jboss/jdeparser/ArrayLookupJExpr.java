@@ -32,7 +32,7 @@ class ArrayLookupJExpr extends AbstractJAssignableExpr {
 
     ArrayLookupJExpr(final AbstractJExpr expr, final AbstractJExpr idx) {
         super(Prec.ARRAY_ACCESS);
-        this.expr = expr.prec() < Prec.ARRAY_ACCESS ? new ParenJExpr(expr) : expr;
+        this.expr = expr.prec() > Prec.ARRAY_ACCESS ? new ParenJExpr(expr) : expr;
         this.idx = idx;
     }
 

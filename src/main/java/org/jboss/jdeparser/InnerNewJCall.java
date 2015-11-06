@@ -31,7 +31,7 @@ class InnerNewJCall extends NewJCall {
 
     InnerNewJCall(final AbstractJExpr target, final JType type) {
         super(AbstractJType.of(type));
-        this.target = target;
+        this.target = target.prec() > prec() ? new ParenJExpr(target) : target;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {

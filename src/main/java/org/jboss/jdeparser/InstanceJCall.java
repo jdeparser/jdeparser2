@@ -29,9 +29,9 @@ class InstanceJCall extends AbstractMethodJCall {
 
     private final JExpr target;
 
-    InstanceJCall(final JExpr target, final String name) {
+    InstanceJCall(final AbstractJExpr target, final String name) {
         super(name);
-        this.target = target;
+        this.target = target.prec() > prec() ? new ParenJExpr(target) : target;
     }
 
     JExpr getTarget() {

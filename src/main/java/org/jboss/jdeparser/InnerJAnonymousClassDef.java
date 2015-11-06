@@ -28,7 +28,7 @@ class InnerJAnonymousClassDef extends ImplJAnonymousClassDef {
 
     InnerJAnonymousClassDef(final AbstractJExpr expr, final JType type) {
         super(type);
-        this.expr = expr;
+        this.expr = expr.prec() > prec() ? new ParenJExpr(expr) : expr;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
