@@ -36,6 +36,18 @@ class NarrowedJType extends AbstractJType {
         this.args = args;
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof NarrowedJType && equals((NarrowedJType) other);
+    }
+
+    private boolean equals(final NarrowedJType other) {
+        return erased.equals(other.erased) && Arrays.equals(args, other.args);
+    }
+
+    public int hashCode() {
+        return erased.hashCode() * 17 + Arrays.hashCode(args);
+    }
+
     public String simpleName() {
         return erased.simpleName();
     }

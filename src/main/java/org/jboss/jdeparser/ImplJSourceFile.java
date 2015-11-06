@@ -31,7 +31,7 @@ import java.util.Map;
  */
 class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     private final ImplJSources sources;
-    private final Map<String, ReferenceJType> imports = new HashMap<>();
+    private final Map<String, AbstractJType> imports = new HashMap<>();
     private final Map<String, StaticRefJExpr> staticImports = new HashMap<>();
     private final ArrayList<ClassFileContent> content = new ArrayList<>();
     private final String packageName;
@@ -58,15 +58,15 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
                     writer.writeEscaped(packageName);
                     writer.write($PUNCT.SEMI);
                     writer.nl();
-                    final Map<String, ReferenceJType> imports = ImplJSourceFile.this.imports;
+                    final Map<String, AbstractJType> imports = ImplJSourceFile.this.imports;
                     if (imports != null) {
-                        final Iterator<ReferenceJType> iterator = imports.values().iterator();
+                        final Iterator<AbstractJType> iterator = imports.values().iterator();
                         if (iterator.hasNext()) {
                             writer.nl();
                             do {
-                                final ReferenceJType _import = iterator.next();
+                                final AbstractJType _import = iterator.next();
                                 writer.write($KW.IMPORT);
-                                writer.writeClass(_import.qualifiedName(writer));
+                                writer.writeClass(_import.qualifiedName());
                                 writer.write($PUNCT.SEMI);
                                 writer.nl();
                             } while (iterator.hasNext());
@@ -99,41 +99,19 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return imports.containsKey(name);
     }
 
-    boolean hasImport(final JType type, final SourceFileWriter writer) {
-        if (type instanceof ReferenceJType) {
-            ReferenceJType referenceJType = (ReferenceJType) type;
-            final String name = referenceJType.simpleName();
-            if (imports.containsKey(name) && imports.get(name).qualifiedName(writer).equals(referenceJType.qualifiedName(writer))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    boolean hasStaticImport(final String name) {
-        return staticImports.containsKey(name);
-    }
-
-    boolean hasStaticImport(final JExpr expr, final SourceFileWriter writer) {
-        if (! (expr instanceof StaticRefJExpr)) return false;
-        final StaticRefJExpr staticRefJExpr = (StaticRefJExpr) expr;
-        final String refName = staticRefJExpr.getRefName();
-        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName(writer).equals(staticRefJExpr.getType().qualifiedName(writer));
-    }
-
     public JSourceFile _import(final String type) {
         return _import(JTypes.typeNamed(type));
     }
 
     public JSourceFile _import(final JType type) {
         checkPackage();
-        if (! (type instanceof ReferenceJType)) {
+        if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType)) {
             return this;
         }
         if (imports.containsKey(type.simpleName())) {
             return this;
         }
-        imports.put(type.simpleName(), (ReferenceJType) type);
+        imports.put(type.simpleName(), (AbstractJType) type);
         return this;
     }
 

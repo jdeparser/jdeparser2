@@ -32,7 +32,7 @@ class CastJExpr extends AbstractJExpr {
 
     CastJExpr(final AbstractJExpr expr, final JType type) {
         super(Prec.CAST);
-        this.expr = expr.prec() < Prec.CAST ? new ParenJExpr(expr) : expr;
+        this.expr = expr.prec() > Prec.CAST ? new ParenJExpr(expr) : expr;
         this.type = type;
     }
 

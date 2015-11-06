@@ -32,7 +32,7 @@ class FieldRefJExpr extends AbstractJAssignableExpr {
 
     FieldRefJExpr(final AbstractJExpr expr, final String refName) {
         super(Prec.MEMBER_ACCESS);
-        this.expr = expr;
+        this.expr = expr.prec() > prec() ? new ParenJExpr(expr) : expr;
         this.refName = refName;
     }
 

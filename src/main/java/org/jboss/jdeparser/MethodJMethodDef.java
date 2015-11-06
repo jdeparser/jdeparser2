@@ -41,6 +41,7 @@ class MethodJMethodDef extends AbstractJMethodDef {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        writer.write(Space.BEFORE_METHOD);
         writeDocComments(writer);
         writeComments(writer);
         writeAnnotations(writer, Space.AFTER_ANNOTATION);

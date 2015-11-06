@@ -104,7 +104,7 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(FormatPreferences.Space.BEFORE_PAREN);
+        writer.write(FormatPreferences.Space.BEFORE_PAREN_METHOD_CALL);
         writer.write($PUNCT.PAREN.OPEN);
         writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
         if (args != null) {

@@ -44,8 +44,16 @@ class ArrayJType extends AbstractJType {
         sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
 
-    String qualifiedName(final SourceFileWriter writer) {
-        return elementType.qualifiedName(writer);
+    String qualifiedName() {
+        return elementType.qualifiedName();
+    }
+
+    public int hashCode() {
+        return elementType.hashCode() ^ 0xee55ee55 + 7;
+    }
+
+    boolean equals(final AbstractJType other) {
+        return other instanceof ArrayJType && elementType.equals(((ArrayJType) other).elementType);
     }
 
     public JExpr _new(final JExpr dim) {

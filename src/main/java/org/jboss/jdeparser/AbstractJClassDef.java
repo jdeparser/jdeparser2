@@ -331,6 +331,9 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        if (enclosingClass != null) {
+            writer.write(FormatPreferences.Space.BEFORE_CLASS);
+        }
         writeDocComments(writer);
         writeComments(writer);
         writeAnnotations(writer, FormatPreferences.Space.AFTER_ANNOTATION);
@@ -380,7 +383,9 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
                 sourceFileWriter.write(ifExt ? $KW.EXTENDS : $KW.IMPLEMENTS);
                 sourceFileWriter.write(iterator.next());
                 while (iterator.hasNext()) {
+                    sourceFileWriter.write(FormatPreferences.Space.BEFORE_COMMA);
                     sourceFileWriter.write($PUNCT.COMMA);
+                    sourceFileWriter.write(FormatPreferences.Space.AFTER_COMMA);
                     sourceFileWriter.write(iterator.next());
                 }
             }

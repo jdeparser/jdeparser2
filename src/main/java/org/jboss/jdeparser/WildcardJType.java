@@ -35,6 +35,18 @@ class WildcardJType extends AbstractJType {
         this.extendsNotSuper = extendsNotSuper;
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof WildcardJType && equals((WildcardJType) other);
+    }
+
+    private boolean equals(final WildcardJType other) {
+        return extendsNotSuper == other.extendsNotSuper && targetType.equals(other.targetType);
+    }
+
+    public int hashCode() {
+        return targetType.hashCode() ^ (extendsNotSuper ? 0 : 1);
+    }
+
     public String simpleName() {
         return targetType.simpleName();
     }
@@ -55,13 +67,20 @@ class WildcardJType extends AbstractJType {
 
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write($PUNCT.Q);
-        sourceFileWriter.sp();
-        sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
-        sourceFileWriter.write(getTargetType());
+        final AbstractJType targetType = getTargetType();
+        if (! targetType.equals(JType.OBJECT)) {
+            sourceFileWriter.sp();
+            sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
+            sourceFileWriter.write(targetType);
+        }
     }
 
     public String toString() {
-        return "? " + (extendsNotSuper ? "extends " : "super ") + targetType;
+        if (extendsNotSuper && targetType.equals(JType.OBJECT)) {
+            return "?";
+        } else {
+            return "? " + (extendsNotSuper ? "extends " : "super ") + targetType;
+        }
     }
 
     AbstractJType getTargetType() {

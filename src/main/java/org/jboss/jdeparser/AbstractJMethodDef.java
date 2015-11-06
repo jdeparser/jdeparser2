@@ -169,6 +169,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
                     iterator.next().write(writer);
                 }
             }
+            writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION);
         } else {
             writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_DECLARATION_EMPTY);
         }
