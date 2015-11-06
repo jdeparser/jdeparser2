@@ -80,7 +80,7 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
             writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL_EMPTY);
             writer.write(Tokens.$PUNCT.PAREN.CLOSE);
         } else {
-            final boolean singleParam = params.size() == 1;
+            final boolean singleParam = params.size() == 1 && hasInferred;
             if (! singleParam) {
                 writer.write(Tokens.$PUNCT.PAREN.OPEN);
                 writer.write(FormatPreferences.Space.WITHIN_PAREN_METHOD_CALL);
