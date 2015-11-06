@@ -136,8 +136,8 @@ class ReferenceJType extends AbstractJType {
         return nestedType;
     }
 
-    public boolean equals(final Object obj) {
-        return obj instanceof ReferenceJType && equals((ReferenceJType) obj);
+    boolean equals(final AbstractJType other) {
+        return other instanceof ReferenceJType && equals((ReferenceJType) other);
     }
 
     private boolean equals(final ReferenceJType other) {

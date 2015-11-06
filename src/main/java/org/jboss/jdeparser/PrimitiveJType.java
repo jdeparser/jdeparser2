@@ -62,6 +62,14 @@ class PrimitiveJType extends AbstractJType {
         return expr;
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof PrimitiveJType && simpleName.equals(((PrimitiveJType) other).simpleName);
+    }
+
+    public int hashCode() {
+        return simpleName.hashCode();
+    }
+
     public String simpleName() {
         return simpleName;
     }

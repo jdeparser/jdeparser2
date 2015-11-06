@@ -48,6 +48,14 @@ class ArrayJType extends AbstractJType {
         return elementType.qualifiedName(writer);
     }
 
+    public int hashCode() {
+        return elementType.hashCode() ^ 0xee55ee55 + 7;
+    }
+
+    boolean equals(final AbstractJType other) {
+        return other instanceof ArrayJType && elementType.equals(((ArrayJType) other).elementType);
+    }
+
     public JExpr _new(final JExpr dim) {
         return new NewDimJArrayExpr(this, AbstractJExpr.of(dim));
     }
