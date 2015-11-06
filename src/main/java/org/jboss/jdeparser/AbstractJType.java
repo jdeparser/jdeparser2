@@ -40,7 +40,7 @@ abstract class AbstractJType implements JType {
         throw new IllegalArgumentException("Using a JType from a different implementation");
     }
 
-    String qualifiedName(SourceFileWriter writer) {
+    String qualifiedName() {
         return simpleName();
     }
 

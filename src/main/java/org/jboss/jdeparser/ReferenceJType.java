@@ -54,7 +54,7 @@ class ReferenceJType extends AbstractJType {
     }
 
     @Override
-    String qualifiedName(final SourceFileWriter writer) {
+    String qualifiedName() {
         if (packageName.isEmpty()) {
             return simpleName;
         }
@@ -107,7 +107,7 @@ class ReferenceJType extends AbstractJType {
         final boolean packageMatches = currentPackageName.equals(packageName);
         if (packageMatches && cf.hasImport(simpleName())) {
             // an explicit import masks the implicit import
-            sourceFileWriter.writeClass(qualifiedName(sourceFileWriter));
+            sourceFileWriter.writeClass(qualifiedName());
         } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().getSources().hasClass(currentPackageName + "." + simpleName()) || packageMatches) {
             // implicit import
             sourceFileWriter.writeClass(simpleName());
@@ -115,7 +115,7 @@ class ReferenceJType extends AbstractJType {
             // explicit import
             sourceFileWriter.writeClass(simpleName());
         } else {
-            sourceFileWriter.writeClass(qualifiedName(sourceFileWriter));
+            sourceFileWriter.writeClass(qualifiedName());
         }
     }
 
