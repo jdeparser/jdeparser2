@@ -55,13 +55,20 @@ class WildcardJType extends AbstractJType {
 
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write($PUNCT.Q);
-        sourceFileWriter.sp();
-        sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
-        sourceFileWriter.write(getTargetType());
+        final AbstractJType targetType = getTargetType();
+        if (! targetType.equals(JType.OBJECT)) {
+            sourceFileWriter.sp();
+            sourceFileWriter.write(extendsNotSuper ? $KW.EXTENDS : $KW.SUPER);
+            sourceFileWriter.write(targetType);
+        }
     }
 
     public String toString() {
-        return "? " + (extendsNotSuper ? "extends " : "super ") + targetType;
+        if (extendsNotSuper && targetType.equals(JType.OBJECT)) {
+            return "?";
+        } else {
+            return "? " + (extendsNotSuper ? "extends " : "super ") + targetType;
+        }
     }
 
     AbstractJType getTargetType() {
