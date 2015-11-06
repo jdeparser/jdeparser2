@@ -28,6 +28,14 @@ class ThisJType extends AbstractJType {
     ThisJType() {
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof ThisJType;
+    }
+
+    public int hashCode() {
+        return 23;
+    }
+
     public String simpleName() {
         return "<<THIS>>";
     }

@@ -71,6 +71,18 @@ class NestedJType extends AbstractJType {
         return new ImplJAnonymousClassDef(this);
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof NestedJType && equals((NestedJType) other);
+    }
+
+    private boolean equals(final NestedJType other) {
+        return enclosingType.equals(other.enclosingType) && name.equals(other.name);
+    }
+
+    public int hashCode() {
+        return enclosingType.hashCode() * 17 + name.hashCode();
+    }
+
     public String simpleName() {
         return name;
     }

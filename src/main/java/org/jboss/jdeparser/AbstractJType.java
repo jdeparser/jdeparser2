@@ -44,6 +44,14 @@ abstract class AbstractJType implements JType {
         return simpleName();
     }
 
+    public abstract int hashCode();
+
+    public final boolean equals(Object other) {
+        return other instanceof AbstractJType && equals((AbstractJType) other);
+    }
+
+    abstract boolean equals(AbstractJType other);
+
     public abstract String simpleName();
 
     public abstract String toString();

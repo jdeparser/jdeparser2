@@ -35,6 +35,18 @@ class WildcardJType extends AbstractJType {
         this.extendsNotSuper = extendsNotSuper;
     }
 
+    boolean equals(final AbstractJType other) {
+        return other instanceof WildcardJType && equals((WildcardJType) other);
+    }
+
+    private boolean equals(final WildcardJType other) {
+        return extendsNotSuper == other.extendsNotSuper && targetType.equals(other.targetType);
+    }
+
+    public int hashCode() {
+        return targetType.hashCode() ^ (extendsNotSuper ? 0 : 1);
+    }
+
     public String simpleName() {
         return targetType.simpleName();
     }
