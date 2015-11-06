@@ -550,6 +550,7 @@ public final class FormatPreferences {
         BEFORE_PAREN_CAST,
 
         // default for all binary operators
+        @Deprecated
         AROUND_OPERATORS,
 
         // specific operator categories
