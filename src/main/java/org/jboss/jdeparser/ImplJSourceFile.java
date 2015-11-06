@@ -66,7 +66,7 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
                             do {
                                 final ReferenceJType _import = iterator.next();
                                 writer.write($KW.IMPORT);
-                                writer.writeClass(_import.qualifiedName(writer));
+                                writer.writeClass(_import.qualifiedName());
                                 writer.write($PUNCT.SEMI);
                                 writer.nl();
                             } while (iterator.hasNext());
@@ -103,7 +103,7 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         if (type instanceof ReferenceJType) {
             ReferenceJType referenceJType = (ReferenceJType) type;
             final String name = referenceJType.simpleName();
-            if (imports.containsKey(name) && imports.get(name).qualifiedName(writer).equals(referenceJType.qualifiedName(writer))) {
+            if (imports.containsKey(name) && imports.get(name).qualifiedName().equals(referenceJType.qualifiedName())) {
                 return true;
             }
         }
@@ -114,11 +114,11 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return staticImports.containsKey(name);
     }
 
-    boolean hasStaticImport(final JExpr expr, final SourceFileWriter writer) {
+    boolean hasStaticImport(final JExpr expr) {
         if (! (expr instanceof StaticRefJExpr)) return false;
         final StaticRefJExpr staticRefJExpr = (StaticRefJExpr) expr;
         final String refName = staticRefJExpr.getRefName();
-        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName(writer).equals(staticRefJExpr.getType().qualifiedName(writer));
+        return staticImports.containsKey(refName) && staticImports.get(refName).getType().qualifiedName().equals(staticRefJExpr.getType().qualifiedName());
     }
 
     public JSourceFile _import(final String type) {

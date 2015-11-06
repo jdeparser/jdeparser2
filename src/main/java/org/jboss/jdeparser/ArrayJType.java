@@ -44,8 +44,8 @@ class ArrayJType extends AbstractJType {
         sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
 
-    String qualifiedName(final SourceFileWriter writer) {
-        return elementType.qualifiedName(writer);
+    String qualifiedName() {
+        return elementType.qualifiedName();
     }
 
     public int hashCode() {
