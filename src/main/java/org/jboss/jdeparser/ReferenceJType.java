@@ -136,6 +136,18 @@ class ReferenceJType extends AbstractJType {
         return nestedType;
     }
 
+    public boolean equals(final Object obj) {
+        return obj instanceof ReferenceJType && equals((ReferenceJType) obj);
+    }
+
+    private boolean equals(final ReferenceJType other) {
+        return packageName.equals(other.packageName) && simpleName.equals(other.simpleName);
+    }
+
+    public int hashCode() {
+        return packageName.hashCode() * 17 + simpleName.hashCode();
+    }
+
     public String toString() {
         return "Reference of type " + simpleName();
     }
