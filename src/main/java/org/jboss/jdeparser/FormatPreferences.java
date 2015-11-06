@@ -531,6 +531,7 @@ public final class FormatPreferences {
      */
     public enum Space {
         // default for all parens
+        @Deprecated
         BEFORE_PAREN,
 
         // single-line statements
