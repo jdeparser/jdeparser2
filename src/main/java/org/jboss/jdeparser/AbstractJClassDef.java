@@ -380,7 +380,9 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
                 sourceFileWriter.write(ifExt ? $KW.EXTENDS : $KW.IMPLEMENTS);
                 sourceFileWriter.write(iterator.next());
                 while (iterator.hasNext()) {
+                    sourceFileWriter.write(FormatPreferences.Space.BEFORE_COMMA);
                     sourceFileWriter.write($PUNCT.COMMA);
+                    sourceFileWriter.write(FormatPreferences.Space.AFTER_COMMA);
                     sourceFileWriter.write(iterator.next());
                 }
             }
