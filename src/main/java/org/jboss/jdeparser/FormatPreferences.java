@@ -127,6 +127,9 @@ public final class FormatPreferences {
         spaceTypes.put(AFTER_ANNOTATION, SpaceType.NEWLINE);
         spaceTypes.put(AFTER_PARAM_ANNOTATION, SpaceType.SPACE);
 
+        spaceTypes.put(BEFORE_METHOD, SpaceType.NEWLINE);
+        spaceTypes.put(BEFORE_CLASS, SpaceType.NEWLINE);
+
         DEFAULT_SPACE_TYPES = spaceTypes;
 
         DEFAULT_OPTS = EnumSet.of(Opt.COMPACT_INIT_ONLY_CLASS, Opt.DROP_UNUSED_LABELS);
@@ -648,6 +651,10 @@ public final class FormatPreferences {
         // annotations
         AFTER_ANNOTATION,
         AFTER_PARAM_ANNOTATION,
+
+        // members
+        BEFORE_METHOD,
+        BEFORE_CLASS,
         ;
     }
 
