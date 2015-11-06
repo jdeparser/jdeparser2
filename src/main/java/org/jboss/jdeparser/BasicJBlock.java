@@ -200,7 +200,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JCall call(final JExpr obj, final String name) {
-        return add(new InstanceJCall(obj, name));
+        return add(new InstanceJCall(AbstractJExpr.of(obj), name));
     }
 
     public JCall callStatic(final ExecutableElement element) {

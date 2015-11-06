@@ -33,9 +33,9 @@ class CondJExpr extends AbstractJExpr {
 
     CondJExpr(final AbstractJExpr cond, final AbstractJExpr ifTrue, final AbstractJExpr ifFalse) {
         super(Prec.COND);
-        this.cond = cond.prec() < Prec.COND ? new ParenJExpr(cond) : cond;
-        this.ifTrue = ifTrue.prec() < Prec.COND ? new ParenJExpr(ifTrue) : ifTrue;
-        this.ifFalse = ifFalse.prec() < Prec.COND ? new ParenJExpr(ifFalse) : ifFalse;
+        this.cond = cond.prec() > Prec.COND ? new ParenJExpr(cond) : cond;
+        this.ifTrue = ifTrue.prec() > Prec.COND ? new ParenJExpr(ifTrue) : ifTrue;
+        this.ifFalse = ifFalse.prec() > Prec.COND ? new ParenJExpr(ifFalse) : ifFalse;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
