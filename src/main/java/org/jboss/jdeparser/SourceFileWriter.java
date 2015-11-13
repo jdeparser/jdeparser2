@@ -83,7 +83,8 @@ class SourceFileWriter implements Flushable, Closeable {
     private static final int SS_NONE = 0;
     private static final int SS_NEEDED = 1;
     private static final int SS_ADDED = 2;
-    private static final int SS_NEEDS_INDENT = 3;
+    private static final int SS_NEW_LINE = 3;
+    private static final int SS_2_NEW_LINE = 4;
 
     SourceFileWriter(final FormatPreferences format, final Writer writer) {
         this.format = format;
@@ -96,7 +97,7 @@ class SourceFileWriter implements Flushable, Closeable {
         countingWriter.write(lineBuffer);
         countingWriter.write(lineSep);
         lineBuffer.setLength(0);
-        spaceState = SS_NEEDS_INDENT;
+        spaceState = spaceState == SS_NEW_LINE ? SS_2_NEW_LINE : SS_NEW_LINE;
     }
 
     /**
@@ -105,7 +106,7 @@ class SourceFileWriter implements Flushable, Closeable {
      * @throws IOException etc.
      */
     void sp() throws IOException {
-        if (spaceState == SS_NEEDS_INDENT) {
+        if (spaceState == SS_NEW_LINE || spaceState == SS_2_NEW_LINE) {
             addIndent();
         } else if (spaceState != SS_ADDED) {
             spaceState = SS_ADDED;
@@ -130,7 +131,8 @@ class SourceFileWriter implements Flushable, Closeable {
 
     void processSpacing() throws IOException {
         switch (spaceState) {
-            case SS_NEEDS_INDENT: {
+            case SS_2_NEW_LINE:
+            case SS_NEW_LINE: {
                 nextIndent.addIndent(nextIndent, format, lineBuffer);
                 spaceState = SS_ADDED;
                 break;
@@ -143,7 +145,7 @@ class SourceFileWriter implements Flushable, Closeable {
     }
 
     void addIndent() throws IOException {
-        assert spaceState == SS_NEEDS_INDENT; // it was a new line
+        assert spaceState == SS_NEW_LINE || spaceState == SS_2_NEW_LINE; // it was a new line
         nextIndent.addIndent(nextIndent, format, lineBuffer);
         spaceState = SS_ADDED;
     }
@@ -185,8 +187,8 @@ class SourceFileWriter implements Flushable, Closeable {
             return;
         }
         if (format.getSpaceType(rule) == FormatPreferences.SpaceType.NEWLINE) {
-            if (spaceState != SS_NEEDS_INDENT) {
-                // must not be directly after a newline
+            if (spaceState != SS_2_NEW_LINE) {
+                // must not be directly after a 2-newline
                 nl();
             }
         } else {
