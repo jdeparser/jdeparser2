@@ -39,6 +39,10 @@ class NestedJType extends AbstractJType {
         this.name = name;
     }
 
+    String qualifiedName() {
+        return enclosingType.qualifiedName() + "." + name;
+    }
+
     public JExpr _class() {
         StaticRefJExpr expr = classExpr;
         if (expr == null) {
