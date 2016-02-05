@@ -99,8 +99,17 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return imports.containsKey(name);
     }
 
+    boolean hasImport(final AbstractJType type) {
+        return type.equals(imports.get(type.simpleName()));
+    }
+
     boolean hasStaticImport(final String name) {
         return staticImports.containsKey(name);
+    }
+
+    boolean hasStaticImport(final String name, final AbstractJType enclosingType) {
+        final StaticRefJExpr expr = staticImports.get(name);
+        return expr != null && enclosingType.equals(expr.getType());
     }
 
     public JSourceFile _import(final String type) {
