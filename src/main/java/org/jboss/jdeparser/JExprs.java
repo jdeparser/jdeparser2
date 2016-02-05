@@ -193,7 +193,7 @@ public final class JExprs {
      * @return the method call
      */
     public static JCall callStatic(final JType type, final String name) {
-        return new StaticJCall(type, name);
+        return new StaticJCall(AbstractJType.of(type), name);
     }
 
     /**

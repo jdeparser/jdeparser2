@@ -218,7 +218,7 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
     }
 
     public JCall callStatic(final JType type, final String name) {
-        return add(new StaticJCall(type, name));
+        return add(new StaticJCall(AbstractJType.of(type), name));
     }
 
     public JCall callStatic(final Class<?> type, final String name) {
