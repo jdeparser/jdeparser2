@@ -112,8 +112,10 @@ class NestedJType extends AbstractJType {
     }
 
     void writeDirect(final SourceFileWriter writer) throws IOException {
-        enclosingType.writeDirect(writer);
-        writer.write($PUNCT.DOT);
+        if (! writer.getClassFile().hasStaticImport(name)) {
+            enclosingType.writeDirect(writer);
+            writer.write($PUNCT.DOT);
+        }
         writer.writeClass(name);
     }
 }

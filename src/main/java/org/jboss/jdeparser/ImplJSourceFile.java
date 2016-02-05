@@ -99,6 +99,10 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return imports.containsKey(name);
     }
 
+    boolean hasStaticImport(final String name) {
+        return staticImports.containsKey(name);
+    }
+
     public JSourceFile _import(final String type) {
         return _import(JTypes.typeNamed(type));
     }
