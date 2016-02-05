@@ -27,20 +27,22 @@ import java.io.IOException;
  */
 class StaticJCall extends AbstractMethodJCall {
 
-    private final JType type;
+    private final AbstractJType type;
 
-    StaticJCall(final JType type, final String name) {
+    StaticJCall(final AbstractJType type, final String name) {
         super(name);
         this.type = type;
     }
 
-    JType getType() {
+    AbstractJType getType() {
         return type;
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.write(AbstractJType.of(type));
-        writer.write($PUNCT.DOT);
+        if (! writer.getClassFile().hasStaticImport(getName(), type)) {
+            type.writeDirect(writer);
+            writer.write($PUNCT.DOT);
+        }
         super.write(writer);
     }
 }
