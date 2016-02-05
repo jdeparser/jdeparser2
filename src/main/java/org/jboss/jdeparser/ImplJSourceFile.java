@@ -59,35 +59,31 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
                     writer.write($PUNCT.SEMI);
                     writer.nl();
                     final Map<String, AbstractJType> imports = ImplJSourceFile.this.imports;
-                    if (imports != null) {
-                        final Iterator<AbstractJType> iterator = imports.values().iterator();
-                        if (iterator.hasNext()) {
+                    final Iterator<AbstractJType> iterator = imports.values().iterator();
+                    if (iterator.hasNext()) {
+                        writer.nl();
+                        do {
+                            final AbstractJType _import = iterator.next();
+                            writer.write($KW.IMPORT);
+                            writer.writeClass(_import.qualifiedName());
+                            writer.write($PUNCT.SEMI);
                             writer.nl();
-                            do {
-                                final AbstractJType _import = iterator.next();
-                                writer.write($KW.IMPORT);
-                                writer.writeClass(_import.qualifiedName());
-                                writer.write($PUNCT.SEMI);
-                                writer.nl();
-                            } while (iterator.hasNext());
-                            writer.nl();
-                        }
+                        } while (iterator.hasNext());
+                        writer.nl();
                     }
                     final Map<String, StaticRefJExpr> staticImports = ImplJSourceFile.this.staticImports;
-                    if (staticImports != null) {
-                        final Iterator<StaticRefJExpr> iterator = staticImports.values().iterator();
-                        if (iterator.hasNext()) {
+                    final Iterator<StaticRefJExpr> staticIterator = staticImports.values().iterator();
+                    if (staticIterator.hasNext()) {
+                        writer.nl();
+                        do {
+                            final StaticRefJExpr staticImport = staticIterator.next();
+                            writer.write($KW.IMPORT);
+                            writer.write($KW.STATIC);
+                            staticImport.writeForImport(writer);
+                            writer.write($PUNCT.SEMI);
                             writer.nl();
-                            do {
-                                final StaticRefJExpr staticImport = iterator.next();
-                                writer.write($KW.IMPORT);
-                                writer.write($KW.STATIC);
-                                writer.write(staticImport);
-                                writer.write($PUNCT.SEMI);
-                                writer.nl();
-                            } while (iterator.hasNext());
-                            writer.nl();
-                        }
+                        } while (staticIterator.hasNext());
+                        writer.nl();
                     }
                 }
             });

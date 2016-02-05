@@ -63,6 +63,10 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         jIf.assign(JExprs.$v(t), str("new Value"));
         jIf._else().assign(JExprs.$v(t), str("other value"));
 
+        // static import and reference
+        body.call(JTypes.$t(Thread.State.class).$v("NEW"), "toString");
+        bazFile.importStatic(Thread.State.class, "NEW");
+
         // Reference an enclosing class
         body.var(0, JTypes.$t(Map.Entry.class).typeArg(String.class, Object.class), "mapEntry", JExpr.NULL);
         bazFile._import(Map.class);
