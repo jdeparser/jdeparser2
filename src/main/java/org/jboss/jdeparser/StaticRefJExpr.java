@@ -60,7 +60,7 @@ class StaticRefJExpr extends AbstractJAssignableExpr {
 
     void writeForImport(final SourceFileWriter writer) throws IOException {
         writer.processSpacing();
-        type.writeDirect(writer);
+        writer.writeClass(type.qualifiedName());
         writer.write($PUNCT.DOT);
         writer.writeEscaped(refName);
     }
