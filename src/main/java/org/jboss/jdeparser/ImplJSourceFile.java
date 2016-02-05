@@ -113,13 +113,15 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     }
 
     public JSourceFile _import(final JType type) {
-        checkPackage();
         if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType)) {
+            // can't import this type
             return this;
         }
         if (imports.containsKey(type.simpleName())) {
+            // already imported
             return this;
         }
+        checkPackage();
         imports.put(type.simpleName(), (AbstractJType) type);
         return this;
     }
@@ -133,6 +135,14 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     }
 
     public JSourceFile importStatic(final JType type, final String member) {
+        if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType)) {
+            // no static members
+            return this;
+        }
+        if (staticImports.containsKey(member)) {
+            // already imported
+            return this;
+        }
         checkPackage();
         staticImports.put(member, new StaticRefJExpr(AbstractJType.of(type), member));
         return this;
