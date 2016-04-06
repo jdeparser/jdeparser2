@@ -39,12 +39,14 @@ class IntegerJExpr extends AbstractJExpr implements JExpr {
         writer.write(Tokens.$NUMBER);
         switch (radix) {
             case 2:
-                writer.writeEscaped("0b");
+                writer.writeEscaped("0b" + Integer.toBinaryString(val));
                 break;
             case 16:
-                writer.writeEscaped("0x");
+                writer.writeEscaped("0x" + Integer.toHexString(val));
+                break;
+            default:
+                writer.writeEscaped(Integer.toString(val, radix));
                 break;
         }
-        writer.writeEscaped(Integer.toString(val, radix));
     }
 }
