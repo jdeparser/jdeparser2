@@ -30,6 +30,6 @@ final class HexDoubleJExpr extends AbstractJExpr {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.writeUnescaped(String.format("%af", Double.valueOf(val)));
+        writer.writeUnescaped(String.format("%ad", Double.valueOf(val)));
     }
 }
