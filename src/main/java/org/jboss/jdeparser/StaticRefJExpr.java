@@ -55,14 +55,14 @@ class StaticRefJExpr extends AbstractJAssignableExpr {
             type.writeDirect(writer);
             writer.write($PUNCT.DOT);
         }
-        writer.writeEscaped(refName);
+        writer.writeEscapedWord(refName);
     }
 
     void writeForImport(final SourceFileWriter writer) throws IOException {
         writer.processSpacing();
         writer.writeClass(type.qualifiedName());
         writer.write($PUNCT.DOT);
-        writer.writeEscaped(refName);
+        writer.writeEscapedWord(refName);
     }
 
     String getName() {

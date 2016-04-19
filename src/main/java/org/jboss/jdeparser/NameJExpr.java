@@ -33,6 +33,6 @@ class NameJExpr extends AbstractJAssignableExpr {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
-        writer.writeEscaped(name);
+        writer.writeEscapedWord(name);
     }
 }

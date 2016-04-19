@@ -45,6 +45,10 @@ class InstanceOfJExpr extends AbstractJExpr {
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
+        final Token writerState = writer.getState();
+        if (writerState == $WORD || writerState == $NUMBER || writerState instanceof $KW) {
+            writer.sp();
+        }
         writer.write(expr);
         writer.write($KW.INSTANCEOF);
         writer.write(type);
