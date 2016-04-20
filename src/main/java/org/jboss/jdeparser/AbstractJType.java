@@ -171,7 +171,15 @@ abstract class AbstractJType implements JType {
         return expr;
     }
 
+    public JAssignableExpr field(final CharSequence name) {
+        return field(name.toString());
+    }
+
     public JAssignableExpr $v(final String name) {
+        return field(name);
+    }
+
+    public JAssignableExpr $v(final CharSequence name) {
         return field(name);
     }
 

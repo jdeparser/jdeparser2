@@ -330,6 +330,14 @@ public interface JExpr {
      */
     JCall call(String name);
 
+    /**
+     * Call the given method on this expression.
+     *
+     * @param name the method name
+     * @return the method call
+     */
+    JCall call(CharSequence name);
+
     // construct inner
 
     /**
@@ -394,12 +402,28 @@ public interface JExpr {
     JAssignableExpr field(String name);
 
     /**
+     * Get a field of this object instance.
+     *
+     * @param name the field name
+     * @return the expression
+     */
+    JAssignableExpr field(CharSequence name);
+
+    /**
      * Get a field of this object instance (shorthand for {@link #field(String)}.
      *
      * @param name the field name
      * @return the expression
      */
     JAssignableExpr $v(String name);
+
+    /**
+     * Get a field of this object instance (shorthand for {@link #field(CharSequence)}.
+     *
+     * @param name the field name
+     * @return the expression
+     */
+    JAssignableExpr $v(CharSequence name);
 
     // array
 

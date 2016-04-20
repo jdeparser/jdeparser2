@@ -162,6 +162,10 @@ abstract class AbstractJExpr implements JExpr, Writable {
         return new InstanceJCall(this, name);
     }
 
+    public JCall call(final CharSequence name) {
+        return call(name.toString());
+    }
+
     public JCall _new(final String type) {
         return new InnerNewJCall(this, JTypes.typeNamed(type));
     }
@@ -200,7 +204,15 @@ abstract class AbstractJExpr implements JExpr, Writable {
         return expr;
     }
 
+    public JAssignableExpr field(final CharSequence name) {
+        return field(name.toString());
+    }
+
     public JAssignableExpr $v(final String name) {
+        return field(name);
+    }
+
+    public JAssignableExpr $v(final CharSequence name) {
         return field(name);
     }
 
