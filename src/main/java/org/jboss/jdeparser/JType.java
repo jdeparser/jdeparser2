@@ -267,7 +267,23 @@ public interface JType {
      * @param name the field name
      * @return the field expression
      */
+    JAssignableExpr field(CharSequence name);
+
+    /**
+     * Look up a static field on this type.
+     *
+     * @param name the field name
+     * @return the field expression
+     */
     JAssignableExpr $v(String name);
+
+    /**
+     * Look up a static field on this type.
+     *
+     * @param name the field name
+     * @return the field expression
+     */
+    JAssignableExpr $v(CharSequence name);
 
     /**
      * Call a static method on this type.

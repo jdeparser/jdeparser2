@@ -218,6 +218,16 @@ public final class JExprs {
     }
 
     /**
+     * Return a name expression.  This method is a shortcut for {@link #name(String)}.
+     *
+     * @param name the name
+     * @return the expression
+     */
+    public static JAssignableExpr $v(CharSequence name) {
+        return name(name);
+    }
+
+    /**
      * Return a name expression from an annotation processor parameter declaration.
      *
      * @param paramDeclaration the method parameter
@@ -252,6 +262,16 @@ public final class JExprs {
             map.put(name, ret = new NameJExpr(name));
         }
         return ret;
+    }
+
+    /**
+     * Return a name expression.
+     *
+     * @param name the name
+     * @return the expression
+     */
+    public static JAssignableExpr name(CharSequence name) {
+        return name(name.toString());
     }
 
     /**
