@@ -714,6 +714,7 @@ public final class FormatPreferences {
         ENUM_TRAILING_COMMA,
         ENUM_EMPTY_PARENS,
         COMPACT_INIT_ONLY_CLASS,
+        DROP_UNUSED_LABELS,
     }
 
 

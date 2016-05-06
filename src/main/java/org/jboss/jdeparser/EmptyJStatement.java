@@ -30,6 +30,5 @@ class EmptyJStatement extends BasicJStatement implements BlockContent {
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($PUNCT.SEMI);
-        writer.nl();
     }
 }

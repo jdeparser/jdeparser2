@@ -62,6 +62,13 @@ public class SimpleExampleTestCase extends AbstractGeneratingTestCase {
         JIf jIf = body._if(JExprs.$v(t).eq(JExpr.NULL));
         jIf.assign(JExprs.$v(t), str("new Value"));
         jIf._else().assign(JExprs.$v(t), str("other value"));
+        jIf = body._if(JExprs.$v(t).eq(JExpr.NULL));
+        jIf.assign(JExprs.$v(t), str("new Value"));
+        jIf = body._if(JExprs.$v(t).eq(JExpr.NULL));
+        jIf._else().assign(JExprs.$v(t), str("other value"));
+        jIf = body._if(JExprs.$v(t).eq(JExpr.NULL));
+        jIf.empty();
+        jIf._else().assign(JExprs.$v(t), str("other value"));
 
         // static import and reference
         body.call(JTypes.$t(Thread.State.class).$v("NEW"), "toString");
