@@ -420,12 +420,13 @@ class BasicJBlock extends BasicJCommentable implements JBlock, BlockContent {
             }
             writer.write($PUNCT.BRACE.CLOSE);
         } else {
-            if (beforeBrace != null && content.size() == 1 && ! (content.get(0) instanceof EmptyJStatement)) {
-                writer.sp();
-            }
-            for (BlockContent statement : content) {
-                statement.write(writer);
-                writer.nl();
+            Iterator<BlockContent> iterator = content.iterator();
+            if (iterator.hasNext()) {
+                iterator.next().write(writer);
+                while (iterator.hasNext()) {
+                    writer.nl();
+                    iterator.next().write(writer);
+                }
             }
         }
     }

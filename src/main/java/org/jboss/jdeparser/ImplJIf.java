@@ -56,6 +56,9 @@ class ImplJIf extends ConditionJBlock implements JIf {
         writer.write(getCondition());
         writer.write(FormatPreferences.Space.WITHIN_PAREN_IF);
         writer.write($PUNCT.PAREN.CLOSE);
+        if (! hasSingleItemOfType(EmptyJStatement.class)) {
+            writer.sp();
+        }
         super.write(writer);
         if (_else != null) {
             if (hasSingleItemOfType(ImplJIf.class)) {
