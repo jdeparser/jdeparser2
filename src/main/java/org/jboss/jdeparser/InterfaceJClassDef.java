@@ -18,6 +18,9 @@
 
 package org.jboss.jdeparser;
 
+import static org.jboss.jdeparser.JMod.DEFAULT;
+import static org.jboss.jdeparser.JMod.STATIC;
+
 import java.util.ArrayList;
 
 /**
@@ -66,7 +69,7 @@ class InterfaceJClassDef extends AbstractJClassDef {
     }
 
     boolean methodCanHaveBody(final int mods) {
-        return false;
+        return JMod.anyAreSet(mods, STATIC | DEFAULT);
     }
 
     public String getName() {

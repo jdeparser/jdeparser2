@@ -38,6 +38,9 @@ class ElseJBlock extends BasicJBlock {
     void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace, final Braces braces) throws IOException {
         writer.write(FormatPreferences.Space.BEFORE_KEYWORD_ELSE);
         writer.write($KW.ELSE);
+        if (! hasSingleItemOfType(EmptyJStatement.class)) {
+            writer.sp();
+        }
         super.write(writer, beforeBrace, braces);
     }
 }
