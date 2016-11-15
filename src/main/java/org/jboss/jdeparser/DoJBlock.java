@@ -28,7 +28,7 @@ import java.io.IOException;
 class DoJBlock extends ConditionJBlock {
 
     DoJBlock(final BasicJBlock parent, final JExpr cond) {
-        super(parent, Braces.REQUIRED, cond);
+        super(parent, Braces.IF_MULTILINE, cond);
     }
 
     public void write(final SourceFileWriter writer) throws IOException {
