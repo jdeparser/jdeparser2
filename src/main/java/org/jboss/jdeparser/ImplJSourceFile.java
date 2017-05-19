@@ -113,7 +113,7 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     }
 
     public JSourceFile _import(final JType type) {
-        if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType)) {
+        if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType) && ! (type instanceof NarrowedJType)) {
             // can't import this type
             return this;
         }
@@ -122,7 +122,7 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
             return this;
         }
         checkPackage();
-        imports.put(type.simpleName(), (AbstractJType) type);
+        imports.put(type.simpleName(), (AbstractJType) type.erasure());
         return this;
     }
 
