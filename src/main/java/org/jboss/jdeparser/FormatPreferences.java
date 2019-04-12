@@ -515,8 +515,6 @@ public final class FormatPreferences {
 
     /**
      * The type of space to apply.
-     *
-     * @apiviz.exclude
      */
     public enum SpaceType {
         NONE,
@@ -526,8 +524,6 @@ public final class FormatPreferences {
 
     /**
      * The location or position of a space.
-     *
-     * @apiviz.exclude
      */
     public enum Space {
         // default for all parens
@@ -655,8 +651,6 @@ public final class FormatPreferences {
 
     /**
      * A category of indentation.
-     *
-     * @apiviz.exclude
      */
     public enum Indentation {
         MEMBERS_TOP_LEVEL,
@@ -681,8 +675,6 @@ public final class FormatPreferences {
 
     /**
      * Categories for wrapping rules.
-     *
-     * @apiviz.exclude
      */
     public enum Wrapping {
         EXCEPTION_LIST,
@@ -693,8 +685,6 @@ public final class FormatPreferences {
 
     /**
      * The wrapping mode.
-     *
-     * @apiviz.exclude
      */
     public enum WrappingMode {
         ALWAYS_WRAP,
@@ -707,8 +697,6 @@ public final class FormatPreferences {
 
     /**
      * Option flags.
-     *
-     * @apiviz.exclude
      */
     public enum Opt {
         ENUM_TRAILING_COMMA,
