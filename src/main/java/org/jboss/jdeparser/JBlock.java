@@ -673,8 +673,6 @@ public interface JBlock extends JStatement, JCommentable {
 
     /**
      * Braces mode.
-     *
-     * @apiviz.exclude
      */
     enum Braces {
         /**
