@@ -22,23 +22,27 @@ package org.jboss.jdeparser;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class Assertions {
+
+    private Assertions() {
+        // Hide implicit public constructor
+    }
+
     static boolean callerIs(Class<?> clazz) {
         try {
             return StackWalker.getInstance().getCallerClass() == clazz;
-        } catch (Throwable ignored) {}
-        // dunno
+        } catch (Exception ignored) {
+            /* Do nothing */
+        }
         return true;
     }
 
-    @SuppressWarnings("ConstantConditions")
     static boolean alwaysTrue(boolean expr) {
         assert expr : "Expected expression to be true";
         return expr;
     }
 
-    @SuppressWarnings("ConstantConditions")
     static boolean alwaysFalse(boolean expr) {
-        assert ! expr : "Expected expression to be false";
+        assert !expr : "Expected expression to be false";
         return expr;
     }
 }
