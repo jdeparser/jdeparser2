@@ -35,6 +35,7 @@ class DocTagJHtmlComment extends AbstractJHtmlComment {
         return tag;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.nl();
         writer.writeUnescaped("@");

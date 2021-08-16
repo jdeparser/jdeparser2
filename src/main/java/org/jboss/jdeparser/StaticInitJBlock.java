@@ -31,28 +31,34 @@ class StaticInitJBlock extends BasicJBlock implements ClassContent, JClassItem {
         super(null, Braces.REQUIRED);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.STATIC);
         super.write(writer, FormatPreferences.Space.BEFORE_BRACE_METHOD);
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.INIT_BLOCK;
     }
 
+    @Override
     public int getModifiers() {
         return JMod.STATIC;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return (mods & JMod.STATIC) == mods;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return (mods & JMod.STATIC) != 0;
     }
 
+    @Override
     public String getName() {
         return null;
     }

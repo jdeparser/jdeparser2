@@ -56,16 +56,19 @@ class ImplJSources implements JSources {
         return qualifiedNames.get(classDef);
     }
 
+    @Override
     public JSourceFile createSourceFile(final String packageName, final String fileName) {
         final ImplJSourceFile classFile = new ImplJSourceFile(this, packageName, fileName);
         classFiles.add(classFile);
         return classFile;
     }
 
+    @Override
     public JPackageInfoFile createPackageInfoFile(final String packageName) {
         throw new UnsupportedOperationException("package-info.java");
     }
 
+    @Override
     public void writeSources() throws IOException {
         for (ImplJSourceFile classFile : classFiles) {
             try (Writer writer = filer.openWriter(classFile.getPackageName(), classFile.getFileName())) {

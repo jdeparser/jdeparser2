@@ -36,6 +36,7 @@ class CommentTextContent implements CommentContent {
         return text;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeEscaped(text);
     }

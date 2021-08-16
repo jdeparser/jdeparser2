@@ -24,6 +24,7 @@ package org.jboss.jdeparser;
 enum CommentIndentation implements Indent {
     LINE("// "),
     BLOCK(" * ") {
+        @Override
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             for (int i = idx > 0 ? idx : idx + 1; i < b.length();) {
                 if (b.charAt(i - 1) == '*' && b.charAt(i) == '/') {
@@ -45,6 +46,7 @@ enum CommentIndentation implements Indent {
         return text;
     }
 
+    @Override
     public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
         next.addIndent(next, preferences, lineBuffer);
         final int idx = lineBuffer.length();
@@ -52,10 +54,12 @@ enum CommentIndentation implements Indent {
         next.escape(next, lineBuffer, idx);
     }
 
+    @Override
     public void escape(final Indent next, final StringBuilder b, final int idx) {
         next.escape(next, b, idx);
     }
 
+    @Override
     public void unescaped(final Indent next, final StringBuilder b, final int idx) {
         // escape at next level
         next.escape(next, b, idx);

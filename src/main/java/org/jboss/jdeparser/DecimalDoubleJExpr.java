@@ -29,6 +29,7 @@ final class DecimalDoubleJExpr extends AbstractJExpr {
         this.val = val;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeUnescaped(String.format("%gf", Double.valueOf(val)));
     }

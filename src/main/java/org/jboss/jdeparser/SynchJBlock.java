@@ -34,6 +34,7 @@ class SynchJBlock extends BasicJBlock {
         this.synchExpr = synchExpr;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.SYNCHRONIZED);
         writer.write(FormatPreferences.Space.BEFORE_PAREN_SYNCHRONIZED);

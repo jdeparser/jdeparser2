@@ -37,28 +37,34 @@ class EnumJClassDef extends AbstractJClassDef implements JClassItem {
         super(mods, enclosingClass, name);
     }
 
+    @Override
     Tokens.$KW designation() {
         return Tokens.$KW.ENUM;
     }
 
+    @Override
     public JEnumConstant _enum(final String name) {
         final ImplJEnumConstant c = new ImplJEnumConstant(this, name);
         constants.put(name, c);
         return c;
     }
 
+    @Override
     public JClassDef _extends(final String name) {
         throw new UnsupportedOperationException("extends on enum");
     }
 
+    @Override
     public JClassDef _extends(final JType type) {
         throw new UnsupportedOperationException("extends on enum");
     }
 
+    @Override
     public JClassDef _extends(final Class<?> clazz) {
         throw new UnsupportedOperationException("extends on enum");
     }
 
+    @Override
     void writeContent(final SourceFileWriter sourceFileWriter) throws IOException {
         final Iterator<ImplJEnumConstant> iterator = constants.values().iterator();
         if (iterator.hasNext()) {
@@ -78,10 +84,12 @@ class EnumJClassDef extends AbstractJClassDef implements JClassItem {
         super.writeContent(sourceFileWriter);
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.ENUM;
     }
 
+    @Override
     public String getName() {
         return super.getName();
     }

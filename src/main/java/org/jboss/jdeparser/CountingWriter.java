@@ -36,6 +36,7 @@ class CountingWriter extends Writer {
         this.out = out;
     }
 
+    @Override
     public void write(final char[] chars, final int off, final int len) throws IOException {
         int line = this.line, column = this.column, bsz = this.bsz;
         final char[] buffer = this.buffer;
@@ -64,6 +65,7 @@ class CountingWriter extends Writer {
         }
     }
 
+    @Override
     public void write(final int c) throws IOException {
         if (c == '\n') {
             line ++;
@@ -78,10 +80,12 @@ class CountingWriter extends Writer {
         }
     }
 
+    @Override
     public void write(final char[] cbuf) throws IOException {
         write(cbuf, 0, cbuf.length);
     }
 
+    @Override
     public void write(final String str, final int off, final int len) throws IOException {
         int line = this.line, column = this.column, bsz = this.bsz;
         final char[] buffer = this.buffer;
@@ -110,6 +114,7 @@ class CountingWriter extends Writer {
         }
     }
 
+    @Override
     public void write(final String str) throws IOException {
         write(str, 0, str.length());
     }
@@ -146,6 +151,7 @@ class CountingWriter extends Writer {
         write(b, 0, b.length());
     }
 
+    @Override
     public void flush() throws IOException {
         int bsz = this.bsz;
         this.bsz = 0;
@@ -153,6 +159,7 @@ class CountingWriter extends Writer {
         out.flush();
     }
 
+    @Override
     public void close() throws IOException {
         int bsz = this.bsz;
         this.bsz = 0;

@@ -41,6 +41,7 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         this.value = value;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         write(writer, null);
     }
@@ -81,10 +82,12 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         }
     }
 
+    @Override
     public JType type() {
         return type;
     }
 
+    @Override
     public String name() {
         return name;
     }
@@ -93,6 +96,7 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         return mods;
     }
 
+    @Override
     public JVarDeclaration add(final String name, final JExpr init) {
         if (successors == null) successors = new ArrayList<>();
         final SuccessorJVarDeclaration s = new SuccessorJVarDeclaration(this, name, init);
@@ -100,6 +104,7 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         return s;
     }
 
+    @Override
     public JVarDeclaration add(final String name) {
         if (successors == null) successors = new ArrayList<>();
         final SuccessorJVarDeclaration s = new SuccessorJVarDeclaration(this, name, null);
@@ -107,22 +112,27 @@ class FirstJVarDeclaration extends BasicJAnnotatable implements JVarDeclaration,
         return s;
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.FIELD;
     }
 
+    @Override
     public int getModifiers() {
         return mods;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return (this.mods & mods) == mods;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return (this.mods & mods) != 0;
     }
 
+    @Override
     public String getName() {
         return name;
     }

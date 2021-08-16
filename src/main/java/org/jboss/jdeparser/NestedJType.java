@@ -39,10 +39,12 @@ class NestedJType extends AbstractJType {
         this.name = name;
     }
 
+    @Override
     String qualifiedName() {
         return enclosingType.qualifiedName() + "." + name;
     }
 
+    @Override
     public JExpr _class() {
         StaticRefJExpr expr = classExpr;
         if (expr == null) {
@@ -51,6 +53,7 @@ class NestedJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JExpr _this() {
         StaticRefJExpr expr = thisExpr;
         if (expr == null) {
@@ -59,6 +62,7 @@ class NestedJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JExpr _super() {
         StaticRefJExpr expr = superExpr;
         if (expr == null) {
@@ -67,14 +71,17 @@ class NestedJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JCall _new(final JExpr dim) {
         return new NewJCall(this);
     }
 
+    @Override
     public JAnonymousClassDef _newAnon() {
         return new ImplJAnonymousClassDef(this);
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof NestedJType && equals((NestedJType) other);
     }
@@ -83,18 +90,22 @@ class NestedJType extends AbstractJType {
         return enclosingType.equals(other.enclosingType) && name.equals(other.name);
     }
 
+    @Override
     public int hashCode() {
         return enclosingType.hashCode() * 17 + name.hashCode();
     }
 
+    @Override
     public String simpleName() {
         return name;
     }
 
+    @Override
     public JType typeArg(final JType... args) {
         return new NarrowedJType(this, args);
     }
 
+    @Override
     public JType nestedType(final String name) {
         CachingLinkedHashMap<String, NestedJType> nestedTypes = this.nestedTypes;
         if (nestedTypes == null) {
@@ -107,10 +118,12 @@ class NestedJType extends AbstractJType {
         return nestedType;
     }
 
+    @Override
     public String toString() {
         return "Nested type " + name + " of " + enclosingType;
     }
 
+    @Override
     void writeDirect(final SourceFileWriter writer) throws IOException {
         if (! writer.getClassFile().hasStaticImport(name, enclosingType) && ! writer.getClassFile().hasImport(this)) {
             enclosingType.writeDirect(writer);

@@ -30,40 +30,48 @@ abstract class AbstractJHtmlComment extends AbstractJComment implements JHtmlCom
         return item;
     }
 
+    @Override
     public JHtmlComment block() {
         return this.add(new NestedHtmlCommentContent());
     }
 
+    @Override
     public JHtmlComment sp() {
         super.sp();
         return this;
     }
 
+    @Override
     public JHtmlComment nl() {
         super.nl();
         return this;
     }
 
+    @Override
     public JHtmlComment typeName(final JType type) {
         super.typeName(type);
         return this;
     }
 
+    @Override
     public JHtmlComment text(final String text) {
         super.text(text);
         return this;
     }
 
+    @Override
     public JHtmlComment inlineDocTag(final String tag, final String body) {
         super.inlineDocTag(tag, body);
         return this;
     }
 
+    @Override
     public JHtmlComment docRoot() {
         super.docRoot();
         return this;
     }
 
+    @Override
     public JHtmlComment p() {
         nl();
         htmlTag("p", false);
@@ -71,21 +79,25 @@ abstract class AbstractJHtmlComment extends AbstractJComment implements JHtmlCom
         return this;
     }
 
+    @Override
     public JHtmlComment br() {
         htmlTag("br", false);
         nl();
         return this;
     }
 
+    @Override
     public JHtmlComment value(final JType type, final String fieldName) {
         inlineDocTag("value").typeName(type).text("#").text(fieldName);
         return this;
     }
 
+    @Override
     public JHtmlTag htmlLink(final String url) {
         return htmlTag("a", false).attribute("href", url);
     }
 
+    @Override
     public JHtmlTag htmlTag(final String tag, final boolean newLine) {
         boolean writeClose;
         switch (tag.toLowerCase(Locale.US)) {
@@ -133,6 +145,7 @@ abstract class AbstractJHtmlComment extends AbstractJComment implements JHtmlCom
         return add(htmlTag);
     }
 
+    @Override
     public JComment preformattedCode() {
         JComment main = htmlTag("pre", false).code().nl();
         JComment block = main.block();

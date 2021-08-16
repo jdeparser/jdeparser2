@@ -44,30 +44,38 @@ abstract class AbstractJType implements JType {
         return simpleName();
     }
 
+    @Override
     public abstract int hashCode();
 
+    @Override
     public final boolean equals(Object other) {
         return other instanceof AbstractJType && equals((AbstractJType) other);
     }
 
     abstract boolean equals(AbstractJType other);
 
+    @Override
     public abstract String simpleName();
 
+    @Override
     public abstract String toString();
 
+    @Override
     public JExpr _class() {
         throw new UnsupportedOperationException("Adding .class to " + this);
     }
 
+    @Override
     public JExpr _this() {
         throw new UnsupportedOperationException("Adding .this to " + this);
     }
 
+    @Override
     public JExpr _super() {
         throw new UnsupportedOperationException("Adding .super to " + this);
     }
 
+    @Override
     public JType array() {
         if (array == null) {
             array = new ArrayJType(this);
@@ -75,26 +83,32 @@ abstract class AbstractJType implements JType {
         return array;
     }
 
+    @Override
     public JCall _new() {
         throw new UnsupportedOperationException("Instantiating a " + this + " as a class");
     }
 
+    @Override
     public JExpr _new(final JExpr dim) {
         throw new UnsupportedOperationException("Instantiating a " + this + " as an array");
     }
 
+    @Override
     public JExpr _new(final int dim) {
         return _new(JExprs.decimal(dim));
     }
 
+    @Override
     public JArrayExpr _newArray() {
         throw new UnsupportedOperationException("Instantiating a " + this + " as an array");
     }
 
+    @Override
     public JAnonymousClassDef _newAnon() {
         throw new UnsupportedOperationException("Instantiating a " + this + " as a class");
     }
 
+    @Override
     public JType typeArg(final String... args) {
         final JType[] types = new JType[args.length];
         for (int i = 0, argsLength = args.length; i < argsLength; i++) {
@@ -103,10 +117,12 @@ abstract class AbstractJType implements JType {
         return typeArg(types);
     }
 
+    @Override
     public JType typeArg(final JType... args) {
         throw new UnsupportedOperationException("Adding type arguments to " + this);
     }
 
+    @Override
     public JType typeArg(final Class<?>... args) {
         final JType[] types = new JType[args.length];
         for (int i = 0, argsLength = args.length; i < argsLength; i++) {
@@ -115,26 +131,32 @@ abstract class AbstractJType implements JType {
         return typeArg(types);
     }
 
+    @Override
     public JType[] typeArgs() {
         return NONE;
     }
 
+    @Override
     public JType erasure() {
         return this;
     }
 
+    @Override
     public JType elementType() {
         throw new UnsupportedOperationException("Getting element type from " + this);
     }
 
+    @Override
     public JType box() {
         return this;
     }
 
+    @Override
     public JType unbox() {
         return this;
     }
 
+    @Override
     public JType wildcardExtends() {
         if (wildcardExtends == null) {
             wildcardExtends = new WildcardJType(this, true);
@@ -142,6 +164,7 @@ abstract class AbstractJType implements JType {
         return wildcardExtends;
     }
 
+    @Override
     public JType wildcardSuper() {
         if (wildcardSuper == null) {
             wildcardSuper = new WildcardJType(this, false);
@@ -149,16 +172,19 @@ abstract class AbstractJType implements JType {
         return wildcardSuper;
     }
 
+    @Override
     public JType nestedType(final String name) {
         throw new UnsupportedOperationException("Lookup of nested type on " + this);
     }
 
+    @Override
     public JType $t(final String name) {
         return nestedType(name);
     }
 
     private CachingLinkedHashMap<String, JAssignableExpr> staticRefs;
 
+    @Override
     public JAssignableExpr field(final String name) {
         CachingLinkedHashMap<String, JAssignableExpr> map = staticRefs;
         if (map == null) {
@@ -171,14 +197,17 @@ abstract class AbstractJType implements JType {
         return expr;
     }
 
+    @Override
     public JAssignableExpr $v(final String name) {
         return field(name);
     }
 
+    @Override
     public JCall call(final String name) {
         return new StaticJCall(this, name);
     }
 
+    @Override
     public JCall call(final ExecutableElement method) {
         final ElementKind kind = method.getKind();
         if (kind == ElementKind.METHOD && ! method.getModifiers().contains(Modifier.STATIC)) {
@@ -188,10 +217,12 @@ abstract class AbstractJType implements JType {
         throw new IllegalArgumentException("Unsupported element for call: " + method);
     }
 
+    @Override
     public JExpr methodRef(final String name) {
         return new MethodRefJExpr(this, name);
     }
 
+    @Override
     public JExpr methodRef(final ExecutableElement method) {
         final ElementKind kind = method.getKind();
         if (kind == ElementKind.METHOD && ! method.getModifiers().contains(Modifier.STATIC)) {

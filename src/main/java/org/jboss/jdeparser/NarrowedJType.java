@@ -36,6 +36,7 @@ class NarrowedJType extends AbstractJType {
         this.args = args;
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof NarrowedJType && equals((NarrowedJType) other);
     }
@@ -44,30 +45,37 @@ class NarrowedJType extends AbstractJType {
         return erased.equals(other.erased) && Arrays.equals(args, other.args);
     }
 
+    @Override
     public int hashCode() {
         return erased.hashCode() * 17 + Arrays.hashCode(args);
     }
 
+    @Override
     public String simpleName() {
         return erased.simpleName();
     }
 
+    @Override
     public JExpr _class() {
         return erased._class();
     }
 
+    @Override
     public JExpr _this() {
         return erased._this();
     }
 
+    @Override
     public JExpr _super() {
         return erased._super();
     }
 
+    @Override
     public JCall _new() {
         return new NewJCall(this);
     }
 
+    @Override
     public JCall _new(final JExpr dim) {
         final JCall call = erasure()._new();
         for (JType arg : args) {
@@ -76,6 +84,7 @@ class NarrowedJType extends AbstractJType {
         return call;
     }
 
+    @Override
     public JType typeArg(final JType... args) {
         return new NarrowedJType(erased, concat(this.args, args));
     }
@@ -89,22 +98,27 @@ class NarrowedJType extends AbstractJType {
         return c;
     }
 
+    @Override
     public JType[] typeArgs() {
         return args;
     }
 
+    @Override
     public JType erasure() {
         return erased;
     }
 
+    @Override
     public JCall call(final String name) {
         return erasure().call(name);
     }
 
+    @Override
     public JType nestedType(final String name) {
         return erasure().nestedType(name);
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write(erasure());
         final JType[] args = this.args;
@@ -124,6 +138,7 @@ class NarrowedJType extends AbstractJType {
         }
     }
 
+    @Override
     public String toString() {
         final StringBuilder b = new StringBuilder(erased.toString());
         b.append('<');

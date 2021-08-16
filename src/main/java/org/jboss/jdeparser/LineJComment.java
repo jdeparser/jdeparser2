@@ -25,6 +25,7 @@ import java.io.IOException;
  */
 class LineJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent, JClassItem {
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeEscaped("// ");
         writer.pushIndent(CommentIndentation.LINE);
@@ -35,22 +36,27 @@ class LineJComment extends AbstractJComment implements ClassContent, ClassFileCo
         }
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.LINE_COMMENT;
     }
 
+    @Override
     public int getModifiers() {
         return 0;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return false;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return false;
     }
 
+    @Override
     public String getName() {
         return null;
     }

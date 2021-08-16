@@ -42,6 +42,7 @@ public abstract class JFiler {
      */
     public static JFiler newInstance(final Filer filer) {
         return new JFiler() {
+            @Override
             public OutputStream openStream(final String packageName, final String fileName) throws IOException {
                 // Create the FQCN
                 final StringBuilder sb = new StringBuilder(packageName);
@@ -62,6 +63,7 @@ public abstract class JFiler {
      */
     public static JFiler newInstance(final File target) {
         return new JFiler() {
+            @Override
             public OutputStream openStream(final String packageName, final String fileName) throws IOException {
                 final File dir = new File(target, packageName.replace('.', File.separatorChar));
                 dir.mkdirs();

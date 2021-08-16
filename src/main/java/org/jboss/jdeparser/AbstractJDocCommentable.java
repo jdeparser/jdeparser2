@@ -26,6 +26,7 @@ import java.io.IOException;
 abstract class AbstractJDocCommentable extends BasicJCommentable implements JDocCommentable {
     private ImplJDocComment docComment;
 
+    @Override
     public JDocComment docComment() {
         if (docComment == null) {
             docComment = new ImplJDocComment();
@@ -33,6 +34,7 @@ abstract class AbstractJDocCommentable extends BasicJCommentable implements JDoc
         return docComment;
     }
 
+    @Override
     public JComment deprecated() {
         return docComment().docTag("deprecated");
     }

@@ -37,14 +37,17 @@ class ImplJTry extends BasicJBlock implements JTry {
         super(parent, Braces.REQUIRED);
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
         return with(mods, JTypes.typeNamed(type), var, init);
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
         return add(new TryJVarDeclaration(mods, type, var, init, this));
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final Class<? extends AutoCloseable> type, final String var, final JExpr init) {
         return with(mods, JTypes.typeOf(type), var, init);
     }
@@ -55,14 +58,17 @@ class ImplJTry extends BasicJBlock implements JTry {
         return item;
     }
 
+    @Override
     public JCatch _catch(final int mods, final String type, final String var) {
         return _catch(mods, JTypes.typeNamed(type), var);
     }
 
+    @Override
     public JCatch _catch(final int mods, final Class<? extends Throwable> type, final String var) {
         return _catch(mods, JTypes.typeOf(type), var);
     }
 
+    @Override
     public JCatch _catch(final int mods, final JType type, final String var) {
         return add(new ImplJCatch(this, mods, type, var));
     }
@@ -73,19 +79,23 @@ class ImplJTry extends BasicJBlock implements JTry {
         return item;
     }
 
+    @Override
     public JTry ignore(final String type) {
         return ignore(JTypes.typeNamed(type));
     }
 
+    @Override
     public JTry ignore(final Class<? extends Throwable> type) {
         return ignore(JTypes.typeOf(type));
     }
 
+    @Override
     public JTry ignore(final JType type) {
         _catch(0, type, "ignored");
         return this;
     }
 
+    @Override
     public JBlock _finally() {
         if (finallyBlock == null) {
             finallyBlock = new FinallyJBlock(this);
@@ -93,6 +103,7 @@ class ImplJTry extends BasicJBlock implements JTry {
         return finallyBlock;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         if ((catches == null || catches.isEmpty()) && (resources == null || resources.isEmpty()) && finallyBlock == null) {

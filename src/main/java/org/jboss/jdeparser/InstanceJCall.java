@@ -38,6 +38,7 @@ class InstanceJCall extends AbstractMethodJCall {
         return target;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(AbstractJExpr.of(target));
         writer.write($PUNCT.DOT);

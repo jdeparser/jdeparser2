@@ -36,6 +36,7 @@ class NewDimJArrayExpr extends AbstractJExpr {
         this.dim = dim;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.NEW);
         writer.write(type.elementType());
@@ -46,6 +47,7 @@ class NewDimJArrayExpr extends AbstractJExpr {
         writer.write($PUNCT.BRACKET.CLOSE);
     }
 
+    @Override
     public String toString() {
         return "new " + type.elementType() + "[" + dim + "]";
     }

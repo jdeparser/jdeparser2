@@ -35,6 +35,7 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
         super(Prec.METHOD_CALL);
     }
 
+    @Override
     public JLambda param(final JType type, final String name) {
         if (name != null) {
             if (type == null) {
@@ -48,18 +49,22 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
         return this;
     }
 
+    @Override
     public JLambda param(final String typeName, final String name) {
         return param(JTypes.typeNamed(typeName), name);
     }
 
+    @Override
     public JLambda param(final Class<?> type, final String name) {
         return param(JTypes.typeOf(type), name);
     }
 
+    @Override
     public JLambda param(final String name) {
         return param((JType) null, name);
     }
 
+    @Override
     public JBlock body() {
         exprBody = null;
         if (blockBody == null) {
@@ -68,12 +73,14 @@ class JLambdaImpl extends AbstractJExpr implements JLambda {
         return blockBody;
     }
 
+    @Override
     public JLambda body(JExpr expression) {
         blockBody = null;
         exprBody = AbstractJExpr.of(expression);
         return this;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         if (params == null) {
             writer.write(Tokens.$PUNCT.PAREN.OPEN);

@@ -34,26 +34,32 @@ class BlankLine implements ClassFileContent, ClassContent, BlockContent, JClassI
         return INSTANCE;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.nl();
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.BLANK_LINE;
     }
 
+    @Override
     public int getModifiers() {
         return 0;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return false;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return false;
     }
 
+    @Override
     public String getName() {
         return null;
     }

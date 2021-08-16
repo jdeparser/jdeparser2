@@ -54,6 +54,7 @@ class UnaryJExpr extends AbstractJExpr {
         return postfix;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         if (isPostfix()) {
             writer.write(expr);

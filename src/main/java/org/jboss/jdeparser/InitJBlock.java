@@ -29,27 +29,33 @@ class InitJBlock extends BasicJBlock implements ClassContent, JClassItem {
         super(null, Braces.REQUIRED);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         super.write(writer, null);
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.INIT_BLOCK;
     }
 
+    @Override
     public int getModifiers() {
         return 0;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return false;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return false;
     }
 
+    @Override
     public String getName() {
         return null;
     }

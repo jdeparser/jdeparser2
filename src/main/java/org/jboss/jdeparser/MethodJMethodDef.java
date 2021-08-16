@@ -40,6 +40,7 @@ class MethodJMethodDef extends AbstractJMethodDef implements JClassItem {
         return returnType;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeDocComments(writer);
         writeComments(writer);
@@ -52,22 +53,27 @@ class MethodJMethodDef extends AbstractJMethodDef implements JClassItem {
         super.write(writer);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getModifiers() {
         return super.getModifiers();
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.METHOD;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return (getModifiers() & mods) == mods;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return (getModifiers() & mods) != 0;
     }

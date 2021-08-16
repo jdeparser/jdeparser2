@@ -35,10 +35,12 @@ class PrimitiveJType extends AbstractJType {
         this.boxed = boxed == null ? null : new ReferenceJType("java.lang", boxed, this);
     }
 
+    @Override
     public JType box() {
         return boxed;
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         switch (simpleName) {
             case "boolean": sourceFileWriter.write($KW.BOOLEAN); return;
@@ -54,6 +56,7 @@ class PrimitiveJType extends AbstractJType {
         }
     }
 
+    @Override
     public JExpr _class() {
         StaticRefJExpr expr = classExpr;
         if (expr == null) {
@@ -62,18 +65,22 @@ class PrimitiveJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof PrimitiveJType && simpleName.equals(((PrimitiveJType) other).simpleName);
     }
 
+    @Override
     public int hashCode() {
         return simpleName.hashCode();
     }
 
+    @Override
     public String simpleName() {
         return simpleName;
     }
 
+    @Override
     public String toString() {
         return simpleName;
     }

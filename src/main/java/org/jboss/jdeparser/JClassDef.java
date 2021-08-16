@@ -30,6 +30,7 @@ public interface JClassDef extends JAnnotatable, JDocCommentable, JGenericDef, J
      *
      * @return this type definition
      */
+    @Override
     JClassDef blankLine();
 
     /**

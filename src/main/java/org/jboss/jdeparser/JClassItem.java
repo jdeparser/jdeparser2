@@ -80,6 +80,7 @@ public interface JClassItem {
             return item.getItemKind().ordinal();
         }
 
+        @Override
         public int compare(final JClassItem o1, final JClassItem o2) {
             int r1, r2;
             r1 = rankOf(o1);

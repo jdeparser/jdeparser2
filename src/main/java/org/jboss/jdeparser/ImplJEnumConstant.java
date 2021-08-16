@@ -43,10 +43,12 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant, JCla
         return classDef;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public JEnumConstant arg(final JExpr expr) {
         if (args == null) {
             args = new ArrayList<>();
@@ -55,10 +57,12 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant, JCla
         return this;
     }
 
+    @Override
     public JClassDef body() {
         return body != null ? body : (body = new EnumConstantJClassDef(this));
     }
 
+    @Override
     public JExpr[] arguments() {
         return args.toArray(new JExpr[args.size()]);
     }
@@ -92,18 +96,22 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant, JCla
         }
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.ENUM_CONSTANT;
     }
 
+    @Override
     public int getModifiers() {
         return 0;
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return false;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return false;
     }

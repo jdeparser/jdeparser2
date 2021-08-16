@@ -36,6 +36,7 @@ class ArrayLookupJExpr extends AbstractJAssignableExpr {
         this.idx = idx;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(expr);
         writer.write($PUNCT.BRACKET.OPEN);

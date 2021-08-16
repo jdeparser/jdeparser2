@@ -37,6 +37,7 @@ class KeywordJStatement extends BasicJStatement implements BlockContent {
         return keyword;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write(keyword);

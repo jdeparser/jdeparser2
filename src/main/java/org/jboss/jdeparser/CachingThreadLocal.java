@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class CachingThreadLocal<K, V> extends ThreadLocal<LinkedHashMap<K, V>> {
+    @Override
     protected LinkedHashMap<K, V> initialValue() {
         return new CachingLinkedHashMap<>();
     }

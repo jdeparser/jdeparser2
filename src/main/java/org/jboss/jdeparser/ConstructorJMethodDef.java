@@ -31,6 +31,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef implements JClassItem {
         super(classDef, mods);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeDocComments(writer);
         writeComments(writer);
@@ -41,22 +42,27 @@ class ConstructorJMethodDef extends AbstractJMethodDef implements JClassItem {
         super.write(writer);
     }
 
+    @Override
     public Kind getItemKind() {
         return Kind.METHOD;
     }
 
+    @Override
     public int getModifiers() {
         return super.getModifiers();
     }
 
+    @Override
     public boolean hasAllModifiers(final int mods) {
         return (getModifiers() & mods) == mods;
     }
 
+    @Override
     public boolean hasAnyModifier(final int mods) {
         return (getModifiers() & mods) != 0;
     }
 
+    @Override
     public String getName() {
         return null;
     }

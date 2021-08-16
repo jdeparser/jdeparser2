@@ -35,6 +35,7 @@ class ElseJBlock extends BasicJBlock {
         super(_if.getParent(), braces);
     }
 
+    @Override
     void write(final SourceFileWriter writer, final FormatPreferences.Space beforeBrace, final Braces braces) throws IOException {
         writer.write(FormatPreferences.Space.BEFORE_KEYWORD_ELSE);
         writer.write($KW.ELSE);
