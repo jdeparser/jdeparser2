@@ -18,15 +18,13 @@
 
 package org.jboss.jdeparser;
 
-import sun.reflect.Reflection;
-
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 class Assertions {
     static boolean callerIs(Class<?> clazz) {
         try {
-            return Reflection.getCallerClass(3) == clazz;
+            return StackWalker.getInstance().getCallerClass() == clazz;
         } catch (Throwable ignored) {}
         // dunno
         return true;
