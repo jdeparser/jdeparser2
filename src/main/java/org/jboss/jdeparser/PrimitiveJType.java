@@ -27,12 +27,15 @@ import java.io.IOException;
  */
 class PrimitiveJType extends AbstractJType {
     private final String simpleName;
+
+    private final String packageName;
     private final ReferenceJType boxed;
     private StaticRefJExpr classExpr;
 
     PrimitiveJType(final String simpleName, final String boxed) {
         this.simpleName = simpleName;
         this.boxed = boxed == null ? null : new ReferenceJType("java.lang", boxed, this);
+        this.packageName = boxed == null ? null : "java.lang";
     }
 
     public JType box() {
@@ -73,6 +76,8 @@ class PrimitiveJType extends AbstractJType {
     public String simpleName() {
         return simpleName;
     }
+
+    public String packageName() { return packageName; }
 
     public String toString() {
         return simpleName;

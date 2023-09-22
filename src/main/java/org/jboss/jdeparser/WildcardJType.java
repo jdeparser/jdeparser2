@@ -47,6 +47,8 @@ class WildcardJType extends AbstractJType {
         return targetType.hashCode() ^ (extendsNotSuper ? 0 : 1);
     }
 
+    public String packageName() { return targetType.packageName(); }
+
     public String simpleName() {
         return targetType.simpleName();
     }
