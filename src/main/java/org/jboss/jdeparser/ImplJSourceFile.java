@@ -52,6 +52,7 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     private void checkPackage() {
         if (! packageWritten) {
             content.add(new ClassFileContent() {
+                @Override
                 public void write(final SourceFileWriter writer) throws IOException {
                     writer.write($KW.PACKAGE);
                     writer.sp();
@@ -108,10 +109,12 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return expr != null && enclosingType.equals(expr.getType());
     }
 
+    @Override
     public JSourceFile _import(final String type) {
         return _import(JTypes.typeNamed(type));
     }
 
+    @Override
     public JSourceFile _import(final JType type) {
         if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType) && ! (type instanceof NarrowedJType)) {
             // can't import this type
@@ -126,14 +129,17 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return this;
     }
 
+    @Override
     public JSourceFile _import(final Class<?> type) {
         return _import(JTypes.typeOf(type));
     }
 
+    @Override
     public JSourceFile importStatic(final String type, final String member) {
         return importStatic(JTypes.typeNamed(type), member);
     }
 
+    @Override
     public JSourceFile importStatic(final JType type, final String member) {
         if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType)) {
             // no static members
@@ -148,31 +154,37 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         return this;
     }
 
+    @Override
     public JSourceFile importStatic(final Class<?> type, final String member) {
         return importStatic(JTypes.typeOf(type), member);
     }
 
+    @Override
     public JSourceFile blankLine() {
         checkPackage();
         add(BlankLine.getInstance());
         return this;
     }
 
+    @Override
     public JClassDef _class(final int mods, final String name) {
         checkPackage();
         return add(new PlainJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef _enum(final int mods, final String name) {
         checkPackage();
         return add(new EnumJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef _interface(final int mods, final String name) {
         checkPackage();
         return add(new InterfaceJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef annotationInterface(final int mods, final String name) {
         checkPackage();
         return add(new AnnotationJClassDef(mods, this, name));

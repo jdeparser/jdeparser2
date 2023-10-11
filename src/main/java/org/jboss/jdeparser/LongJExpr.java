@@ -34,6 +34,7 @@ class LongJExpr extends AbstractJExpr implements JExpr {
         this.radix = radix;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
         writer.write(Tokens.$NUMBER);

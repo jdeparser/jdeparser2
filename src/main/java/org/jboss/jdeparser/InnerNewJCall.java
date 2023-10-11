@@ -34,6 +34,7 @@ class InnerNewJCall extends NewJCall {
         this.target = target.prec() > prec() ? new ParenJExpr(target) : target;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(target);
         writer.write($PUNCT.DOT);

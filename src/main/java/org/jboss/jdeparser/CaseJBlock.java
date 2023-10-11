@@ -38,6 +38,7 @@ class CaseJBlock extends BasicJBlock {
         return expr;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.pushIndent(FormatPreferences.Indentation.CASE_LABELS);

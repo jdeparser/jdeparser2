@@ -41,6 +41,7 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockC
         return name != null;
     }
 
+    @Override
     public String name() {
         return name;
     }
@@ -49,6 +50,7 @@ class ImplJLabel extends BasicJCommentable implements JLabel, JStatement, BlockC
         this.name = name;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         if (referenced || ! writer.getFormat().hasOption(FormatPreferences.Opt.DROP_UNUSED_LABELS)) {
             writeComments(writer);

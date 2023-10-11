@@ -50,14 +50,18 @@ public interface JCatch extends JTry {
     JCatch or(Class<? extends Throwable> orType);
 
     /** {@inheritDoc} */
+    @Override
     JCatch with(JExpr var);
 
     /** {@inheritDoc} */
+    @Override
     JCatch ignore(String type);
 
     /** {@inheritDoc} */
+    @Override
     JCatch ignore(Class<? extends Throwable> type);
 
     /** {@inheritDoc} */
+    @Override
     JCatch ignore(JType type);
 }

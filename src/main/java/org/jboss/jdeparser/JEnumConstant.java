@@ -26,6 +26,7 @@ package org.jboss.jdeparser;
 public interface JEnumConstant extends JSimpleArgs, JAnnotatable, JDocCommentable {
 
     /** {@inheritDoc} */
+    @Override
     JEnumConstant arg(JExpr expr);
 
     /**

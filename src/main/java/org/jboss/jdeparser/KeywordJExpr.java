@@ -34,6 +34,7 @@ class KeywordJExpr extends AbstractJExpr {
         this.name = name;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(name);
     }

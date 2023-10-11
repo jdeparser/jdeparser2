@@ -30,55 +30,66 @@ abstract class AbstractJDocComment extends AbstractJHtmlComment implements JDocC
 
     private Map<String, List<DocTagJHtmlComment>> docTags;
 
+    @Override
     public JDocComment block() {
         return (JDocComment) super.block();
     }
 
+    @Override
     public JDocComment sp() {
         super.sp();
         return this;
     }
 
+    @Override
     public JDocComment nl() {
         super.nl();
         return this;
     }
 
+    @Override
     public JDocComment typeName(final JType type) {
         super.typeName(type);
         return this;
     }
 
+    @Override
     public JDocComment text(final String text) {
         super.text(text);
         return this;
     }
 
+    @Override
     public JDocComment inlineDocTag(final String tag, final String body) {
         super.inlineDocTag(tag, body);
         return this;
     }
 
+    @Override
     public JDocComment docRoot() {
         super.docRoot();
         return this;
     }
 
+    @Override
     public JDocComment p() {
         super.p();
         return this;
     }
 
+    @Override
     public JDocComment br() {
         super.br();
         return this;
     }
 
+    @Override
     public JDocComment value(final JType type, final String fieldName) {
         super.value(type, fieldName);
         return this;
     }
 
+    @Override
     public JHtmlComment docTag(final String tag) {
         Map<String, List<DocTagJHtmlComment>> docTags = this.docTags;
         if (docTags == null) {
@@ -93,20 +104,24 @@ abstract class AbstractJDocComment extends AbstractJHtmlComment implements JDocC
         return tagComment;
     }
 
+    @Override
     public JHtmlComment docTag(final String tag, final String firstWord) {
         JHtmlComment docTag = docTag(tag);
         docTag.text(firstWord).sp();
         return docTag;
     }
 
+    @Override
     public JHtmlComment _return() {
         return docTag("return");
     }
 
+    @Override
     public JHtmlComment _throws(final JType exceptionType) {
         return docTag("throws");
     }
 
+    @Override
     public JHtmlComment param(final String name) {
         return docTag("param", name);
     }

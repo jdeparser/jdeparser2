@@ -29,11 +29,13 @@ class AnonymousJClassDef extends AbstractJClassDef {
         super(0, anonymousClassDef.type().simpleName());
     }
 
+    @Override
     Tokens.$KW designation() {
         // not used
         return Tokens.$KW.NEW;
     }
 
+    @Override
     void writeTypeParams(final SourceFileWriter sourceFileWriter) throws IOException {
         // none
     }
@@ -42,6 +44,7 @@ class AnonymousJClassDef extends AbstractJClassDef {
         // none
     }
 
+    @Override
     void writeClassHeader(final SourceFileWriter sourceFileWriter) throws IOException {
         // none
     }

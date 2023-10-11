@@ -28,6 +28,7 @@ import java.util.List;
 abstract class AbstractJComment implements JComment, Writable {
 
     static final CommentContent NL_CONTENT = new CommentContent() {
+        @Override
         public void write(final SourceFileWriter writer) throws IOException {
             writer.nl();
         }
@@ -55,6 +56,7 @@ abstract class AbstractJComment implements JComment, Writable {
         return item;
     }
 
+    @Override
     public JComment text(final String text) {
         int c;
         int s = 0;
@@ -81,30 +83,36 @@ abstract class AbstractJComment implements JComment, Writable {
         return this;
     }
 
+    @Override
     public JComment sp() {
         add(NonTrailingSpaceContent.getInstance());
         return this;
     }
 
+    @Override
     public JComment typeName(final JType type) {
         add(new JTypeCommentContent(type));
         return this;
     }
 
+    @Override
     public JComment block() {
         return this.add(new NestedCommentContent());
     }
 
+    @Override
     public JComment inlineDocTag(final String tag, final String body) {
         InlineDocTagCommentContent content = new InlineDocTagCommentContent(tag);
         add(content).text(body);
         return this;
     }
 
+    @Override
     public JComment inlineDocTag(final String tag) {
         return add(new InlineDocTagCommentContent(tag));
     }
 
+    @Override
     public JComment linkType(boolean plain, final JType targetType) {
         InlineDocTagCommentContent link = new InlineDocTagCommentContent(plain ? "linkplain" : "link");
         link.typeName(targetType);
@@ -112,6 +120,7 @@ abstract class AbstractJComment implements JComment, Writable {
         return add(link);
     }
 
+    @Override
     public JComment linkField(boolean plain, final JType targetType, final String targetField) {
         InlineDocTagCommentContent item = new InlineDocTagCommentContent(plain ? "linkplain" : "link");
         item.typeName(targetType);
@@ -121,6 +130,7 @@ abstract class AbstractJComment implements JComment, Writable {
         return add(item);
     }
 
+    @Override
     public JComment linkConstructor(boolean plain, final JType targetType, final JType... params) {
         InlineDocTagCommentContent item = new InlineDocTagCommentContent(plain ? "linkplain" : "link");
         item.typeName(targetType);
@@ -139,6 +149,7 @@ abstract class AbstractJComment implements JComment, Writable {
         return add(item);
     }
 
+    @Override
     public JComment linkMethod(boolean plain, final JType targetType, final String targetMethod, final JType... params) {
         InlineDocTagCommentContent item = new InlineDocTagCommentContent(plain ? "linkplain" : "link");
         item.typeName(targetType);
@@ -157,6 +168,7 @@ abstract class AbstractJComment implements JComment, Writable {
         return add(item);
     }
 
+    @Override
     public JComment linkMethod(boolean plain, final JMethodDef methodDef) {
         if (methodDef instanceof AbstractJMethodDef) {
             AbstractJMethodDef abstractJMethodDef = (AbstractJMethodDef) methodDef;
@@ -190,20 +202,24 @@ abstract class AbstractJComment implements JComment, Writable {
         }
     }
 
+    @Override
     public JComment code() {
         return inlineDocTag("code");
     }
 
+    @Override
     public JComment docRoot() {
         add(DOC_ROOT_CONTENT);
         return this;
     }
 
+    @Override
     public JComment nl() {
         add(NL_CONTENT);
         return this;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         for (Writable item : content) {
             item.write(writer);

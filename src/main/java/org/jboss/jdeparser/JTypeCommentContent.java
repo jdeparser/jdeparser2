@@ -35,6 +35,7 @@ class JTypeCommentContent implements CommentContent {
         return type;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(type);
     }

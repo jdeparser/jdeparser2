@@ -32,6 +32,7 @@ class ImplJIf extends ConditionJBlock implements JIf {
         super(parent, Braces.IF_MULTILINE, cond);
     }
 
+    @Override
     public JBlock _else() {
         // todo: analyze tree to see if we need to force brackets on our main block
         // e.g. if (cond) if (cond2) abc else xyz
@@ -43,10 +44,12 @@ class ImplJIf extends ConditionJBlock implements JIf {
         throw new IllegalStateException("else block already added");
     }
 
+    @Override
     public JIf elseIf(final JExpr cond) {
         return _else()._if(cond);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.IF);

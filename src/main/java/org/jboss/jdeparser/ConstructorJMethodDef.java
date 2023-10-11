@@ -31,6 +31,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef {
         super(classDef, mods);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(Space.BEFORE_METHOD);
         writeDocComments(writer);
@@ -42,6 +43,7 @@ class ConstructorJMethodDef extends AbstractJMethodDef {
         super.write(writer);
     }
 
+    @Override
     int getModifiers() {
         return super.getModifiers();
     }

@@ -29,6 +29,7 @@ final class CharJExpr extends AbstractJExpr {
         this.val = val;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeUnescaped('\'');
         writer.writeUnescaped((char) val);

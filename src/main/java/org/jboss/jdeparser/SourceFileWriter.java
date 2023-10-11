@@ -43,6 +43,7 @@ class SourceFileWriter implements Flushable, Closeable {
     private final ListIterator<Indent> stackIterator = indentStack.listIterator(0);
     private final Indent nextIndent = new Indent() {
 
+        @Override
         public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
             if (stackIterator.hasPrevious()) {
                 final Indent n = stackIterator.previous();
@@ -54,6 +55,7 @@ class SourceFileWriter implements Flushable, Closeable {
             }
         }
 
+        @Override
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             if (stackIterator.hasPrevious()) {
                 final Indent n = stackIterator.previous();
@@ -65,6 +67,7 @@ class SourceFileWriter implements Flushable, Closeable {
             }
         }
 
+        @Override
         public void unescaped(final Indent next, final StringBuilder b, final int idx) {
             if (stackIterator.hasPrevious()) {
                 final Indent n = stackIterator.previous();
@@ -224,10 +227,12 @@ class SourceFileWriter implements Flushable, Closeable {
         this.state = $WORD;
     }
 
+    @Override
     public void flush() throws IOException {
         countingWriter.flush();
     }
 
+    @Override
     public void close() throws IOException {
         countingWriter.close();
     }

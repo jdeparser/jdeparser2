@@ -89,31 +89,38 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return item;
     }
 
+    @Override
     public JComment lineComment() {
         return add(new LineJComment());
     }
 
+    @Override
     public JComment blockComment() {
         return add(new BlockJComment());
     }
 
+    @Override
     public JClassDefSection section() {
         return add(new JClassDefSectionImpl(this));
     }
 
+    @Override
     public JClassDef _extends(final String name) {
         return _extends(JTypes.typeNamed(name));
     }
 
+    @Override
     public JClassDef _extends(final JType type) {
         _extends = type;
         return this;
     }
 
+    @Override
     public JClassDef _extends(final Class<?> clazz) {
         return _extends(JTypes.typeOf(clazz));
     }
 
+    @Override
     public JClassDef _implements(final String... names) {
         if (_implements == null) {
             _implements = new ArrayList<>(names.length);
@@ -124,6 +131,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return this;
     }
 
+    @Override
     public JClassDef _implements(final JType... types) {
         if (_implements == null) {
             _implements = new ArrayList<>(types.length);
@@ -132,6 +140,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return this;
     }
 
+    @Override
     public JClassDef _implements(final Class<?>... classes) {
         if (_implements == null) {
             _implements = new ArrayList<>(classes.length);
@@ -142,11 +151,13 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return this;
     }
 
+    @Override
     public JClassDef blankLine() {
         add(BlankLine.getInstance());
         return this;
     }
 
+    @Override
     public JType erasedType() {
         if (erased == null) {
             erased = JTypes.typeNamed(name);
@@ -154,6 +165,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return erased;
     }
 
+    @Override
     public JType genericType() {
         if (generic == null) {
             generic = erasedType().typeArg(typeParamsToArgs());
@@ -161,23 +173,28 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return generic;
     }
 
+    @Override
     public JTypeParamDef typeParam(final String name) {
         generic = null;
         return super.typeParam(name);
     }
 
+    @Override
     public final JBlock init() {
         return init(content);
     }
 
+    @Override
     public JBlock init(final ArrayList<ClassContent> content) {
         return add(content, new InitJBlock());
     }
 
+    @Override
     public final JBlock staticInit() {
         return staticInit(content);
     }
 
+    @Override
     public JBlock staticInit(final ArrayList<ClassContent> content) {
         if (allAreSet(mods, JMod.INNER)) {
             throw new UnsupportedOperationException("Inner classes cannot have static init blocks");
@@ -185,10 +202,12 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(content, new StaticInitJBlock());
     }
 
+    @Override
     public JEnumConstant _enum(final String name) {
         throw new UnsupportedOperationException("Enum constants may only be added to enums");
     }
 
+    @Override
     public JVarDeclaration field(final ArrayList<ClassContent> content, final int mods, final JType type, final String name, final JExpr init) {
         if (allAreSet(this.mods, JMod.INNER) && allAreSet(mods, JMod.STATIC)) {
             throw new UnsupportedOperationException("Inner classes cannot have static members");
@@ -202,30 +221,37 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(content, new FirstJVarDeclaration(mods, type, name, init));
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final JType type, final String name) {
         return field(mods, type, name, null);
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final JType type, final String name, final JExpr init) {
         return field(content, mods, type, name, init);
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final Class<?> type, final String name) {
         return field(mods, JTypes.typeOf(type), name);
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final Class<?> type, final String name, final JExpr init) {
         return field(mods, JTypes.typeOf(type), name, init);
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final String type, final String name) {
         return field(mods, JTypes.typeNamed(type), name);
     }
 
+    @Override
     public final JVarDeclaration field(final int mods, final String type, final String name, final JExpr init) {
         return field(mods, JTypes.typeNamed(type), name, init);
     }
 
+    @Override
     public JMethodDef method(final ArrayList<ClassContent> content, final int mods, final JType returnType, final String name) {
         if (allAreSet(this.mods, JMod.INNER) && allAreSet(mods, JMod.STATIC)) {
             throw new UnsupportedOperationException("Inner classes cannot have static members");
@@ -242,14 +268,17 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(content, new MethodJMethodDef(this, mods, returnType, name));
     }
 
+    @Override
     public final JMethodDef method(final int mods, final JType returnType, final String name) {
         return method(content, mods, returnType, name);
     }
 
+    @Override
     public final JMethodDef method(final int mods, final Class<?> returnType, final String name) {
         return method(mods, JTypes.typeOf(returnType), name);
     }
 
+    @Override
     public final JMethodDef method(final int mods, final String returnType, final String name) {
         return method(mods, JTypes.typeNamed(returnType), name);
     }
@@ -266,6 +295,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return true;
     }
 
+    @Override
     public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         if (bitCount(mods & (PUBLIC | PROTECTED | PRIVATE)) > 1) {
             throw new IllegalArgumentException("Only one of 'public', 'protected', or 'private' may be given");
@@ -276,38 +306,47 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return add(content, new ConstructorJMethodDef(this, mods));
     }
 
+    @Override
     public final JMethodDef constructor(final int mods) {
         return constructor(content, mods);
     }
 
+    @Override
     public JClassDef _class(final ArrayList<ClassContent> content, final int mods, final String name) {
         return add(content, new PlainJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef _enum(final ArrayList<ClassContent> content, final int mods, final String name) {
         return add(content, new EnumJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef _interface(final ArrayList<ClassContent> content, final int mods, final String name) {
         return add(content, new InterfaceJClassDef(mods, this, name));
     }
 
+    @Override
     public JClassDef annotationInterface(final ArrayList<ClassContent> content, final int mods, final String name) {
         return add(content, new AnnotationJClassDef(mods, this, name));
     }
 
+    @Override
     public final JClassDef _class(final int mods, final String name) {
         return _class(content, mods, name);
     }
 
+    @Override
     public final JClassDef _enum(final int mods, final String name) {
         return _enum(content, mods, name);
     }
 
+    @Override
     public final JClassDef _interface(final int mods, final String name) {
         return _interface(content, mods, name);
     }
 
+    @Override
     public final JClassDef annotationInterface(final int mods, final String name) {
         return annotationInterface(content, mods, name);
     }
@@ -330,6 +369,7 @@ abstract class AbstractJClassDef extends AbstractJGeneric implements JClassDef, 
         return FormatPreferences.Indentation.MEMBERS_TOP_LEVEL;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         if (enclosingClass != null) {
             writer.write(FormatPreferences.Space.BEFORE_CLASS);

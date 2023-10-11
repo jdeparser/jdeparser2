@@ -35,6 +35,7 @@ class SuccessorJVarDeclaration implements JVarDeclaration {
         this.value = value;
     }
 
+    @Override
     public String name() {
         return name;
     }
@@ -43,42 +44,52 @@ class SuccessorJVarDeclaration implements JVarDeclaration {
         return value;
     }
 
+    @Override
     public JComment blockComment() {
         return first.blockComment();
     }
 
+    @Override
     public JComment lineComment() {
         return first.lineComment();
     }
 
+    @Override
     public JComment deprecated() {
         return first.deprecated();
     }
 
+    @Override
     public JDocComment docComment() {
         return first.docComment();
     }
 
+    @Override
     public JAnnotation annotate(final Class<? extends Annotation> type) {
         return first.annotate(type);
     }
 
+    @Override
     public JAnnotation annotate(final JType type) {
         return first.annotate(type);
     }
 
+    @Override
     public JAnnotation annotate(final String type) {
         return first.annotate(type);
     }
 
+    @Override
     public JVarDeclaration add(final String name) {
         return first.add(name);
     }
 
+    @Override
     public JVarDeclaration add(final String name, final JExpr init) {
         return first.add(name, init);
     }
 
+    @Override
     public JType type() {
         return first.type();
     }

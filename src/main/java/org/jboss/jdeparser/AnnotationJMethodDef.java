@@ -33,31 +33,38 @@ class AnnotationJMethodDef extends MethodJMethodDef {
         super(enclosingClass, mods, returnType, name);
     }
 
+    @Override
     public JBlock body() {
         throw new UnsupportedOperationException("body on annotation interface method");
     }
 
+    @Override
     public JParamDeclaration param(final int mods, final JType type, final String name) {
         throw new UnsupportedOperationException("param on annotation interface method");
     }
 
+    @Override
     public JParamDeclaration varargParam(final int mods, final JType type, final String name) {
         throw new UnsupportedOperationException("param on annotation interface method");
     }
 
+    @Override
     public JComment _throws(final JType type) {
         throw new UnsupportedOperationException("throws on annotation interface method");
     }
 
+    @Override
     public JMethodDef _default(final JExpr defaultVal) {
         this.defaultVal = defaultVal;
         return this;
     }
 
+    @Override
     boolean writeBody() {
         return false;
     }
 
+    @Override
     void writePostfix(final SourceFileWriter writer) throws IOException {
         if (defaultVal != null) {
             writer.write($KW.DEFAULT);

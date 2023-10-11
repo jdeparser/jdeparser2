@@ -29,6 +29,7 @@ class EnumConstantJClassDef extends AbstractJClassDef {
         super(0, enumConstant.getClassDef(), enumConstant.getName());
     }
 
+    @Override
     Tokens.$KW designation() {
         // not used
         return Tokens.$KW.ENUM;
@@ -38,6 +39,7 @@ class EnumConstantJClassDef extends AbstractJClassDef {
         // nothing (already written in an earlier stage)
     }
 
+    @Override
     void writeClassHeader(final SourceFileWriter sourceFileWriter) throws IOException {
         // nothing
     }

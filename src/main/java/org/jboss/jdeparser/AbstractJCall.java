@@ -37,10 +37,12 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
         super(prec);
     }
 
+    @Override
     public JCall diamond() {
         throw new UnsupportedOperationException("Adding diamond to method call");
     }
 
+    @Override
     public JCall typeArg(final JType type) {
         if (typeArgs == null) {
             typeArgs = new ArrayList<>();
@@ -49,14 +51,17 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
         return this;
     }
 
+    @Override
     public JCall typeArg(final String type) {
         return typeArg(JTypes.typeNamed(type));
     }
 
+    @Override
     public JCall typeArg(final Class<?> type) {
         return typeArg(JTypes.typeOf(type));
     }
 
+    @Override
     public JCall arg(final JExpr expr) {
         if (args == null) {
             args = new ArrayList<>();
@@ -65,10 +70,12 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
         return this;
     }
 
+    @Override
     public JType[] typeArguments() {
         return typeArgs.toArray(new JType[typeArgs.size()]);
     }
 
+    @Override
     public JExpr[] arguments() {
         return args.toArray(new JExpr[args.size()]);
     }
@@ -103,6 +110,7 @@ abstract class AbstractJCall extends AbstractJExpr implements JCall, AllowedStat
         }
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(FormatPreferences.Space.BEFORE_PAREN_METHOD_CALL);
         writer.write($PUNCT.PAREN.OPEN);

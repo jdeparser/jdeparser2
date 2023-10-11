@@ -36,42 +36,52 @@ class InterfaceJClassDef extends AbstractJClassDef {
         super(mods, enclosingClass, name);
     }
 
+    @Override
     Tokens.$KW designation() {
         return Tokens.$KW.INTERFACE;
     }
 
+    @Override
     public JClassDef _extends(final String name) {
         return super._implements(name);
     }
 
+    @Override
     public JClassDef _extends(final JType type) {
         return super._implements(type);
     }
 
+    @Override
     public JClassDef _extends(final Class<?> clazz) {
         return super._implements(clazz);
     }
 
+    @Override
     boolean hasInterfaceStyleExtends() {
         return true;
     }
 
+    @Override
     public JBlock init(final ArrayList<ClassContent> content) {
         throw new UnsupportedOperationException("Interfaces cannot have init blocks");
     }
 
+    @Override
     public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         throw new UnsupportedOperationException("Interfaces cannot have constructors");
     }
 
+    @Override
     boolean supportsCompactInitOnly() {
         return false;
     }
 
+    @Override
     boolean methodCanHaveBody(final int mods) {
         return JMod.anyAreSet(mods, STATIC | DEFAULT);
     }
 
+    @Override
     public String getName() {
         return super.getName();
     }

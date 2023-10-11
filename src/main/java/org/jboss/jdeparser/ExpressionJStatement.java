@@ -32,6 +32,7 @@ class ExpressionJStatement extends BasicJCommentable implements JStatement, Bloc
         this.expr = expr;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write(expr);

@@ -33,6 +33,7 @@ public abstract class AbstractGeneratingTestCase {
     private final ConcurrentMap<Key, ByteArrayOutputStream> sourceFiles = new ConcurrentHashMap<>();
 
     private final JFiler filer = new JFiler() {
+        @Override
         public OutputStream openStream(final String packageName, final String fileName) throws IOException {
             final Key key = new Key(packageName, fileName + ".java");
             if (! sourceFiles.containsKey(key)) {
@@ -64,6 +65,7 @@ public abstract class AbstractGeneratingTestCase {
             this.fileName = fileName;
         }
 
+        @Override
         public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
@@ -73,6 +75,7 @@ public abstract class AbstractGeneratingTestCase {
             return fileName.equals(key.fileName) && packageName.equals(key.packageName);
         }
 
+        @Override
         public int hashCode() {
             int result = packageName.hashCode();
             result = 31 * result + fileName.hashCode();

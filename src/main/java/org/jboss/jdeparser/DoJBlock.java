@@ -31,6 +31,7 @@ class DoJBlock extends ConditionJBlock {
         super(parent, Braces.IF_MULTILINE, cond);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.DO);

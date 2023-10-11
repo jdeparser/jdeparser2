@@ -33,6 +33,7 @@ class ConfigIndent implements Indent {
         return indentation;
     }
 
+    @Override
     public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
         if (! preferences.isIndentAbsolute(indentation)) next.addIndent(next, preferences, lineBuffer);
         final int indent = preferences.getIndent(indentation);
@@ -41,10 +42,12 @@ class ConfigIndent implements Indent {
         }
     }
 
+    @Override
     public void escape(final Indent next, final StringBuilder b, final int idx) {
         next.escape(next, b, idx);
     }
 
+    @Override
     public void unescaped(final Indent next, final StringBuilder b, final int idx) {
         next.unescaped(next, b, idx);
     }

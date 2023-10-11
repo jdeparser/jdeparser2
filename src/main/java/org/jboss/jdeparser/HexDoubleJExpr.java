@@ -29,6 +29,7 @@ final class HexDoubleJExpr extends AbstractJExpr {
         this.val = val;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeUnescaped(String.format("%ad", Double.valueOf(val)));
     }

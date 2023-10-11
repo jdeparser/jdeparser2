@@ -30,6 +30,7 @@ class BasicJCommentable implements JCommentable {
     BasicJCommentable() {
     }
 
+    @Override
     public JComment lineComment() {
         if (comments == null) {
             comments = new ArrayList<>();
@@ -39,6 +40,7 @@ class BasicJCommentable implements JCommentable {
         return comment;
     }
 
+    @Override
     public JComment blockComment() {
         if (comments == null) {
             comments = new ArrayList<>();

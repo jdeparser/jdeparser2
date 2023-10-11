@@ -39,42 +39,52 @@ class ImplJAnnotation implements JAnnotation, Writable {
         this.type = type;
     }
 
+    @Override
     public JAnnotation value(final JExpr expr) {
         return value("value", expr);
     }
 
+    @Override
     public JAnnotation value(final String literal) {
         return value(JExprs.str(literal));
     }
 
+    @Override
     public JAnnotation annotationValue(final String type) {
         return annotationValue(JTypes.typeNamed(type));
     }
 
+    @Override
     public JAnnotation annotationValue(final JType type) {
         return annotationValue("value", type);
     }
 
+    @Override
     public JAnnotation annotationValue(final Class<? extends Annotation> type) {
         return annotationValue(JTypes.typeOf(type));
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final String type) {
         return annotationArrayValue(JTypes.typeNamed(type));
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final JType type) {
         return annotationArrayValue("value", type);
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final Class<? extends Annotation> type) {
         return annotationArrayValue(JTypes.typeOf(type));
     }
 
+    @Override
     public JAnnotation value(final String name, final String literal) {
         return value(name, JExprs.str(literal));
     }
 
+    @Override
     public JAnnotation value(final String name, final JExpr expr) {
         LinkedHashMap<String, Writable> properties = this.properties;
         if (properties == null) {
@@ -84,10 +94,12 @@ class ImplJAnnotation implements JAnnotation, Writable {
         return this;
     }
 
+    @Override
     public JAnnotation annotationValue(final String name, final String type) {
         return annotationValue(name, JTypes.typeNamed(type));
     }
 
+    @Override
     public JAnnotation annotationValue(final String name, final JType type) {
         LinkedHashMap<String, Writable> properties = this.properties;
         if (properties == null) {
@@ -98,14 +110,17 @@ class ImplJAnnotation implements JAnnotation, Writable {
         return annotation;
     }
 
+    @Override
     public JAnnotation annotationValue(final String name, final Class<? extends Annotation> type) {
         return annotationValue(name, JTypes.typeOf(type));
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final String name, final String type) {
         return annotationArrayValue(name, JTypes.typeNamed(type));
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final String name, final JType type) {
         LinkedHashMap<String, Writable> properties = this.properties;
         if (properties == null) {
@@ -116,10 +131,12 @@ class ImplJAnnotation implements JAnnotation, Writable {
         return array;
     }
 
+    @Override
     public JAnnotationArray annotationArrayValue(final String name, final Class<? extends Annotation> type) {
         return annotationArrayValue(name, JTypes.typeOf(type));
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.AT);
         writer.write(type);

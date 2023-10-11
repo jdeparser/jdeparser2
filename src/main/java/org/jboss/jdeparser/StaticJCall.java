@@ -38,6 +38,7 @@ class StaticJCall extends AbstractMethodJCall {
         return type;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         if (! writer.getClassFile().hasStaticImport(getName(), type)) {
             type.writeDirect(writer);

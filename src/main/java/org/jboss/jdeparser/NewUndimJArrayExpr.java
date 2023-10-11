@@ -30,6 +30,7 @@ class NewUndimJArrayExpr extends PlainJArrayExpr {
         this.type = type;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($KW.NEW);
         writer.write(type);

@@ -51,6 +51,7 @@ class PlainJArrayExpr extends AbstractJExpr implements JArrayExpr {
         }
     }
 
+    @Override
     public JArrayExpr add(final JExpr value) {
         if (value != null) {
             ArrayList<JExpr> members = this.members;
@@ -62,11 +63,13 @@ class PlainJArrayExpr extends AbstractJExpr implements JArrayExpr {
         return this;
     }
 
+    @Override
     public int elementCount() {
         final ArrayList<JExpr> members = this.members;
         return members == null ? 0 : members.size();
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.BRACE.OPEN);
         final ArrayList<JExpr> members = this.members;

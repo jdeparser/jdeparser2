@@ -35,6 +35,7 @@ class WildcardJType extends AbstractJType {
         this.extendsNotSuper = extendsNotSuper;
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof WildcardJType && equals((WildcardJType) other);
     }
@@ -43,28 +44,34 @@ class WildcardJType extends AbstractJType {
         return extendsNotSuper == other.extendsNotSuper && targetType.equals(other.targetType);
     }
 
+    @Override
     public int hashCode() {
         return targetType.hashCode() ^ (extendsNotSuper ? 0 : 1);
     }
 
+    @Override
     public String simpleName() {
         return targetType.simpleName();
     }
 
+    @Override
     public JType array() {
         throw new UnsupportedOperationException("array of wildcard type not allowed");
     }
 
+    @Override
     public JType wildcardExtends() {
         if (extendsNotSuper) return this;
         throw new UnsupportedOperationException("wildcard extends of wildcard super not allowed");
     }
 
+    @Override
     public JType wildcardSuper() {
         if (! extendsNotSuper) return this;
         throw new UnsupportedOperationException("wildcard super of wildcard extends not allowed");
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write($PUNCT.Q);
         final AbstractJType targetType = getTargetType();
@@ -75,6 +82,7 @@ class WildcardJType extends AbstractJType {
         }
     }
 
+    @Override
     public String toString() {
         if (extendsNotSuper && targetType.equals(JType.OBJECT)) {
             return "?";
