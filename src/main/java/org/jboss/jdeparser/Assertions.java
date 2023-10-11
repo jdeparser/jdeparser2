@@ -18,20 +18,7 @@
 
 package org.jboss.jdeparser;
 
-import sun.reflect.Reflection;
-
-/**
- * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
- */
 class Assertions {
-    static boolean callerIs(Class<?> clazz) {
-        try {
-            return Reflection.getCallerClass(3) == clazz;
-        } catch (Throwable ignored) {}
-        // dunno
-        return true;
-    }
-
     @SuppressWarnings("ConstantConditions")
     static boolean alwaysTrue(boolean expr) {
         assert expr : "Expected expression to be true";
