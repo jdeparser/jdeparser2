@@ -26,10 +26,12 @@ import java.io.IOException;
 class InlineDocTagCommentContent extends AbstractJComment implements CommentContent {
 
     static final Indent INDENT = new Indent() {
+        @Override
         public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
             next.addIndent(next, preferences, lineBuffer);
         }
 
+        @Override
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             char ch;
             for (int i = idx; i < b.length();) {
@@ -51,6 +53,7 @@ class InlineDocTagCommentContent extends AbstractJComment implements CommentCont
             }
         }
 
+        @Override
         public void unescaped(final Indent next, final StringBuilder b, final int idx) {
             // next level is escaped
             next.escape(next, b, idx);
@@ -66,6 +69,7 @@ class InlineDocTagCommentContent extends AbstractJComment implements CommentCont
         return tagName;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeUnescaped("{@");
         writer.pushIndent(INDENT);

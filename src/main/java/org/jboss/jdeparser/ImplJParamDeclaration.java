@@ -37,22 +37,27 @@ class ImplJParamDeclaration extends BasicJAnnotatable implements JParamDeclarati
         this.name = name;
     }
 
+    @Override
     public JType type() {
         return type;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public int mods() {
         return mods & ~JMod.PRIVATE_BITS;
     }
 
+    @Override
     public boolean varargs() {
         return JMod.allAreSet(mods, JMod.VARARGS);
     }
 
+    @Override
     public JComment doc() {
         return null;
     }

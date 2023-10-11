@@ -35,6 +35,7 @@ class ImplJAnnotationArray implements JAnnotationArray, Writable {
         this.type = type;
     }
 
+    @Override
     public JAnnotation add() {
         ArrayList<ImplJAnnotation> list = this.list;
         if (list == null) {
@@ -45,6 +46,7 @@ class ImplJAnnotationArray implements JAnnotationArray, Writable {
         return annotation;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.BRACE.OPEN);
         if (size() > 0) {

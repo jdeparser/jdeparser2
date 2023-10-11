@@ -38,10 +38,12 @@ abstract class AbstractJGeneric extends BasicJAnnotatable implements JGenericDef
         return item;
     }
 
+    @Override
     public JTypeParamDef typeParam(final String name) {
         return add(new ImplJTypeParamDef(name));
     }
 
+    @Override
     public JTypeParamDef[] typeParams() {
         return typeParamDefs.toArray(new JTypeParamDef[typeParamDefs.size()]);
     }

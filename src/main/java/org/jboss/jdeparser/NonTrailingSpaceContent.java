@@ -31,6 +31,7 @@ class NonTrailingSpaceContent implements CommentContent {
         return INSTANCE;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.ntsp();
     }

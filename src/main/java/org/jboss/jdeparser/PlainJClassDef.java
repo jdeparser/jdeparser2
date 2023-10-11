@@ -33,10 +33,12 @@ class PlainJClassDef extends AbstractJClassDef implements BlockContent {
         super(mods, enclosingClass, name);
     }
 
+    @Override
     $KW designation() {
         return $KW.CLASS;
     }
 
+    @Override
     public String getName() {
         return super.getName();
     }

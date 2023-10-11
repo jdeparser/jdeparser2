@@ -40,6 +40,7 @@ class ForEachJBlock extends BasicJBlock {
         this.iterable = iterable;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.FOR);

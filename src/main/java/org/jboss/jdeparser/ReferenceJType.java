@@ -61,10 +61,12 @@ class ReferenceJType extends AbstractJType {
         return packageName + "." + simpleName;
     }
 
+    @Override
     public String simpleName() {
         return simpleName;
     }
 
+    @Override
     public JExpr _class() {
         StaticRefJExpr expr = classExpr;
         if (expr == null) {
@@ -73,6 +75,7 @@ class ReferenceJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JExpr _this() {
         StaticRefJExpr expr = thisExpr;
         if (expr == null) {
@@ -81,6 +84,7 @@ class ReferenceJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JExpr _super() {
         StaticRefJExpr expr = superExpr;
         if (expr == null) {
@@ -89,18 +93,22 @@ class ReferenceJType extends AbstractJType {
         return expr;
     }
 
+    @Override
     public JCall _new() {
         return new NewJCall(this);
     }
 
+    @Override
     public JAnonymousClassDef _newAnon() {
         return new ImplJAnonymousClassDef(this);
     }
 
+    @Override
     public JType unbox() {
         return unboxed == null ? this : unboxed;
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         final ImplJSourceFile cf = sourceFileWriter.getClassFile();
         final String currentPackageName = cf.getPackageName();
@@ -119,11 +127,13 @@ class ReferenceJType extends AbstractJType {
         }
     }
 
+    @Override
     public JType typeArg(final JType... args) {
         if (unboxed != null) return super.typeArg(args);
         return new NarrowedJType(this, args);
     }
 
+    @Override
     public JType nestedType(final String name) {
         CachingLinkedHashMap<String, NestedJType> nestedTypes = this.nestedTypes;
         if (nestedTypes == null) {
@@ -136,6 +146,7 @@ class ReferenceJType extends AbstractJType {
         return nestedType;
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof ReferenceJType && equals((ReferenceJType) other);
     }
@@ -144,10 +155,12 @@ class ReferenceJType extends AbstractJType {
         return packageName.equals(other.packageName) && simpleName.equals(other.simpleName);
     }
 
+    @Override
     public int hashCode() {
         return packageName.hashCode() * 17 + simpleName.hashCode();
     }
 
+    @Override
     public String toString() {
         return "Reference of type " + simpleName();
     }

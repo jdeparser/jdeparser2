@@ -33,11 +33,13 @@ class NewJCall extends AbstractJCall {
         this.type = type;
     }
 
+    @Override
     public JCall diamond() {
         diamond = true;
         return this;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(Tokens.$KW.NEW);
         writer.write(type);

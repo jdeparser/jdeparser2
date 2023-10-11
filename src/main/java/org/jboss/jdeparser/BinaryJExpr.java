@@ -55,6 +55,7 @@ class BinaryJExpr extends AbstractJExpr {
         return assoc;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(e1);
         writer.write(op.getSpacingRule());

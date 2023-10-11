@@ -38,14 +38,17 @@ class BasicJAnnotatable extends AbstractJDocCommentable implements JAnnotatable 
         return item;
     }
 
+    @Override
     public JAnnotation annotate(final String type) {
         return annotate(JTypes.typeNamed(type));
     }
 
+    @Override
     public JAnnotation annotate(final JType type) {
         return add(new ImplJAnnotation(type));
     }
 
+    @Override
     public JAnnotation annotate(final Class<? extends Annotation> type) {
         return annotate(JTypes.typeOf(type));
     }

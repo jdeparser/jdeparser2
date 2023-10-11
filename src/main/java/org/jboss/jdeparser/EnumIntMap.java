@@ -29,6 +29,7 @@ class EnumIntMap<E extends Enum<E>> {
     private final int[] values;
 
     private static final ClassValue<Object> cvo = new ClassValue<Object>() {
+        @Override
         protected Object computeValue(final Class<?> type) {
             return type.getEnumConstants();
         }

@@ -31,6 +31,7 @@ class InnerJAnonymousClassDef extends ImplJAnonymousClassDef {
         this.expr = expr.prec() > prec() ? new ParenJExpr(expr) : expr;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(expr);
         writer.write($PUNCT.DOT);

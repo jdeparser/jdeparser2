@@ -34,44 +34,54 @@ class ArrayJType extends AbstractJType {
         this.elementType = elementType;
     }
 
+    @Override
     public JType elementType() {
         return elementType;
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write(elementType);
         sourceFileWriter.write($PUNCT.BRACKET.OPEN);
         sourceFileWriter.write($PUNCT.BRACKET.CLOSE);
     }
 
+    @Override
     String qualifiedName() {
         return elementType.qualifiedName();
     }
 
+    @Override
     public int hashCode() {
         return elementType.hashCode() ^ 0xee55ee55 + 7;
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof ArrayJType && elementType.equals(((ArrayJType) other).elementType);
     }
 
+    @Override
     public JExpr _new(final JExpr dim) {
         return new NewDimJArrayExpr(this, AbstractJExpr.of(dim));
     }
 
+    @Override
     public JArrayExpr _newArray() {
         return new NewUndimJArrayExpr(this);
     }
 
+    @Override
     public String simpleName() {
         return elementType.simpleName();
     }
 
+    @Override
     public String toString() {
         return elementType.toString() + "[]";
     }
 
+    @Override
     public JExpr _class() {
         StaticRefJExpr expr = classExpr;
         if (expr == null) {

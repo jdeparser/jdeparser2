@@ -27,10 +27,12 @@ class TryJVarDeclaration extends FirstJVarDeclaration {
         this.owner = owner;
     }
 
+    @Override
     public JVarDeclaration add(final String name, final JExpr init) {
         return owner.with(mods(), type(), name, init);
     }
 
+    @Override
     public JVarDeclaration add(final String name) {
         throw new IllegalArgumentException("Cannot add uninitialized variable to try-with-resources");
     }

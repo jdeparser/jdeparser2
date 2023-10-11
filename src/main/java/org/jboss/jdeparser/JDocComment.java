@@ -26,36 +26,47 @@ package org.jboss.jdeparser;
 public interface JDocComment extends JHtmlComment {
 
     /** {@inheritDoc} */
+    @Override
     JDocComment text(String text);
 
     /** {@inheritDoc} */
+    @Override
     JDocComment block();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment inlineDocTag(String tag, String body);
 
     /** {@inheritDoc} */
+    @Override
     JComment inlineDocTag(String tag);
 
     /** {@inheritDoc} */
+    @Override
     JDocComment sp();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment nl();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment p();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment br();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment typeName(JType type);
 
     /** {@inheritDoc} */
+    @Override
     JDocComment docRoot();
 
     /** {@inheritDoc} */
+    @Override
     JDocComment value(JType type, String fieldName);
 
     /**

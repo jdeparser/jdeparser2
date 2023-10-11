@@ -33,54 +33,67 @@ class AnnotationJClassDef extends AbstractJClassDef {
         super(mods, enclosingClass, name);
     }
 
+    @Override
     Tokens.$KW designation() {
         return Tokens.$KW.AT_INTERFACE;
     }
 
+    @Override
     public JClassDef _extends(final String name) {
         throw new UnsupportedOperationException("extends on @interface");
     }
 
+    @Override
     public JClassDef _extends(final JType type) {
         throw new UnsupportedOperationException("extends on @interface");
     }
 
+    @Override
     public JClassDef _extends(final Class<?> clazz) {
         throw new UnsupportedOperationException("extends on @interface");
     }
 
+    @Override
     public JClassDef _implements(final String... names) {
         throw new UnsupportedOperationException("implements on @interface");
     }
 
+    @Override
     public JClassDef _implements(final JType... types) {
         throw new UnsupportedOperationException("implements on @interface");
     }
 
+    @Override
     public JClassDef _implements(final Class<?>... classes) {
         throw new UnsupportedOperationException("implements on @interface");
     }
 
+    @Override
     public JBlock init(final ArrayList<ClassContent> content) {
         throw new UnsupportedOperationException("init block on @interface");
     }
 
+    @Override
     boolean methodCanHaveBody(final int mods) {
         return false;
     }
 
+    @Override
     public JMethodDef constructor(final ArrayList<ClassContent> content, final int mods) {
         throw new UnsupportedOperationException("constructor on @interface");
     }
 
+    @Override
     public JTypeParamDef typeParam(final String name) {
         throw new UnsupportedOperationException("type parameters on @interface");
     }
 
+    @Override
     public JMethodDef method(final ArrayList<ClassContent> content, final int mods, final JType returnType, final String name) {
         return add(content, new AnnotationJMethodDef(this, mods, returnType, name));
     }
 
+    @Override
     public String getName() {
         return super.getName();
     }

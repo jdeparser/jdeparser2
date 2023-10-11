@@ -28,12 +28,14 @@ import java.util.Map;
 class ImplJDocComment extends AbstractJDocComment implements JDocComment {
 
     private static final Indent escIndent = new Indent() {
+        @Override
         public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
             final int idx = lineBuffer.length();
             next.addIndent(next, preferences, lineBuffer);
             next.escape(next, lineBuffer, idx);
         }
 
+        @Override
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             int c;
             int end;
@@ -90,12 +92,14 @@ class ImplJDocComment extends AbstractJDocComment implements JDocComment {
             next.escape(next, b, idx);
         }
 
+        @Override
         public void unescaped(final Indent next, final StringBuilder b, final int idx) {
             // escape at next level
             next.escape(next, b, idx);
         }
     };
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.addIndent();
         writer.writeEscaped("/**");

@@ -35,28 +35,34 @@ class ForJBlock extends BasicJBlock implements JFor {
         super(parent, Braces.IF_MULTILINE);
     }
 
+    @Override
     public JVarDeclaration init(final int mods, final String type, final String name, final JExpr value) {
         return init(mods, JTypes.typeNamed(type), name, value);
     }
 
+    @Override
     public JVarDeclaration init(final int mods, final JType type, final String name, final JExpr value) {
         return init = new FirstJVarDeclaration(mods, type, name, value);
     }
 
+    @Override
     public JVarDeclaration init(final int mods, final Class<?> type, final String name, final JExpr value) {
         return init(mods, JTypes.typeOf(type), name, value);
     }
 
+    @Override
     public JFor test(final JExpr expr) {
         test = expr;
         return this;
     }
 
+    @Override
     public JFor update(final JExpr updateExpr) {
         update = updateExpr;
         return this;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.FOR);

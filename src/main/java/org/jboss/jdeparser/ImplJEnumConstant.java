@@ -47,6 +47,7 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
         return name;
     }
 
+    @Override
     public JEnumConstant arg(final JExpr expr) {
         if (args == null) {
             args = new ArrayList<>();
@@ -55,10 +56,12 @@ class ImplJEnumConstant extends BasicJAnnotatable implements JEnumConstant {
         return this;
     }
 
+    @Override
     public JClassDef body() {
         return body != null ? body : (body = new EnumConstantJClassDef(this));
     }
 
+    @Override
     public JExpr[] arguments() {
         return args.toArray(new JExpr[args.size()]);
     }

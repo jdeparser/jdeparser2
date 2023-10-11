@@ -47,11 +47,13 @@ class ImplJHtmlTag extends AbstractJHtmlComment implements JHtmlTag, HtmlComment
         return newLine;
     }
 
+    @Override
     public JHtmlTag attribute(final String name) {
         doAdd(name, null);
         return this;
     }
 
+    @Override
     public JHtmlTag attribute(final String name, final String value) {
         doAdd(name, value);
         return this;
@@ -102,6 +104,7 @@ class ImplJHtmlTag extends AbstractJHtmlComment implements JHtmlTag, HtmlComment
         }
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeOpenTag(writer);
         writer.pushIndent(FormatPreferences.Indentation.HTML_TAG);

@@ -31,66 +31,82 @@ abstract class AbstractJAssignableExpr extends AbstractJExpr implements JAssigna
         super(prec);
     }
 
+    @Override
     public JExpr preDec() {
         return new IncDecJExpr($PUNCT.UNOP.MM, this, Prec.PRE_INC_DEC);
     }
 
+    @Override
     public JExpr preInc() {
         return new IncDecJExpr($PUNCT.UNOP.PP, this, Prec.PRE_INC_DEC);
     }
 
+    @Override
     public JExpr postDec() {
         return new IncDecJExpr($PUNCT.UNOP.MM, this, Prec.POST_INC_DEC, true);
     }
 
+    @Override
     public JExpr postInc() {
         return new IncDecJExpr($PUNCT.UNOP.PP, this, Prec.POST_INC_DEC, true);
     }
 
+    @Override
     public JExpr shlAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHL, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr lshrAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_LSHR, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr shrAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_SHR, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr xorAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BXOR, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr orAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BOR, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr andAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_BAND, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr modAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MOD, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr divAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_DIV, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr mulAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_TIMES, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr subAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_MINUS, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr addAssign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN_PLUS, this, (AbstractJExpr) e1);
     }
 
+    @Override
     public JExpr assign(final JExpr e1) {
         return new AssignmentJExpr($PUNCT.BINOP.ASSIGN, this, (AbstractJExpr) e1);
     }
@@ -102,10 +118,12 @@ abstract class AbstractJAssignableExpr extends AbstractJExpr implements JAssigna
         return commentable;
     }
 
+    @Override
     public JComment lineComment() {
         return commentable().lineComment();
     }
 
+    @Override
     public JComment blockComment() {
         return commentable().blockComment();
     }

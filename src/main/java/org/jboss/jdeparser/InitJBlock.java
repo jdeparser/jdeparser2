@@ -29,6 +29,7 @@ class InitJBlock extends BasicJBlock implements ClassContent {
         super(null, Braces.REQUIRED);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         super.write(writer, null);

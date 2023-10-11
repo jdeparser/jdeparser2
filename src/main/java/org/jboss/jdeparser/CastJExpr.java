@@ -44,6 +44,7 @@ class CastJExpr extends AbstractJExpr {
         return type;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write($PUNCT.PAREN.OPEN);
         writer.write(FormatPreferences.Space.WITHIN_PAREN_CAST);

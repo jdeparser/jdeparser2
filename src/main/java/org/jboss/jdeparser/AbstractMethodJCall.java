@@ -36,6 +36,7 @@ abstract class AbstractMethodJCall extends AbstractJCall {
         return name;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         super.writeTypeArgs(writer);
         writer.writeEscaped(name);

@@ -37,6 +37,7 @@ enum Tokens implements Token {
     $NUMBER,
     ;
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         // n/a
     }
@@ -58,6 +59,7 @@ enum Tokens implements Token {
             this.ch = ch;
         }
 
+        @Override
         public void write(final SourceFileWriter writer) throws IOException {
             writer.writeEscaped(ch);
         }
@@ -77,6 +79,7 @@ enum Tokens implements Token {
                 this.str = str;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(str);
             }
@@ -96,6 +99,7 @@ enum Tokens implements Token {
                 this.str = str;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(str);
             }
@@ -155,6 +159,7 @@ enum Tokens implements Token {
                 this.spacingRule = spacingRule;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(str);
             }
@@ -174,6 +179,7 @@ enum Tokens implements Token {
                 this.ch = ch;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(ch);
             }
@@ -190,6 +196,7 @@ enum Tokens implements Token {
                 this.ch = ch;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(ch);
             }
@@ -206,6 +213,7 @@ enum Tokens implements Token {
                 this.ch = ch;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(ch);
             }
@@ -221,6 +229,7 @@ enum Tokens implements Token {
                 this.ch = ch;
             }
 
+            @Override
             public void write(final SourceFileWriter writer) throws IOException {
                 writer.writeEscaped(ch);
             }
@@ -307,6 +316,7 @@ enum Tokens implements Token {
             return kw;
         }
 
+        @Override
         public void write(final SourceFileWriter writer) throws IOException {
             final Token writerState = writer.getState();
             if (writerState == $WORD || writerState == $NUMBER || writerState instanceof $KW) {

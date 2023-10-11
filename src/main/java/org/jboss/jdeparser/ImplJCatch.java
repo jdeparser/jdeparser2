@@ -43,63 +43,77 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         this._try = _try;
     }
 
+    @Override
     public JCatch or(final JType orType) {
         types.add(orType);
         return this;
     }
 
+    @Override
     public JCatch or(final String orType) {
         return or(JTypes.typeNamed(orType));
     }
 
+    @Override
     public JCatch or(final Class<? extends Throwable> orType) {
         return or(JTypes.typeOf(orType));
     }
 
+    @Override
     public JCatch with(final JExpr var) {
         _try.with(var);
         return this;
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final String type, final String var, final JExpr init) {
         return _try.with(mods, type, var, init);
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final JType type, final String var, final JExpr init) {
         return _try.with(mods, type, var, init);
     }
 
+    @Override
     public JVarDeclaration with(final int mods, final Class<? extends AutoCloseable> type, final String var, final JExpr init) {
         return _try.with(mods, type, var, init);
     }
 
+    @Override
     public JCatch _catch(final int mods, final String type, final String var) {
         return _try._catch(mods, type, var);
     }
 
+    @Override
     public JCatch _catch(final int mods, final Class<? extends Throwable> type, final String var) {
         return _try._catch(mods, type, var);
     }
 
+    @Override
     public JCatch _catch(final int mods, final JType type, final String var) {
         return _try._catch(mods, type, var);
     }
 
+    @Override
     public JCatch ignore(final String type) {
         _try.ignore(type);
         return this;
     }
 
+    @Override
     public JCatch ignore(final Class<? extends Throwable> type) {
         _try.ignore(type);
         return this;
     }
 
+    @Override
     public JCatch ignore(final JType type) {
         _try.ignore(type);
         return this;
     }
 
+    @Override
     public JBlock _finally() {
         return _try._finally();
     }
@@ -120,6 +134,7 @@ class ImplJCatch extends BasicJBlock implements JCatch {
         return var;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.CATCH);

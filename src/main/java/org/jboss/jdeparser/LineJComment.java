@@ -25,6 +25,7 @@ import java.io.IOException;
  */
 class LineJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.writeEscaped("// ");
         writer.pushIndent(CommentIndentation.LINE);

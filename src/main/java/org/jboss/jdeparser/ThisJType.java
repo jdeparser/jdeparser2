@@ -28,42 +28,52 @@ class ThisJType extends AbstractJType {
     ThisJType() {
     }
 
+    @Override
     boolean equals(final AbstractJType other) {
         return other instanceof ThisJType;
     }
 
+    @Override
     public int hashCode() {
         return 23;
     }
 
+    @Override
     public String simpleName() {
         return "<<THIS>>";
     }
 
+    @Override
     public String toString() {
         return "<<THIS>>";
     }
 
+    @Override
     public JExpr _class() {
         return new StaticRefJExpr(this, "class");
     }
 
+    @Override
     public JExpr _this() {
         return new StaticRefJExpr(this, "this");
     }
 
+    @Override
     public JExpr _super() {
         return new StaticRefJExpr(this, "super");
     }
 
+    @Override
     public JCall _new() {
         return new NewJCall(this);
     }
 
+    @Override
     public JAnonymousClassDef _newAnon() {
         return new ImplJAnonymousClassDef(this);
     }
 
+    @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
         sourceFileWriter.write(sourceFileWriter.getThisType());
     }

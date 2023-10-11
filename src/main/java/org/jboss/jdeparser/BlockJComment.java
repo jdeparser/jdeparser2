@@ -26,6 +26,7 @@ import java.util.List;
  */
 class BlockJComment extends AbstractJComment implements ClassContent, ClassFileContent, BlockContent {
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.addIndent();
         writer.writeEscaped("/*");

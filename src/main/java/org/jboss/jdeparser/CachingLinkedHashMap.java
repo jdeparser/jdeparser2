@@ -27,6 +27,7 @@ import java.util.Map;
 @SuppressWarnings("serial")
 class CachingLinkedHashMap<K, V> extends LinkedHashMap<K, V> {
 
+    @Override
     protected boolean removeEldestEntry(final Map.Entry<K, V> eldest) {
         return size() > 12;
     }

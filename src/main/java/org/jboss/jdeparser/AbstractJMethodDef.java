@@ -40,14 +40,17 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         this.mods = mods;
     }
 
+    @Override
     public JBlock _default() {
         throw new UnsupportedOperationException("Default method implementation");
     }
 
+    @Override
     public JMethodDef _default(final JExpr expr) {
         throw new UnsupportedOperationException("Default method value");
     }
 
+    @Override
     public JBlock body() {
         if (! writeBody()) {
             throw new UnsupportedOperationException("Method body on abstract method");
@@ -58,6 +61,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return body;
     }
 
+    @Override
     public JComment returnsDoc() {
         return null;
     }
@@ -70,6 +74,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return item;
     }
 
+    @Override
     public JParamDeclaration param(final int mods, final JType type, final String name) {
         if (JMod.anyAreSet(this.mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
@@ -77,26 +82,32 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return add(new ImplJParamDeclaration(mods, type, name));
     }
 
+    @Override
     public JParamDeclaration param(final JType type, final String name) {
         return param(0, type, name);
     }
 
+    @Override
     public JParamDeclaration param(final int mods, final String type, final String name) {
         return param(mods, JTypes.typeNamed(type), name);
     }
 
+    @Override
     public JParamDeclaration param(final String type, final String name) {
         return param(JTypes.typeNamed(type), name);
     }
 
+    @Override
     public JParamDeclaration param(final int mods, final Class<?> type, final String name) {
         return param(mods, JTypes.typeOf(type), name);
     }
 
+    @Override
     public JParamDeclaration param(final Class<?> type, final String name) {
         return param(JTypes.typeOf(type), name);
     }
 
+    @Override
     public JParamDeclaration varargParam(final int mods, final JType type, final String name) {
         if (JMod.anyAreSet(this.mods, JMod.VARARGS)) {
             throw new IllegalStateException("Vararg parameter already added");
@@ -105,34 +116,42 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return add(new ImplJParamDeclaration(mods | JMod.VARARGS, type, name));
     }
 
+    @Override
     public JParamDeclaration varargParam(final JType type, final String name) {
         return varargParam(0, type, name);
     }
 
+    @Override
     public JParamDeclaration varargParam(final int mods, final String type, final String name) {
         return varargParam(mods, JTypes.typeNamed(type), name);
     }
 
+    @Override
     public JParamDeclaration varargParam(final String type, final String name) {
         return varargParam(JTypes.typeNamed(type), name);
     }
 
+    @Override
     public JParamDeclaration varargParam(final int mods, final Class<?> type, final String name) {
         return varargParam(mods, JTypes.typeOf(type), name);
     }
 
+    @Override
     public JParamDeclaration varargParam(final Class<?> type, final String name) {
         return varargParam(JTypes.typeOf(type), name);
     }
 
+    @Override
     public JParamDeclaration[] params() {
         return params.toArray(new JParamDeclaration[params.size()]);
     }
 
+    @Override
     public JComment _throws(final String type) {
         return _throws(JTypes.typeNamed(type));
     }
 
+    @Override
     public JComment _throws(final JType type) {
         if (_throws == null) {
             _throws = new ArrayList<>();
@@ -142,6 +161,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return null;
     }
 
+    @Override
     public JComment _throws(final Class<? extends Throwable> type) {
         return _throws(JTypes.typeOf(type));
     }
@@ -154,6 +174,7 @@ abstract class AbstractJMethodDef extends AbstractJGeneric implements JMethodDef
         return clazz.methodCanHaveBody(mods);
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(FormatPreferences.Space.BEFORE_PAREN_METHOD_DECLARATION);
         writer.write($PUNCT.PAREN.OPEN);

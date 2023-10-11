@@ -34,6 +34,7 @@ class BlankLine implements ClassFileContent, ClassContent, BlockContent {
         return INSTANCE;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.nl();
     }

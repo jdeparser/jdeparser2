@@ -34,6 +34,7 @@ class MethodRefJExpr extends AbstractJExpr {
         this.name = name;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.write(type);
         writer.write(Tokens.$PUNCT.BINOP.DBL_COLON);

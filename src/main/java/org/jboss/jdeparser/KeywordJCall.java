@@ -34,6 +34,7 @@ class KeywordJCall extends AbstractJCall {
         this.keyword = keyword;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         super.writeTypeArgs(writer);
         writer.write(keyword);

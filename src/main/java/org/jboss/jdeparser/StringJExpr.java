@@ -33,11 +33,13 @@ class StringJExpr extends AbstractJExpr {
     }
 
     static final Indent ESC = new Indent() {
+        @Override
         public void addIndent(final Indent next, final FormatPreferences preferences, final StringBuilder lineBuffer) {
             next.addIndent(next, preferences, lineBuffer);
             lineBuffer.append('"');
         }
 
+        @Override
         public void escape(final Indent next, final StringBuilder b, final int idx) {
             char c;
             int i = idx;
@@ -87,12 +89,14 @@ class StringJExpr extends AbstractJExpr {
             }
         }
 
+        @Override
         public void unescaped(final Indent next, final StringBuilder b, final int idx) {
             // next is escaped
             next.escape(next, b, idx);
         }
     };
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writer.addWordSpace();
         writer.writeEscaped('"');

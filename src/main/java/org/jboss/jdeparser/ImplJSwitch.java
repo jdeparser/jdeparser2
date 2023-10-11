@@ -44,14 +44,17 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
         return item;
     }
 
+    @Override
     public JBlock _case(final JExpr expr) {
         return add(new CaseJBlock(this, expr));
     }
 
+    @Override
     public JBlock _case(final String constName) {
         return _case(JExprs.name(constName));
     }
 
+    @Override
     public JBlock _default() {
         if (_default == null) {
             _default = new DefaultJBlock(this);
@@ -75,6 +78,7 @@ class ImplJSwitch extends BasicJCommentable implements JSwitch, BlockContent {
         return _default;
     }
 
+    @Override
     public void write(final SourceFileWriter writer) throws IOException {
         writeComments(writer);
         writer.write($KW.SWITCH);

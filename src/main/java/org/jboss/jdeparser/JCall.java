@@ -62,6 +62,7 @@ public interface JCall extends JExpr, JSimpleArgs {
      * @param expr the argument expression
      * @return this call
      */
+    @Override
     JCall arg(JExpr expr);
 
     /**
@@ -71,5 +72,6 @@ public interface JCall extends JExpr, JSimpleArgs {
      */
     JType[] typeArguments();
 
+    @Override
     JExpr[] arguments();
 }
