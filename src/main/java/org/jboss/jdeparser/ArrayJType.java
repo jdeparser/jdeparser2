@@ -64,6 +64,8 @@ class ArrayJType extends AbstractJType {
         return new NewUndimJArrayExpr(this);
     }
 
+    public String packageName() { return elementType.packageName(); }
+
     public String simpleName() {
         return elementType.simpleName();
     }

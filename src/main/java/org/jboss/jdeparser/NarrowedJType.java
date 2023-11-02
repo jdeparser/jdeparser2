@@ -52,6 +52,8 @@ class NarrowedJType extends AbstractJType {
         return erased.simpleName();
     }
 
+    public String packageName() { return erased.packageName(); }
+
     public JExpr _class() {
         return erased._class();
     }

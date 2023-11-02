@@ -61,6 +61,10 @@ class ReferenceJType extends AbstractJType {
         return packageName + "." + simpleName;
     }
 
+    public String packageName() {
+        return packageName;
+    }
+
     public String simpleName() {
         return simpleName;
     }
@@ -108,7 +112,7 @@ class ReferenceJType extends AbstractJType {
         if (packageMatches && cf.hasImport(simpleName())) {
             // an explicit import masks the implicit import
             sourceFileWriter.writeClass(qualifiedName());
-        } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().getSources().hasClass(currentPackageName + "." + simpleName()) || packageMatches) {
+        } else if (packageName.equals("java.lang") && ! sourceFileWriter.getClassFile().hasImplicitImport(simpleName()) || packageMatches) {
             // implicit import
             sourceFileWriter.writeClass(simpleName());
         } else if (cf.hasImport(this)) {

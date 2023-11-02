@@ -91,6 +91,8 @@ class NestedJType extends AbstractJType {
         return name;
     }
 
+    public String packageName() { return enclosingType.packageName(); }
+
     public JType typeArg(final JType... args) {
         return new NarrowedJType(this, args);
     }

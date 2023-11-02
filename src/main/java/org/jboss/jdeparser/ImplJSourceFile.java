@@ -23,8 +23,10 @@ import static org.jboss.jdeparser.Tokens.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
@@ -37,6 +39,8 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     private final String packageName;
     private final String fileName;
     private boolean packageWritten;
+
+    private final Set<String> implicitImports = new HashSet<>();
 
     ImplJSourceFile(final ImplJSources sources, final String packageName, final String fileName) {
         this.sources = sources;
@@ -91,6 +95,21 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
         }
     }
 
+    private boolean shouldImportPackage(JType _import, String currentPackage) {
+        if (!(_import instanceof ReferenceJType)) {
+            return true;
+        }
+        String importedPackage = ((ReferenceJType) _import).packageName();
+        if (importedPackage.equals(currentPackage)) {
+            return false;
+        }
+        //FIXME for now all classes from java.lang are imported by using full class name because of Checkstyle error
+        if (importedPackage.equals("java.lang")) {
+            return false;
+        }
+        return true;
+    }
+
     boolean hasImport(final String name) {
         return imports.containsKey(name);
     }
@@ -113,6 +132,9 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
     }
 
     public JSourceFile _import(final JType type) {
+        if(!shouldImportPackage(type, getPackageName())){
+            return this;
+        }
         if (! (type instanceof ReferenceJType) && ! (type instanceof NestedJType) && ! (type instanceof NarrowedJType)) {
             // can't import this type
             return this;
@@ -196,5 +218,13 @@ class ImplJSourceFile extends BasicJCommentable implements JSourceFile {
 
     ImplJSources getSources() {
         return sources;
+    }
+
+    public void addImplicitImports(Set<String> implicitImports) {
+        this.implicitImports.addAll(implicitImports);
+    }
+
+    public boolean hasImplicitImport(String simpleName){
+        return implicitImports.contains(simpleName);
     }
 }

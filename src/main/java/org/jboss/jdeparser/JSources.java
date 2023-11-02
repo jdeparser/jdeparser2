@@ -19,6 +19,7 @@
 package org.jboss.jdeparser;
 
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * A repository of source files.

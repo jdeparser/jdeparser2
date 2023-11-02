@@ -99,6 +99,8 @@ public interface JType {
      */
     String simpleName();
 
+    String packageName();
+
     /**
      * An expression of the form {@code ThisType.class}.
      *

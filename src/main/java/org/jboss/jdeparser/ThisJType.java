@@ -36,6 +36,8 @@ class ThisJType extends AbstractJType {
         return 23;
     }
 
+    public String packageName() { return null; }
+
     public String simpleName() {
         return "<<THIS>>";
     }

@@ -18,6 +18,8 @@
 
 package org.jboss.jdeparser;
 
+import java.util.Set;
+
 /**
  * A source file.
  *
@@ -118,4 +120,18 @@ public interface JSourceFile extends JCommentable {
      * @return the annotation interface definition
      */
     JClassDef annotationInterface(int mods, String name);
+
+    /**
+     * Add set of classes that are implicitly imported by this source file.
+     *
+     * @param implicitImports {@link Set} of simple names
+     */
+    void addImplicitImports(Set<String> implicitImports);
+
+    /**
+     * Check whether given class is implicitly imported in this source file.
+     *
+     * @param simpleName simple name of the class
+     */
+    boolean hasImplicitImport(String simpleName);
 }
