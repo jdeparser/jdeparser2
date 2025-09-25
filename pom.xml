@@ -11,8 +11,12 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>49</version>
+        <version>50</version>
     </parent>
+
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+    </properties>
 
     <dependencies>
         <dependency>
