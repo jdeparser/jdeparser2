@@ -31,14 +31,14 @@ jobs:
           distribution: temurin
           architecture: x64
           java-version: |
-            11
             17
             21
+            25
 
       - name: Maven install
         run: |
           cd jdeparser2
-          mvn -fae -U -B -ntp install -Djava11.home=${{env.JAVA_HOME_11_X64}} -Djava17.home=${{env.JAVA_HOME_17_X64}} -Djava21.home=${{env.JAVA_HOME_21_X64}} 
+          mvn -fae -U -B -ntp install -Djava17.home=${{env.JAVA_HOME_17_X64}} -Djava21.home=${{env.JAVA_HOME_21_X64}} 
 
       - name: Upload failure archive
         uses: actions/upload-artifact@v6

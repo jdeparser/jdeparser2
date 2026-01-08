@@ -14,15 +14,52 @@
         <version>51</version>
     </parent>
 
+    <name>JDeparser</name>
+
+    <url>https://jboss.org</url>
+
+    <description>A simple Java source generation library</description>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/jdeparser/jdeparser2/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:jdeparser/jdeparser2.git</connection>
+        <developerConnection>scm:git:git@github.com:jdeparser/jdeparser2.git</developerConnection>
+        <url>https://github.com/jdeparser/jdeparser2</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>jdeparser-team</id>
+            <name>JDeparser Team</name>
+            <organization>JBoss</organization>
+            <organizationUrl>https://jboss.org</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
+        <jdk.min.version>25</jdk.min.version>
+        <nexus.repository.release>jboss-common</nexus.repository.release>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>6.0.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
