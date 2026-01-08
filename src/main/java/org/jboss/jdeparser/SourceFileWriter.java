@@ -134,16 +134,11 @@ class SourceFileWriter implements Flushable, Closeable {
 
     void processSpacing() throws IOException {
         switch (spaceState) {
-            case SS_2_NEW_LINE:
-            case SS_NEW_LINE: {
+            case SS_2_NEW_LINE, SS_NEW_LINE -> {
                 nextIndent.addIndent(nextIndent, format, lineBuffer);
                 spaceState = SS_ADDED;
-                break;
             }
-            case SS_NEEDED: {
-                sp();
-                break;
-            }
+            case SS_NEEDED -> sp();
         }
     }
 

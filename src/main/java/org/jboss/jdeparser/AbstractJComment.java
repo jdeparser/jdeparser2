@@ -170,13 +170,12 @@ abstract class AbstractJComment implements JComment, Writable {
 
     @Override
     public JComment linkMethod(boolean plain, final JMethodDef methodDef) {
-        if (methodDef instanceof AbstractJMethodDef) {
-            AbstractJMethodDef abstractJMethodDef = (AbstractJMethodDef) methodDef;
+        if (methodDef instanceof AbstractJMethodDef abstractJMethodDef) {
             AbstractJClassDef clazz = abstractJMethodDef.clazz();
             JTypeCommentContent typeContent = new JTypeCommentContent(clazz.erasedType());
             CommentContent name;
-            if (methodDef instanceof MethodJMethodDef) {
-                name = new CommentTextContent(((MethodJMethodDef) methodDef).getName());
+            if (methodDef instanceof MethodJMethodDef methodJMethodDef) {
+                name = new CommentTextContent(methodJMethodDef.getName());
             } else {
                 assert methodDef instanceof ConstructorJMethodDef;
                 name = typeContent;

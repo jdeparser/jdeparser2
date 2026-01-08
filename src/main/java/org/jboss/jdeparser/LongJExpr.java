@@ -39,15 +39,9 @@ class LongJExpr extends AbstractJExpr implements JExpr {
         writer.addWordSpace();
         writer.write(Tokens.$NUMBER);
         switch (radix) {
-            case 2:
-                writer.writeEscaped("0b" + Long.toBinaryString(val) + "L");
-                break;
-            case 16:
-                writer.writeEscaped("0x" + Long.toHexString(val) + "L");
-                break;
-            default:
-                writer.writeEscaped(Long.toString(val, radix) + "L");
-                break;
+            case 2 -> writer.writeEscaped("0b" + Long.toBinaryString(val) + "L");
+            case 16 -> writer.writeEscaped("0x" + Long.toHexString(val) + "L");
+            default -> writer.writeEscaped(Long.toString(val, radix) + "L");
         }
     }
 }

@@ -47,8 +47,8 @@ class ReferenceJType extends AbstractJType {
 
     static ReferenceJType of(JType type) {
         final AbstractJType type1 = AbstractJType.of(type);
-        if (type1 instanceof ReferenceJType) {
-            return (ReferenceJType) type1;
+        if (type1 instanceof ReferenceJType rjt) {
+            return rjt;
         }
         throw new IllegalArgumentException("Expected a reference type");
     }
@@ -148,7 +148,7 @@ class ReferenceJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof ReferenceJType && equals((ReferenceJType) other);
+        return other instanceof ReferenceJType rjt && equals(rjt);
     }
 
     private boolean equals(final ReferenceJType other) {

@@ -46,45 +46,35 @@ class StringJExpr extends AbstractJExpr {
             while (i < b.length()) {
                 c = b.charAt(i);
                 switch (c) {
-                    case '"':
-                    case '\\': {
+                    case '"', '\\' -> {
                         b.insert(i, '\\');
                         i += 2;
-                        break;
                     }
-                    case '\n': {
+                    case '\n' -> {
                         b.replace(i, i + 1, "\\n");
                         i += 2;
-                        break;
                     }
-                    case '\r': {
+                    case '\r' -> {
                         b.replace(i, i + 1, "\\r");
                         i += 2;
-                        break;
                     }
-                    case '\t': {
+                    case '\t' -> {
                         b.replace(i, i + 1, "\\t");
                         i += 2;
-                        break;
                     }
-                    case '\b': {
+                    case '\b' -> {
                         b.replace(i, i + 1, "\\b");
                         i += 2;
-                        break;
                     }
-                    case '\f': {
+                    case '\f' -> {
                         b.replace(i, i + 1, "\\f");
                         i += 2;
-                        break;
                     }
-                    case 0: {
+                    case 0 -> {
                         b.replace(i, i + 1, "\\0");
                         i += 2;
-                        break;
                     }
-                    default: {
-                        i++;
-                    }
+                    default -> i++;
                 }
             }
         }

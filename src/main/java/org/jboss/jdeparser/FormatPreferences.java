@@ -174,74 +174,67 @@ public final class FormatPreferences {
             // unknown properties are ignored for forward/backward compat
             final String value = properties.getProperty(name);
             switch (l.size()) {
-                case 1: {
+                case 1 -> {
                     switch (l.get(0)) {
-                        case "line-length": {
+                        case "line-length" -> {
                             try {
                                 lineLength = Integer.parseInt(value);
                             } catch (IllegalArgumentException ignored) {
                             }
-                            break;
                         }
                     }
-                    break;
                 }
-                case 2: {
+                case 2 -> {
                     switch (l.get(0)) {
-                        case "indent": {
+                        case "indent" -> {
                             try {
                                 final Indentation i = Indentation.valueOf(xf(l.get(1)));
                                 final int v = Integer.parseInt(value);
                                 indents.put(i, v);
                             } catch (IllegalArgumentException ignored) {
                             }
-                            break;
                         }
-                        case "wrapping": {
+                        case "wrapping" -> {
                             try {
                                 final Wrapping w = Wrapping.valueOf(xf(l.get(1)));
                                 final WrappingMode m = WrappingMode.valueOf(xf(value));
                                 wrapping.put(w, m);
                             } catch (IllegalArgumentException ignored) {
                             }
-                            break;
                         }
-                        case "space": {
+                        case "space" -> {
                             try {
                                 final Space s = Space.valueOf(xf(l.get(1)));
                                 final SpaceType t = SpaceType.valueOf(xf(value));
                                 spaceTypes.put(s, t);
                             } catch (IllegalArgumentException ignored) {
                             }
-                            break;
                         }
-                        case "optimization": {
+                        case "optimization" -> {
                             try {
                                 final Opt o = Opt.valueOf(xf(l.get(1)));
                                 final boolean v = Boolean.parseBoolean(value);
-                                if (v) options.add(o); else options.remove(o);
+                                if (v) options.add(o);
+                                else options.remove(o);
                             } catch (IllegalArgumentException ignored) {
                             }
-                            break;
                         }
                     }
-                    break;
                 }
-                case 3: {
+                case 3 -> {
                     switch (l.get(0)) {
-                        case "indent": {
+                        case "indent" -> {
                             switch (l.get(2)) {
-                                case "absolute": {
+                                case "absolute" -> {
                                     try {
                                         final Indentation i = Indentation.valueOf(xf(l.get(1)));
                                         final boolean v = Boolean.parseBoolean(value);
-                                        if (v) absoluteIndents.add(i); else absoluteIndents.remove(i);
+                                        if (v) absoluteIndents.add(i);
+                                        else absoluteIndents.remove(i);
                                     } catch (IllegalArgumentException ignored) {
                                     }
-                                    break;
                                 }
                             }
-                            break;
                         }
                     }
                 }

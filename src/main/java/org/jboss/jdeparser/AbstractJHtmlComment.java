@@ -100,47 +100,16 @@ abstract class AbstractJHtmlComment extends AbstractJComment implements JHtmlCom
     @Override
     public JHtmlTag htmlTag(final String tag, final boolean newLine) {
         boolean writeClose;
-        switch (tag.toLowerCase(Locale.US)) {
-            // content forbidden
-            case "area":
-            case "base":
-            case "basefont":
-            case "br":
-            case "col":
-            case "frame":
-            case "hr":
-            case "img":
-            case "input":
-            case "isindex":
-            case "link":
-            case "meta":
-            case "param":
-
-            // end tag optional
-            case "body":
-            case "colgroup":
-            case "dd":
-            case "dt":
-            case "head":
-            case "html":
-            case "li":
-            case "option":
-            case "p":
-            case "tbody":
-            case "td":
-            case "textarea":
-            case "tfoot":
-            case "th":
-            case "thead":
-            case "tr": {
-                writeClose = false;
-                break;
-            }
-            default: {
-                writeClose = true;
-                break;
-            }
-        }
+        writeClose = switch (tag.toLowerCase(Locale.US)) {
+            case /* content forbidden */
+                 "area", "base", "basefont", "br", "col", "frame",
+                 "hr", "img", "input", "isindex", "link", "meta", "param",
+                 /* end tag optional */
+                 "body", "colgroup", "dd", "dt", "head", "html", "li",
+                 "option", "p", "tbody", "td", "textarea", "tfoot", "th",
+                 "thead", "tr" -> false;
+            default -> true;
+        };
         final ImplJHtmlTag htmlTag = new ImplJHtmlTag(tag, newLine, writeClose);
         return add(htmlTag);
     }
