@@ -328,10 +328,10 @@ enum Tokens implements Token {
         }
 
         static Token forName(final String keyword) {
-            switch (keyword) {
-                case "@interface": return AT_INTERFACE;
-                default: return valueOf(keyword.toUpperCase(Locale.US));
-            }
+            return switch (keyword) {
+                case "@interface" -> AT_INTERFACE;
+                default -> valueOf(keyword.toUpperCase(Locale.US));
+            };
         }
     }
 }

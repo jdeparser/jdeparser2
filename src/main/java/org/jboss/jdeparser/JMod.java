@@ -150,58 +150,22 @@ public final class JMod {
     public static int of(final Element element) {
         int result = 0;
         for (Modifier modifier : element.getModifiers()) {
-            switch (modifier.name()) {
-                case "ABSTRACT": {
-                    result = result | ABSTRACT;
-                    break;
-                }
-                case "FINAL": {
-                    result = result | FINAL;
-                    break;
-                }
-                case "NATIVE": {
-                    result = result | NATIVE;
-                    break;
-                }
-                case "PRIVATE": {
-                    result = result | PRIVATE;
-                    break;
-                }
-                case "PROTECTED": {
-                    result = result | PROTECTED;
-                    break;
-                }
-                case "PUBLIC": {
-                    result = result | PUBLIC;
-                    break;
-                }
-                case "STATIC": {
-                    result = result | STATIC;
-                    break;
-                }
-                case "STRICTFP": {
-                    result = result | STRICTFP;
-                    break;
-                }
-                case "SYNCHRONIZED": {
-                    result = result | SYNCHRONIZED;
-                    break;
-                }
-                case "TRANSIENT": {
-                    result = result | TRANSIENT;
-                    break;
-                }
-                case "VOLATILE": {
-                    result = result | VOLATILE;
-                    break;
-                }
-                case "DEFAULT": {
-                    result = result | DEFAULT;
-                    break;
-                }
+            switch (modifier) {
+                case ABSTRACT -> result = result | ABSTRACT;
+                case FINAL -> result = result | FINAL;
+                case NATIVE -> result = result | NATIVE;
+                case PRIVATE -> result = result | PRIVATE;
+                case PROTECTED -> result = result | PROTECTED;
+                case PUBLIC -> result = result | PUBLIC;
+                case STATIC -> result = result | STATIC;
+                case STRICTFP -> result = result | STRICTFP;
+                case SYNCHRONIZED -> result = result | SYNCHRONIZED;
+                case TRANSIENT -> result = result | TRANSIENT;
+                case VOLATILE -> result = result | VOLATILE;
+                case DEFAULT -> result = result | DEFAULT;
             }
         }
-        if (element instanceof ExecutableElement && ((ExecutableElement) element).isVarArgs()) {
+        if (element instanceof ExecutableElement ee && ee.isVarArgs()) {
             result = result | VARARGS;
         }
         return result;

@@ -37,7 +37,7 @@ class WildcardJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof WildcardJType && equals((WildcardJType) other);
+        return other instanceof WildcardJType wjt && equals(wjt);
     }
 
     private boolean equals(final WildcardJType other) {

@@ -38,7 +38,7 @@ class NarrowedJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof NarrowedJType && equals((NarrowedJType) other);
+        return other instanceof NarrowedJType njt && equals(njt);
     }
 
     private boolean equals(final NarrowedJType other) {

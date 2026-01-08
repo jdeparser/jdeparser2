@@ -32,8 +32,8 @@ abstract class AbstractJExpr implements JExpr, Writable {
     }
 
     static AbstractJExpr of(final JExpr expr) {
-        if (expr instanceof AbstractJExpr) {
-            return (AbstractJExpr) expr;
+        if (expr instanceof AbstractJExpr aje) {
+            return aje;
         }
         throw new IllegalArgumentException("Expression from different implementation");
     }

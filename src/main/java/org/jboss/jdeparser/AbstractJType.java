@@ -34,8 +34,8 @@ abstract class AbstractJType implements JType {
     private WildcardJType wildcardSuper;
 
     static AbstractJType of(JType type) {
-        if (type instanceof AbstractJType) {
-            return (AbstractJType) type;
+        if (type instanceof AbstractJType ajt) {
+            return ajt;
         }
         throw new IllegalArgumentException("Using a JType from a different implementation");
     }
@@ -49,7 +49,7 @@ abstract class AbstractJType implements JType {
 
     @Override
     public final boolean equals(Object other) {
-        return other instanceof AbstractJType && equals((AbstractJType) other);
+        return other instanceof AbstractJType ajt && equals(ajt);
     }
 
     abstract boolean equals(AbstractJType other);

@@ -42,18 +42,18 @@ class PrimitiveJType extends AbstractJType {
 
     @Override
     void writeDirect(final SourceFileWriter sourceFileWriter) throws IOException {
-        switch (simpleName) {
-            case "boolean": sourceFileWriter.write($KW.BOOLEAN); return;
-            case "byte": sourceFileWriter.write($KW.BYTE); return;
-            case "short": sourceFileWriter.write($KW.SHORT); return;
-            case "int": sourceFileWriter.write($KW.INT); return;
-            case "long": sourceFileWriter.write($KW.LONG); return;
-            case "char": sourceFileWriter.write($KW.CHAR); return;
-            case "float": sourceFileWriter.write($KW.FLOAT); return;
-            case "double": sourceFileWriter.write($KW.DOUBLE); return;
-            case "void": sourceFileWriter.write($KW.VOID); return;
-            default: throw new IllegalStateException();
-        }
+        sourceFileWriter.write(switch (simpleName) {
+            case "boolean" -> $KW.BOOLEAN;
+            case "byte" -> $KW.BYTE;
+            case "short" -> $KW.SHORT;
+            case "int" -> $KW.INT;
+            case "long" -> $KW.LONG;
+            case "char" -> $KW.CHAR;
+            case "float" -> $KW.FLOAT;
+            case "double" -> $KW.DOUBLE;
+            case "void" -> $KW.VOID;
+            default -> throw new IllegalStateException();
+        });
     }
 
     @Override
@@ -67,7 +67,7 @@ class PrimitiveJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof PrimitiveJType && simpleName.equals(((PrimitiveJType) other).simpleName);
+        return other instanceof PrimitiveJType pt && simpleName.equals(pt.simpleName);
     }
 
     @Override
