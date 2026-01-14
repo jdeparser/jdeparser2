@@ -38,17 +38,15 @@ class InlineDocTagCommentContent extends AbstractJComment implements CommentCont
                 ch = b.charAt(i);
                 // not pretty but always renders correctly
                 switch (ch) {
-                    case '}':
+                    case '}' -> {
                         b.replace(i, i + 1, "&#125;");
                         i += 6;
-                        break;
-                    case '{':
+                    }
+                    case '{' -> {
                         b.replace(i, i + 1, "&#123;");
                         i += 6;
-                        break;
-                    default:
-                        i++;
-                        break;
+                    }
+                    default -> i++;
                 }
             }
         }

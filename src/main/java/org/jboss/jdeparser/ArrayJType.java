@@ -58,7 +58,7 @@ class ArrayJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof ArrayJType && elementType.equals(((ArrayJType) other).elementType);
+        return other instanceof ArrayJType ajt && elementType.equals(ajt.elementType);
     }
 
     @Override

@@ -83,7 +83,7 @@ class NestedJType extends AbstractJType {
 
     @Override
     boolean equals(final AbstractJType other) {
-        return other instanceof NestedJType && equals((NestedJType) other);
+        return other instanceof NestedJType njt && equals(njt);
     }
 
     private boolean equals(final NestedJType other) {

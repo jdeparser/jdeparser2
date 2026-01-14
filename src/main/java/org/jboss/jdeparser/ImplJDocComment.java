@@ -44,48 +44,41 @@ class ImplJDocComment extends AbstractJDocComment implements JDocComment {
                 end = b.offsetByCodePoints(i, 1);
                 switch (c) {
                     // only use entities where necessary or very common practice
-                    case '<':    b.replace(i, end, "&lt;"); i += 4; break;
-                    case '>':    b.replace(i, end, "&gt;"); i += 4; break;
-                    case '&':    b.replace(i, end, "&amp;"); i += 5; break;
-                    case '@':    b.replace(i, end, "&#64;"); i += 5; break;
-                    case 0xAD:   b.replace(i, end, "&shy;"); i += 5; break;
-                    case 0x200D: b.replace(i, end, "&zwj;"); i += 5; break;
-                    case 0x200E: b.replace(i, end, "&lrm;"); i += 5; break;
-                    case 0x200F: b.replace(i, end, "&rlm;"); i += 5; break;
-                    case 0xA0:   b.replace(i, end, "&nbsp;"); i += 6; break;
-                    case 0x2002: b.replace(i, end, "&ensp;"); i += 6; break;
-                    case 0x2003: b.replace(i, end, "&emsp;"); i += 6; break;
-                    case 0x200C: b.replace(i, end, "&zwnj;"); i += 6; break;
-                    case 0x2009: b.replace(i, end, "&thisp;"); i += 7; break;
+                    case '<'->    { b.replace(i, end, "&lt;"); i += 4; }
+                    case '>'->    { b.replace(i, end, "&gt;"); i += 4; }
+                    case '&'->    { b.replace(i, end, "&amp;"); i += 5; }
+                    case '@'->    { b.replace(i, end, "&#64;"); i += 5; }
+                    case 0xAD->   { b.replace(i, end, "&shy;"); i += 5; }
+                    case 0x200D-> { b.replace(i, end, "&zwj;"); i += 5; }
+                    case 0x200E-> { b.replace(i, end, "&lrm;"); i += 5; }
+                    case 0x200F-> { b.replace(i, end, "&rlm;"); i += 5; }
+                    case 0xA0->   { b.replace(i, end, "&nbsp;"); i += 6; }
+                    case 0x2002-> { b.replace(i, end, "&ensp;"); i += 6; }
+                    case 0x2003-> { b.replace(i, end, "&emsp;"); i += 6; }
+                    case 0x200C-> { b.replace(i, end, "&zwnj;"); i += 6; }
+                    case 0x2009-> { b.replace(i, end, "&thisp;"); i += 7; }
                     // special cases
-                    case ' ': i++; break;
-                    case '\n': i++; break;
+                    case ' ', '\n'-> i++;
                     // otherwise escape it
-                    default: {
-                        switch (Character.getType(c)) {
-                            case Character.UNASSIGNED:
-                            case Character.CONTROL:
-                            case Character.FORMAT:
-                            case Character.SURROGATE:
-                            case Character.NON_SPACING_MARK:
-                            case Character.COMBINING_SPACING_MARK: // also DIRECTIONALITY_NONSPACING_MARK
-                            case Character.ENCLOSING_MARK:
-                            case Character.LINE_SEPARATOR:
-                            case Character.PARAGRAPH_SEPARATOR:
-                            case Character.SPACE_SEPARATOR:
-                            {
+                    default -> {
+                        switch (Character.getType(c)) { // also DIRECTIONALITY_NONSPACING_MARK
+                            case Character.UNASSIGNED,
+                                 Character.CONTROL,
+                                 Character.FORMAT,
+                                 Character.SURROGATE,
+                                 Character.NON_SPACING_MARK,
+                                 Character.COMBINING_SPACING_MARK,
+                                 Character.ENCLOSING_MARK,
+                                 Character.LINE_SEPARATOR,
+                                 Character.PARAGRAPH_SEPARATOR,
+                                 Character.SPACE_SEPARATOR -> {
                                 b.replace(i, end, "&#x");
                                 final String hs = Integer.toHexString(c);
                                 b.insert(i += 3, hs);
                                 b.insert(i += hs.length(), ';');
-                                break;
                             }
-                            default: {
-                                i ++;
-                                break;
-                            }
+                            default -> i++;
                         }
-                        break;
                     }
                 }
             }

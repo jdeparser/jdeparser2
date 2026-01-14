@@ -120,19 +120,16 @@ public final class JTypes {
      * @return the {@code JType}
      */
     public static JType typeOf(TypeMirror typeMirror) {
-        if (typeMirror instanceof ArrayType) {
-            return typeOf(((ArrayType) typeMirror).getComponentType()).array();
-        } else if (typeMirror instanceof WildcardType) {
-            final WildcardType wildcardType = (WildcardType) typeMirror;
+        if (typeMirror instanceof ArrayType at) {
+            return typeOf(at.getComponentType()).array();
+        } else if (typeMirror instanceof WildcardType wildcardType) {
             final TypeMirror extendsBound = wildcardType.getExtendsBound();
             final TypeMirror superBound = wildcardType.getSuperBound();
             return extendsBound != null ? typeOf(extendsBound).wildcardExtends() : superBound != null ? typeOf(superBound).wildcardSuper() : JType.WILDCARD;
-        } else if (typeMirror instanceof TypeVariable) {
-            final TypeVariable typeVariable = (TypeVariable) typeMirror;
+        } else if (typeMirror instanceof TypeVariable typeVariable) {
             final String name = typeVariable.asElement().getSimpleName().toString();
             return typeNamed(name);
-        } else if (typeMirror instanceof DeclaredType) {
-            final DeclaredType declaredType = (DeclaredType) typeMirror;
+        } else if (typeMirror instanceof DeclaredType declaredType) {
             final TypeElement typeElement = (TypeElement) declaredType.asElement();
             final TypeMirror enclosingType = declaredType.getEnclosingType();
             if (enclosingType != null && enclosingType.getKind() == TypeKind.DECLARED) {
@@ -151,22 +148,22 @@ public final class JTypes {
             }
             return rawType.typeArg(args);
         } else if (typeMirror instanceof NoType) {
-            switch (typeMirror.getKind()) {
-                case VOID:      return JType.VOID;
+            if (typeMirror.getKind() == TypeKind.VOID) {
+                return JType.VOID;
             }
             // fall out
         } else if (typeMirror instanceof PrimitiveType) {
-            switch (typeMirror.getKind()) {
-                case BOOLEAN:   return JType.BOOLEAN;
-                case BYTE:      return JType.BYTE;
-                case SHORT:     return JType.SHORT;
-                case INT:       return JType.INT;
-                case LONG:      return JType.LONG;
-                case CHAR:      return JType.CHAR;
-                case FLOAT:     return JType.FLOAT;
-                case DOUBLE:    return JType.DOUBLE;
-            }
-            // fall out
+            return switch (typeMirror.getKind()) {
+                case BOOLEAN -> JType.BOOLEAN;
+                case BYTE -> JType.BYTE;
+                case SHORT -> JType.SHORT;
+                case INT -> JType.INT;
+                case LONG -> JType.LONG;
+                case CHAR -> JType.CHAR;
+                case FLOAT -> JType.FLOAT;
+                case DOUBLE -> JType.DOUBLE;
+                default -> throw new IllegalArgumentException(String.format("Cannot find equivalent type to %s", typeMirror));
+            };
         }
         throw new IllegalArgumentException(String.format("Cannot find equivalent type to %s", typeMirror));
     }

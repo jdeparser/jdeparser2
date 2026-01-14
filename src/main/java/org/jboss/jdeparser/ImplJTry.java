@@ -129,8 +129,8 @@ class ImplJTry extends BasicJBlock implements JTry {
                     writer.write($PUNCT.PAREN.OPEN);
                     writer.write(FormatPreferences.Space.WITHIN_PAREN_TRY);
                     Writable next = iterator.next();
-                    if (next instanceof FirstJVarDeclaration) {
-                        ((FirstJVarDeclaration) next).writeNoSemi(writer);
+                    if (next instanceof FirstJVarDeclaration fvd) {
+                        fvd.writeNoSemi(writer);
                     } else {
                         next.write(writer);
                     }
@@ -139,8 +139,8 @@ class ImplJTry extends BasicJBlock implements JTry {
                         writer.write($PUNCT.SEMI);
                         writer.write(FormatPreferences.Space.AFTER_SEMICOLON);
                         next = iterator.next();
-                        if (next instanceof FirstJVarDeclaration) {
-                            ((FirstJVarDeclaration) next).writeNoSemi(writer);
+                        if (next instanceof FirstJVarDeclaration fvd) {
+                            fvd.writeNoSemi(writer);
                         } else {
                             next.write(writer);
                         }
