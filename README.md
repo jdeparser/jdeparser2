@@ -1,6 +1,11 @@
 # jdeparser2
 Version 2.x of JDeparser, a Java source code generating library.
 
+## This project is deprecated
+
+Version 3 of this project is now considered current.
+It can be found at https://github.com/smallrye/jdeparser.
+
 ## Usage and documentionation
 
 The online JavaDoc is located at https://jdeparser.github.io/jdeparser2.
